@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Aplikacija_za_kladenje.Models.MatchViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h1>Matches</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@if (Model != null)
+{
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Home Team
+            </th>
+            <th>
+                Away Team
+            </th>
+            <th>
+                1
+            </th>
+            <th>
+                X
+            </th>
+            <th>
+                2
+            </th>
+            <th>
+                1X
+            </th>
+            <th>
+                X2
+            </th>
+            <th>
+                12
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+        <tr>
+            <td>
+                @item.Id
+            </td>
+            <td>
+                @item.HomeTeamName
+            </td>
+            <td>
+                @item.AwayTeamName
+            </td>
+            <td>
+                @item._1
+            </td>
+            <td>
+                @item._X
+            </td>
+            <td>
+                @item._2
+            </td>
+            <td>
+                @item._1X
+            </td>
+            <td>
+                @item._X2
+            </td>
+            <td>
+                @item._12
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+}
