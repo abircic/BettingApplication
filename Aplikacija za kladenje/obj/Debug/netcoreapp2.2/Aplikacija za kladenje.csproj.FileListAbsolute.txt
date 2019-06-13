@@ -44,3 +44,8 @@ C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplik
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Matches\Details.g.cshtml.cs
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Matches\Edit.g.cshtml.cs
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Matches\Index.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\BetSlips\Create.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\BetSlips\Delete.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\BetSlips\Details.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\BetSlips\Edit.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\BetSlips\Index.g.cshtml.cs

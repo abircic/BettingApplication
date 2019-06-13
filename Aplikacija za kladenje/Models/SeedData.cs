@@ -3,12 +3,13 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Aplikacija_za_kladenje.Models
 {
     public static class SeedData
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static async System.Threading.Tasks.Task InitializeAsync(IServiceProvider serviceProvider)
         {
             using (var context = new Aplikacija_za_kladenjeContext(
                 serviceProvider.GetRequiredService<
@@ -26,56 +27,41 @@ namespace Aplikacija_za_kladenje.Models
                     }
                 );
 
-                if (context.Sports.Any())
-                {
-                    return;   // DB has been seeded
-                }
-
                 context.Sports.AddRange(
                     new Sports
                     {
                         Name="Football"
                     }
                 );
-                if (context.Leagues.Any())
-                {
-                    return;   // DB has been seeded
-                }
-
+                context.SaveChanges();
+                var Sport_Football = context.Sports.SingleOrDefault(s => s.Name.Contains("Football"));
                 context.Leagues.AddRange(
                     new Leagues
                     {
-                        Name="Spain"
-                    },
-                    new Leagues
-                    {
-                        Name = "England"
+                        Name="Spain",
+                        Sport=Sport_Football
                     }
                 );
-
-                if (context.Matches.Any())
-                {
-                    return;   // DB has been seeded
-                }
-
+                context.SaveChanges();
+                var League_Spain = context.Leagues.SingleOrDefault(l => l.Name.Contains("Spain"));
                 context.Matches.AddRange(
                     new Matches
                     {
-                        HomeTeam = new Teams { Name = "Real Madrid"},
-                        AwayTeam = new Teams { Name = "Barcelona" },
-                        Types = new Types { _1 = 1.40m, _X = 3.50m, _2 = 7.50m, _1X=1.10M, _X2=3.50m, _12=1.50m}
+                        HomeTeam = new Teams { Name = "Real Madrid", League = League_Spain},
+                        AwayTeam = new Teams { Name = "Barcelona", League = League_Spain },
+                        Types = new Types { _1 = 2.10m, _X = 3.50m, _2 = 4.20m, _1X=1.50M, _X2=2.70m, _12=1.50m}
                     },
                      new Matches
                      {
-                         HomeTeam = new Teams { Name = "Valencia" },
-                         AwayTeam = new Teams { Name = "Sevilla" },
+                         HomeTeam = new Teams { Name = "Valencia", League = League_Spain },
+                         AwayTeam = new Teams { Name = "Sevilla", League = League_Spain },
                          Types = new Types { _1 = 2.50m, _X = 3.50m, _2 = 2.50m, _1X = 1.40M, _X2 = 1.70m, _12 = 1.80m }
                      },
                      new Matches
                      {
-                         HomeTeam = new Teams { Name = "Atletico Madrid" },
-                         AwayTeam = new Teams { Name = "Villareal" },
-                         Types = new Types { _1 = 2.50m, _X = 3.50m, _2 = 2.50m, _1X = 1.40M, _X2 = 1.70m, _12 = 1.80m }
+                         HomeTeam = new Teams { Name = "Atletico Madrid", League = League_Spain },
+                         AwayTeam = new Teams { Name = "Villareal",League = League_Spain },
+                         Types = new Types { _1 = 2.20m, _X = 3.50m, _2 = 3.80m, _1X = 1.40M, _X2 = 1.70m, _12 = 1.80m }
                      }
                     );
                 context.SaveChanges();

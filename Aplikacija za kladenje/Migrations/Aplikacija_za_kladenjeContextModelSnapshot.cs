@@ -25,13 +25,11 @@ namespace Aplikacija_za_kladenje.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("MatchesId");
+                    b.Property<decimal>("CashOut");
 
-                    b.Property<float>("TotalOdd");
+                    b.Property<decimal>("TotalOdd");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MatchesId");
 
                     b.ToTable("BetSlip");
                 });
@@ -131,23 +129,50 @@ namespace Aplikacija_za_kladenje.Migrations
                     b.ToTable("Types");
                 });
 
+            modelBuilder.Entity("Aplikacija_za_kladenje.Models.UserBetMatchViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AwayTeam");
+
+                    b.Property<int?>("BetSlipId");
+
+                    b.Property<string>("HomeTeam");
+
+                    b.Property<int>("MatchId");
+
+                    b.Property<decimal>("Odd");
+
+                    b.Property<string>("Type");
+
+                    b.Property<int?>("UserBetsId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BetSlipId");
+
+                    b.HasIndex("UserBetsId");
+
+                    b.ToTable("UserBetMatchViewModel");
+                });
+
             modelBuilder.Entity("Aplikacija_za_kladenje.Models.UserBets", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<float>("BetAmount");
+                    b.Property<decimal>("BetAmount");
 
-                    b.Property<int?>("BetSlipId");
+                    b.Property<decimal>("CashOut");
 
                     b.Property<DateTime>("TimeStamp");
 
-                    b.Property<float>("TotalOdd");
+                    b.Property<decimal>("TotalOdd");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BetSlipId");
 
                     b.ToTable("UserBets");
                 });
@@ -163,13 +188,6 @@ namespace Aplikacija_za_kladenje.Migrations
                     b.HasKey("Userid");
 
                     b.ToTable("Wallet");
-                });
-
-            modelBuilder.Entity("Aplikacija_za_kladenje.Models.BetSlip", b =>
-                {
-                    b.HasOne("Aplikacija_za_kladenje.Models.Matches", "Matches")
-                        .WithMany()
-                        .HasForeignKey("MatchesId");
                 });
 
             modelBuilder.Entity("Aplikacija_za_kladenje.Models.Leagues", b =>
@@ -201,11 +219,15 @@ namespace Aplikacija_za_kladenje.Migrations
                         .HasForeignKey("LeagueId");
                 });
 
-            modelBuilder.Entity("Aplikacija_za_kladenje.Models.UserBets", b =>
+            modelBuilder.Entity("Aplikacija_za_kladenje.Models.UserBetMatchViewModel", b =>
                 {
-                    b.HasOne("Aplikacija_za_kladenje.Models.BetSlip", "BetSlip")
-                        .WithMany()
+                    b.HasOne("Aplikacija_za_kladenje.Models.BetSlip")
+                        .WithMany("Matches")
                         .HasForeignKey("BetSlipId");
+
+                    b.HasOne("Aplikacija_za_kladenje.Models.UserBets")
+                        .WithMany("Matches")
+                        .HasForeignKey("UserBetsId");
                 });
 #pragma warning restore 612, 618
         }

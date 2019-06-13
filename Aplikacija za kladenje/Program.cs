@@ -27,7 +27,7 @@ namespace Aplikacija_za_kladenje
                 {
                     var context = services.GetRequiredService<Aplikacija_za_kladenjeContext>();
                     context.Database.Migrate();
-                    SeedData.Initialize(services);
+                    SeedData.InitializeAsync(services);
                 }
                 catch (Exception ex)
                 {

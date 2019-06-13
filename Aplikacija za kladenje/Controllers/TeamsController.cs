@@ -9,22 +9,22 @@ using Aplikacija_za_kladenje.Models;
 
 namespace Aplikacija_za_kladenje.Controllers
 {
-    public class WalletsController : Controller
+    public class TeamsController : Controller
     {
         private readonly Aplikacija_za_kladenjeContext _context;
 
-        public WalletsController(Aplikacija_za_kladenjeContext context)
+        public TeamsController(Aplikacija_za_kladenjeContext context)
         {
             _context = context;
         }
 
-        // GET: Wallets
+        // GET: Teams
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Wallet.ToListAsync());
+            return View(await _context.Teams.ToListAsync());
         }
 
-        // GET: Wallets/Details/5
+        // GET: Teams/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace Aplikacija_za_kladenje.Controllers
                 return NotFound();
             }
 
-            var wallet = await _context.Wallet
-                .FirstOrDefaultAsync(m => m.Userid == id);
-            if (wallet == null)
+            var teams = await _context.Teams
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (teams == null)
             {
                 return NotFound();
             }
 
-            return View(wallet);
+            return View(teams);
         }
 
-        // GET: Wallets/Create
+        // GET: Teams/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Wallets/Create
+        // POST: Teams/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Userid,Saldo")] Wallet wallet)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Teams teams)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(wallet);
+                _context.Add(teams);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(wallet);
+            return View(teams);
         }
 
-        // GET: Wallets/Edit/5
+        // GET: Teams/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace Aplikacija_za_kladenje.Controllers
                 return NotFound();
             }
 
-            var wallet = await _context.Wallet.FindAsync(id);
-            if (wallet == null)
+            var teams = await _context.Teams.FindAsync(id);
+            if (teams == null)
             {
                 return NotFound();
             }
-            return View(wallet);
+            return View(teams);
         }
 
-        // POST: Wallets/Edit/5
+        // POST: Teams/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Userid,Saldo")] Wallet wallet)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Teams teams)
         {
-            if (id != wallet.Userid)
+            if (id != teams.Id)
             {
                 return NotFound();
             }
@@ -96,19 +96,12 @@ namespace Aplikacija_za_kladenje.Controllers
             {
                 try
                 {
-                    Wallet oldObj = _context.Wallet.Find(id);
-                    wallet.Saldo = (wallet.Saldo)+oldObj.Saldo;
-                    _context.Entry(oldObj).CurrentValues.SetValues(wallet);
-                    _context.SaveChanges();
-                    //_context.Update(wallet);
-                    //await _context.SaveChangesAsync();
-                    //_context.Entry(wallet).State = EntityState.Modified;
-                    //_context.SaveChanges();
-                    return RedirectToAction("Index");
+                    _context.Update(teams);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!WalletExists(wallet.Userid))
+                    if (!TeamsExists(teams.Id))
                     {
                         return NotFound();
                     }
@@ -119,10 +112,10 @@ namespace Aplikacija_za_kladenje.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(wallet);
+            return View(teams);
         }
 
-        // GET: Wallets/Delete/5
+        // GET: Teams/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,30 +123,30 @@ namespace Aplikacija_za_kladenje.Controllers
                 return NotFound();
             }
 
-            var wallet = await _context.Wallet
-                .FirstOrDefaultAsync(m => m.Userid == id);
-            if (wallet == null)
+            var teams = await _context.Teams
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (teams == null)
             {
                 return NotFound();
             }
 
-            return View(wallet);
+            return View(teams);
         }
 
-        // POST: Wallets/Delete/5
+        // POST: Teams/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var wallet = await _context.Wallet.FindAsync(id);
-            _context.Wallet.Remove(wallet);
+            var teams = await _context.Teams.FindAsync(id);
+            _context.Teams.Remove(teams);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool WalletExists(int id)
+        private bool TeamsExists(int id)
         {
-            return _context.Wallet.Any(e => e.Userid == id);
+            return _context.Teams.Any(e => e.Id == id);
         }
     }
 }

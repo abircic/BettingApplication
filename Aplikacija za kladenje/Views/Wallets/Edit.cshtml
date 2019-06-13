@@ -16,7 +16,7 @@
             <input type="hidden" asp-for="Userid" />
             <div class="form-group">
                 <label asp-for="Saldo" class="control-label"></label>
-                <input asp-for="Saldo" class="form-control" />
+                <input asp-for="Saldo" class="form-control", pattern="^\s*(?=.*[1-9])\d*(?:\,\d{1,2})?\s*$" />
                 <span asp-validation-for="Saldo" class="text-danger"></span>
             </div>
             <div class="form-group">
