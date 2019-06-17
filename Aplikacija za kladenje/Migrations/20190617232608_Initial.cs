@@ -14,7 +14,13 @@ namespace Aplikacija_za_kladenje.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    MatchId = table.Column<int>(nullable: false),
+                    HomeTeam = table.Column<string>(nullable: true),
+                    AwayTeam = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: true),
+                    Odd = table.Column<decimal>(nullable: false),
                     TotalOdd = table.Column<decimal>(nullable: false),
+                    BetAmount = table.Column<decimal>(nullable: false),
                     CashOut = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
@@ -54,22 +60,6 @@ namespace Aplikacija_za_kladenje.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserBets",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    TimeStamp = table.Column<DateTime>(nullable: false),
-                    BetAmount = table.Column<decimal>(nullable: false),
-                    TotalOdd = table.Column<decimal>(nullable: false),
-                    CashOut = table.Column<decimal>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserBets", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Wallet",
                 columns: table => new
                 {
@@ -80,6 +70,29 @@ namespace Aplikacija_za_kladenje.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Wallet", x => x.Userid);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserBets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TimeStamp = table.Column<DateTime>(nullable: false),
+                    BetAmount = table.Column<decimal>(nullable: false),
+                    TotalOdd = table.Column<decimal>(nullable: false),
+                    CashOut = table.Column<decimal>(nullable: false),
+                    BetSlipId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserBets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserBets_BetSlip_BetSlipId",
+                        column: x => x.BetSlipId,
+                        principalTable: "BetSlip",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,37 +111,6 @@ namespace Aplikacija_za_kladenje.Migrations
                         name: "FK_Leagues_Sports_SportId",
                         column: x => x.SportId,
                         principalTable: "Sports",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserBetMatchViewModel",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    MatchId = table.Column<int>(nullable: false),
-                    HomeTeam = table.Column<string>(nullable: true),
-                    AwayTeam = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: true),
-                    Odd = table.Column<decimal>(nullable: false),
-                    BetSlipId = table.Column<int>(nullable: true),
-                    UserBetsId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserBetMatchViewModel", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserBetMatchViewModel_BetSlip_BetSlipId",
-                        column: x => x.BetSlipId,
-                        principalTable: "BetSlip",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UserBetMatchViewModel_UserBets_UserBetsId",
-                        column: x => x.UserBetsId,
-                        principalTable: "UserBets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -213,14 +195,9 @@ namespace Aplikacija_za_kladenje.Migrations
                 column: "LeagueId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserBetMatchViewModel_BetSlipId",
-                table: "UserBetMatchViewModel",
+                name: "IX_UserBets_BetSlipId",
+                table: "UserBets",
                 column: "BetSlipId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserBetMatchViewModel_UserBetsId",
-                table: "UserBetMatchViewModel",
-                column: "UserBetsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -229,7 +206,7 @@ namespace Aplikacija_za_kladenje.Migrations
                 name: "Matches");
 
             migrationBuilder.DropTable(
-                name: "UserBetMatchViewModel");
+                name: "UserBets");
 
             migrationBuilder.DropTable(
                 name: "Wallet");
@@ -242,9 +219,6 @@ namespace Aplikacija_za_kladenje.Migrations
 
             migrationBuilder.DropTable(
                 name: "BetSlip");
-
-            migrationBuilder.DropTable(
-                name: "UserBets");
 
             migrationBuilder.DropTable(
                 name: "Leagues");

@@ -53,7 +53,7 @@ namespace Aplikacija_za_kladenje.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TotalOdd,CashOut")] BetSlip betSlip)
+        public async Task<IActionResult> Create([Bind("Id,MatchId,HomeTeam,AwayTeam,Type,Odd,TotalOdd,BetAmount,CashOut")] BetSlip betSlip)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace Aplikacija_za_kladenje.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TotalOdd,CashOut")] BetSlip betSlip)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,MatchId,HomeTeam,AwayTeam,Type,Odd,TotalOdd,BetAmount,CashOut")] BetSlip betSlip)
         {
             if (id != betSlip.Id)
             {

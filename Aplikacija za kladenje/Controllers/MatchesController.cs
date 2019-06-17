@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Aplikacija_za_kladenje.Models;
+using System.Web;
 
 namespace Aplikacija_za_kladenje.Controllers
 {
@@ -19,6 +20,7 @@ namespace Aplikacija_za_kladenje.Controllers
         }
 
         // GET: Matches
+        [HttpGet]
         public IActionResult Index()
         {
             List<Matches> MatchesList = _context.Matches.Include(h=>h.HomeTeam).Include(a=>a.AwayTeam).Include(t=>t.Types).ToList();
@@ -40,6 +42,56 @@ namespace Aplikacija_za_kladenje.Controllers
 
             return View(MatchVMList);
         }
+        [HttpGet]
+        public async Task<IActionResult> BetTest()
+        {
+            return View(await _context.BetSlip.ToListAsync());
+        }
+        [HttpPost]
+        public async Task<IActionResult> BetTest(int MatchId, decimal value)
+        {
+            BetSlip temp = new BetSlip();
+            var matches = _context.BetSlip.SingleOrDefault(m => m.MatchId == MatchId);
+            if (matches == null)
+            {
+                temp.MatchId = MatchId;
+                var match = _context.Matches.Include(h=>h.HomeTeam).Include(a=>a.AwayTeam).SingleOrDefault(q => q.Id == MatchId);
+                temp.HomeTeam = match.HomeTeam.Name;
+                temp.AwayTeam = match.AwayTeam.Name;
+                var testiranje = _context.Matches.Include(o => o.Types).SingleOrDefault(q => q.Id == MatchId);
+                temp.Odd = value;
+                _context.BetSlip.Add(temp);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                matches.MatchId = MatchId;
+                matches.Odd = value;
+                _context.BetSlip.Update(matches);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // GET: Matches/Details/5
         public async Task<IActionResult> Details(int? id)

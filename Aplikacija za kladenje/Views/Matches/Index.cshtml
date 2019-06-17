@@ -50,43 +50,48 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model)
-{
-        <tr>
-            <td>
-                @item.Id
-            </td>
-            <td>
-                @item.HomeTeamName
-            </td>
-            <td>
-                @item.AwayTeamName
-            </td>
-            <td>
-               <input type="submit" value=@item._1 />
-            </td>
-            <td>
-                <input type="submit" value=@item._X />
-            </td>
-            <td>
-                <input type="submit" value=@item._2 />
-            </td>
-            <td>
-                <input type="submit" value=@item._1X />
-            </td>
-            <td>
-                <input type="submit" value=@item._X2 />
-            </td>
-            <td>
-                <input type="submit" value=@item._12 />
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+
+        @foreach (var item in Model)
+        {
+            @using (Html.BeginForm("BetTest", "Matches", new { MatchId = item.Id}, FormMethod.Post))
+            {
+                <tr>
+                    <td>
+                        @item.Id
+                    </td>
+                    <td>
+                        @item.HomeTeamName
+                    </td>
+                    <td>
+                        @item.AwayTeamName
+                    </td>
+                    <td>
+                        <input  type="submit" id=@item.Id , name ="value" value=@item._1 >
+                    </td>
+                    <td>
+                        <input type="submit" id=@item.Id name="value" value=@item._X >
+                    </td>
+                    <td>
+                        <input type="submit" id=@item.Id name="value" value=@item._2 >
+                    </td>
+                    <td>
+                        <input type="submit" id=@item.Id name="value" value=@item._1X >
+                    </td>
+                    <td>
+                        <input type="submit" id=@item.Id name="value" value=@item._X2 >
+                    </td>
+                    <td>
+                        <input type="submit" id=@item.Id name="value" value=@item._12 >
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+
+        }
     </tbody>
 </table>
 }

@@ -14,7 +14,25 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.MatchId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeTeam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwayTeam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Odd)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.TotalOdd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BetAmount)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CashOut)
@@ -26,7 +44,25 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.MatchId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HomeTeam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AwayTeam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Odd)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.TotalOdd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BetAmount)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CashOut)
