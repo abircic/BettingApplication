@@ -48,7 +48,7 @@ namespace Aplikacija_za_kladenje.Controllers
             return View(await _context.BetSlip.ToListAsync());
         }
         [HttpPost]
-        public async Task<IActionResult> BetTest(int MatchId, decimal value)
+        public async Task<IActionResult> BetTest(int MatchId, decimal value, string type)
         {
             BetSlip temp = new BetSlip();
             var matches = _context.BetSlip.SingleOrDefault(m => m.MatchId == MatchId);
@@ -60,7 +60,16 @@ namespace Aplikacija_za_kladenje.Controllers
                 temp.AwayTeam = match.AwayTeam.Name;
                 var testiranje = _context.Matches.Include(o => o.Types).SingleOrDefault(q => q.Id == MatchId);
                 temp.Odd = value;
+                temp.TotalOdd = 1;
+                decimal totOdd = 1;
                 _context.BetSlip.Add(temp);
+                await _context.SaveChangesAsync();
+                foreach (BetSlip item in _context.BetSlip)
+                {
+                    totOdd = totOdd * item.Odd;
+                }
+                TempData["Odd"] = totOdd;
+                _context.BetSlip.Update(temp);
                 await _context.SaveChangesAsync();
             }
             else
@@ -69,11 +78,19 @@ namespace Aplikacija_za_kladenje.Controllers
                 matches.Odd = value;
                 _context.BetSlip.Update(matches);
                 await _context.SaveChangesAsync();
+                decimal totOdd = 1;
+                foreach (BetSlip item in _context.BetSlip)
+                {
+                    totOdd = totOdd * item.Odd;
+                }
+                TempData["Odd"] = totOdd;
+                _context.BetSlip.Update(matches);
+                await _context.SaveChangesAsync();
             }
 
             return RedirectToAction("Index");
         }
-
+        
 
 
 

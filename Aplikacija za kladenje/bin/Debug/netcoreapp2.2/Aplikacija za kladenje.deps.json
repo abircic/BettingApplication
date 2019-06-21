@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "eb6334e20b112d523c24be9795fab7ceceb38e2c"
+    "signature": "81e7fb91237432719c9c61795bb06b256583bd7e"
   },
   "compilationOptions": {
     "defines": [
@@ -25,6 +25,7 @@
       "Aplikacija za kladenje/1.0.0": {
         "dependencies": {
           "EntityFramework": "6.2.0",
+          "LinqKit.EntityFramework": "1.1.16",
           "Microsoft.AspNetCore.App": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.4",
@@ -53,6 +54,17 @@
         "compile": {
           "lib/net45/EntityFramework.SqlServer.dll": {},
           "lib/net45/EntityFramework.dll": {}
+        }
+      },
+      "LinqKit.EntityFramework/1.1.16": {
+        "runtime": {
+          "lib/net45/LinqKit.EntityFramework.dll": {
+            "assemblyVersion": "1.1.16.0",
+            "fileVersion": "1.1.16.0"
+          }
+        },
+        "compile": {
+          "lib/net45/LinqKit.EntityFramework.dll": {}
         }
       },
       "Microsoft.CodeAnalysis.CSharp.Workspaces/2.8.0": {
@@ -3598,6 +3610,13 @@
       "sha512": "sha512-ptGyXOf26qLrtn+2doAmylIlCxOnBJANwlyyLrXDmqIk9O18IzLWHyxDwwAyhgXkxmbiaA0WNpRy67WRReInBw==",
       "path": "entityframework/6.2.0",
       "hashPath": "entityframework.6.2.0.nupkg.sha512"
+    },
+    "LinqKit.EntityFramework/1.1.16": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-b1LTlOo6iAd6STvQvtucAT34GstmDobG0ECPiR6rcJ9qmA8HySoH+na7Jd5QCQVWd6AB9h1phs426nX37WR03A==",
+      "path": "linqkit.entityframework/1.1.16",
+      "hashPath": "linqkit.entityframework.1.1.16.nupkg.sha512"
     },
     "Microsoft.CodeAnalysis.CSharp.Workspaces/2.8.0": {
       "type": "package",

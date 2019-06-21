@@ -21,6 +21,12 @@ namespace Aplikacija_za_kladenje.Controllers
         // GET: BetSlips
         public async Task<IActionResult> Index()
         {
+            decimal totOdd = 1;
+            foreach (BetSlip item in _context.BetSlip)
+            {
+                totOdd = totOdd * item.Odd;
+            }
+            TempData["Odd"] = totOdd;
             return View(await _context.BetSlip.ToListAsync());
         }
 

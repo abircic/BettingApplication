@@ -28,51 +28,36 @@
             <th>
                 @Html.DisplayNameFor(model => model.Odd)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalOdd)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BetAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CashOut)
-            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MatchId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HomeTeam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AwayTeam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Odd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalOdd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BetAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CashOut)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HomeTeam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AwayTeam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Odd)
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+
+        }
     </tbody>
+    <tr>
+        Total Odd: @TempData["Odd"]
+    </tr>
 </table>

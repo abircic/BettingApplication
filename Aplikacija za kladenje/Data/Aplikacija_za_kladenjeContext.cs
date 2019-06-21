@@ -28,5 +28,8 @@ namespace Aplikacija_za_kladenje.Models
         public DbSet<Aplikacija_za_kladenje.Models.BetSlip> BetSlip { get; set; }
 
         public DbSet<Aplikacija_za_kladenje.Models.UserBets> UserBets { get; set; }
+
+        public DbSet<Aplikacija_za_kladenje.Models.MatchViewModel> MatchViewModel { get; set; }
+
     }
 }
