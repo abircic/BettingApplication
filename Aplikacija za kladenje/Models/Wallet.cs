@@ -13,5 +13,6 @@ namespace Aplikacija_za_kladenje.Models
         //[DisplayFormat(DataFormatString = "{0.00}kn")]
         //[RegularExpression(@"^(0|-?\d{0,16}(\.\d{0,2})?)$")]
         public decimal Saldo { get; set; }
+        public string Transactions { get; set; }
     }
 }

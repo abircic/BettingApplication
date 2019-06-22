@@ -12,12 +12,7 @@
     <h4>BetSlip</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MatchId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MatchId)
-        </dd>
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.HomeTeam)
         </dt>
@@ -42,24 +37,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Odd)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TotalOdd)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TotalOdd)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BetAmount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BetAmount)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CashOut)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CashOut)
-        </dd>
+        
     </dl>
     
     <form asp-action="Delete">

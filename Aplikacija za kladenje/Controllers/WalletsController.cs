@@ -53,7 +53,7 @@ namespace Aplikacija_za_kladenje.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Userid,Saldo")] Wallet wallet)
+        public async Task<IActionResult> Create([Bind("Userid,Saldo;Transactions")] Wallet wallet)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace Aplikacija_za_kladenje.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Userid,Saldo")] Wallet wallet)
+        public async Task<IActionResult> Edit(int id, [Bind("Userid,Saldo,Transactions")] Wallet wallet)
         {
             if (id != wallet.Userid)
             {

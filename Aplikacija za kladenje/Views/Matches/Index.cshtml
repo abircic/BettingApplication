@@ -8,18 +8,14 @@
 
 <h1>Matches</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 @if (Model != null)
 {
 
 <table class="table">
     <thead>
         <tr>
-            <th>
-                Id
-            </th>
+            
             <th>
                 Home Team
             </th>
@@ -53,12 +49,10 @@
 
         @foreach (var item in Model)
         {
-            @using (Html.BeginForm("BetTest", "Matches", new { MatchId = item.Id}, FormMethod.Post))
+            @using (Html.BeginForm("Bet", "BetSlips", new { MatchId = item.Id, top=false }, FormMethod.Post))
             {
                 <tr>
-                    <td>
-                        @item.Id
-                    </td>
+                   
                     <td>
                         @item.HomeTeamName
                     </td>
@@ -66,10 +60,10 @@
                         @item.AwayTeamName
                     </td>
                     <td>
-                        <input type="submit" id=@item.Id , name="value" value=@item._1 class="btn btn-primary" >
+                        <input type="submit" id=@item.Id , name="value" value=@item._1 class="btn btn-primary">
                     </td>
                     <td>
-                        <input type="submit" id=@item.Id name="value" value=@item._X class="btn btn-primary" >
+                        <input type="submit" id=@item.Id name="value" value=@item._X class="btn btn-primary">
                     </td>
                     <td>
                         <input type="submit" id=@item.Id name="value" value=@item._2 class="btn btn-primary">
@@ -83,11 +77,7 @@
                     <td>
                         <input type="submit" id=@item.Id name="value" value=@item._12 class="btn btn-primary">
                     </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
+                   
                 </tr>
             }
 

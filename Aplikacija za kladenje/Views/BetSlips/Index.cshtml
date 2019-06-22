@@ -14,9 +14,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.MatchId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.HomeTeam)
             </th>
             <th>
@@ -28,36 +25,42 @@
             <th>
                 @Html.DisplayNameFor(model => model.Odd)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TopMatch)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MatchId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HomeTeam)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AwayTeam)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Odd)
-                </td>
-                <td>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HomeTeam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AwayTeam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Odd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TopMatch)
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
 
         }
     </tbody>
     <tr>
-        Total Odd: @TempData["Odd"]
+        <td>Total Odd: @TempData["Odd"]</td>
+        <td>Number of matches: @TempData["NumberOfMatches"]</td>
+        <td>Cash Out: @TempData["CashOut"]</td>
+        <td><input type="text" name="Stake" /></td>
     </tr>
 </table>

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Aplikacija_za_kladenje.Models.TopMatchesViewModel>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                Home Team
+            </th>
+            <th>
+                Away Team
+            </th>
+            <th>
+                1
+            </th>
+            <th>
+                X
+            </th>
+            <th>
+                2
+            </th>
+            <th>
+                1X
+            </th>
+            <th>
+                X2
+            </th>
+            <th>
+                12
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+        @using (Html.BeginForm("Bet", "BetSlips", new { MatchId = item.Id, top=true}, FormMethod.Post))
+            {
+        <tr>
+
+            <td>
+                @item.HomeTeamName
+            </td>
+            <td>
+                @item.AwayTeamName
+            </td>
+            <td>
+                <input type="submit" id=@item.Id , name="value" value=@item._1 class="btn btn-primary">
+            </td>
+            <td>
+                <input type="submit" id=@item.Id name="value" value=@item._X class="btn btn-primary">
+            </td>
+            <td>
+                <input type="submit" id=@item.Id name="value" value=@item._2 class="btn btn-primary">
+            </td>
+            <td>
+                <input type="submit" id=@item.Id name="value" value=@item._1X class="btn btn-primary">
+            </td>
+            <td>
+                <input type="submit" id=@item.Id name="value" value=@item._X2 class="btn btn-primary">
+            </td>
+            <td>
+                <input type="submit" id=@item.Id name="value" value=@item._12 class="btn btn-primary">
+            </td>
+
+        </tr>
+            }
+
+        }
+    </tbody>
+</table>

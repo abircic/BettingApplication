@@ -43,54 +43,56 @@ namespace Aplikacija_za_kladenje.Controllers
             return View(MatchVMList);
         }
         [HttpGet]
-        public async Task<IActionResult> BetTest()
+        public IActionResult IndexTwoPlayers()
         {
-            return View(await _context.BetSlip.ToListAsync());
+            List<TwoPlayersMatches> MatchesList = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).Include(s=>s.Sport).ToList();
+
+            TwoPlayersViewModel MatchVM = new TwoPlayersViewModel();
+
+            List<TwoPlayersViewModel> MatchVMList = MatchesList.Select(x => new TwoPlayersViewModel
+            {
+                Id = x.Id,
+                FirstPlayer=x.First.Name,
+                SecondPlayer=x.Second.Name,
+                _1=x._1,
+                _2=x._2
+            }).ToList();
+
+            return View(MatchVMList);
         }
-        [HttpPost]
-        public async Task<IActionResult> BetTest(int MatchId, decimal value, string type)
+
+        [HttpGet]
+        public IActionResult TopMatches()
         {
-            BetSlip temp = new BetSlip();
-            var matches = _context.BetSlip.SingleOrDefault(m => m.MatchId == MatchId);
-            if (matches == null)
+            List<Matches> TopMatches = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(t => t.TopMatch==true).ToList();
+            List<TwoPlayersMatches> TopTwoPlayersMatches = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).Include(s => s.Sport).Where(t => t.TopMatch == true).ToList();
+            List<TopMatchesViewModel> AllMatches=new List<TopMatchesViewModel>();
+            TopMatchesViewModel MatchVm = new TopMatchesViewModel();
+            List<TopMatchesViewModel> MatchVMList = TopMatches.Select(x => new TopMatchesViewModel
             {
-                temp.MatchId = MatchId;
-                var match = _context.Matches.Include(h=>h.HomeTeam).Include(a=>a.AwayTeam).SingleOrDefault(q => q.Id == MatchId);
-                temp.HomeTeam = match.HomeTeam.Name;
-                temp.AwayTeam = match.AwayTeam.Name;
-                var testiranje = _context.Matches.Include(o => o.Types).SingleOrDefault(q => q.Id == MatchId);
-                temp.Odd = value;
-                temp.TotalOdd = 1;
-                decimal totOdd = 1;
-                _context.BetSlip.Add(temp);
-                await _context.SaveChangesAsync();
-                foreach (BetSlip item in _context.BetSlip)
-                {
-                    totOdd = totOdd * item.Odd;
-                }
-                TempData["Odd"] = totOdd;
-                _context.BetSlip.Update(temp);
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                matches.MatchId = MatchId;
-                matches.Odd = value;
-                _context.BetSlip.Update(matches);
-                await _context.SaveChangesAsync();
-                decimal totOdd = 1;
-                foreach (BetSlip item in _context.BetSlip)
-                {
-                    totOdd = totOdd * item.Odd;
-                }
-                TempData["Odd"] = totOdd;
-                _context.BetSlip.Update(matches);
-                await _context.SaveChangesAsync();
-            }
+                Id = x.Id,
+                HomeTeamName = x.HomeTeam.Name,
+                AwayTeamName = x.AwayTeam.Name,
+                _1 = x.Types._1+0.10m,
+                _X = x.Types._X + 0.10m,
+                _2 = x.Types._2 + 0.10m,
+                _1X = x.Types._1X + 0.10m,
+                _X2 = x.Types._X2 + 0.10m,
+                _12 = x.Types._12 + 0.10m
+            }).ToList();
 
-            return RedirectToAction("Index");
+            List<TopMatchesViewModel> TwoPlayersMatchVMList = TopTwoPlayersMatches.Select(x => new TopMatchesViewModel
+            {
+                Id = x.Id,
+                HomeTeamName=x.First.Name,
+                AwayTeamName=x.Second.Name,
+                _1=x._1 + 0.10m,
+                _2=x._2 + 0.10m
+            }).ToList();
+            AllMatches.AddRange(MatchVMList);
+            AllMatches.AddRange(TwoPlayersMatchVMList);
+            return View(AllMatches);
         }
-        
 
 
 
@@ -109,24 +111,6 @@ namespace Aplikacija_za_kladenje.Controllers
 
 
 
-
-        // GET: Matches/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var matches = await _context.Matches
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (matches == null)
-            {
-                return NotFound();
-            }
-
-            return View(matches);
-        }
 
         // GET: Matches/Create
         public IActionResult Create()
@@ -171,7 +155,7 @@ namespace Aplikacija_za_kladenje.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,HomeTeam,AwayTeam,Result")] Matches matches)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,HomeTeam,AwayTeam,Result")] Matches matches)
         {
             if (id != matches.Id)
             {
@@ -202,7 +186,7 @@ namespace Aplikacija_za_kladenje.Controllers
         }
 
         // GET: Matches/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -230,7 +214,7 @@ namespace Aplikacija_za_kladenje.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MatchesExists(int id)
+        private bool MatchesExists(string id)
         {
             return _context.Matches.Any(e => e.Id == id);
         }

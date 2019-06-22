@@ -1,3 +1,9 @@
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.csprojAssemblyReference.cache
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.csproj.CoreCompileInputs.cache
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.RazorAssemblyInfo.cache
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.RazorAssemblyInfo.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.AssemblyInfoInputs.cache
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.AssemblyInfo.cs
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\bin\Debug\netcoreapp2.2\Aplikacija za kladenje.deps.json
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\bin\Debug\netcoreapp2.2\Aplikacija za kladenje.runtimeconfig.json
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\bin\Debug\netcoreapp2.2\Aplikacija za kladenje.runtimeconfig.dev.json
@@ -5,16 +11,29 @@ C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplik
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\bin\Debug\netcoreapp2.2\Aplikacija za kladenje.pdb
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\bin\Debug\netcoreapp2.2\Aplikacija za kladenje.Views.dll
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\bin\Debug\netcoreapp2.2\Aplikacija za kladenje.Views.pdb
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.csprojAssemblyReference.cache
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.csproj.CoreCompileInputs.cache
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.RazorAssemblyInfo.cache
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.RazorAssemblyInfo.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.AssemblyInfoInputs.cache
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.AssemblyInfo.cs
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.TagHelpers.input.cache
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.TagHelpers.output.cache
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.RazorCoreGenerate.cache
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\BetSlips\Delete.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\BetSlips\Index.g.cshtml.cs
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Error.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Matches_BetSlip.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Layout.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Teams\Create.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Teams\Delete.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Teams\Details.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Teams\Edit.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Teams\Index.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Types\Create.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Types\Delete.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Types\Details.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Types\Edit.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Types\Index.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Wallets\Edit.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Wallets\Index.g.cshtml.cs
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\_ViewImports.g.cshtml.cs
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\_ViewStart.g.cshtml.cs
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.RazorTargetAssemblyInfo.cache
@@ -23,28 +42,6 @@ C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplik
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.dll
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.pdb
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.csproj.CopyComplete
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Error.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Layout.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Wallets\Edit.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Wallets\Index.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Types\Create.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Types\Delete.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Types\Details.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Types\Edit.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Types\Index.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Teams\Create.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Teams\Delete.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Teams\Details.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Teams\Edit.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Teams\Index.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Matches\Create.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Matches\Delete.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Matches\Details.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Matches\Edit.g.cshtml.cs
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Matches\Index.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\BetSlips\Create.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\BetSlips\Delete.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\BetSlips\Index.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Matches_BetSlip.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Matches\IndexTwoPlayers.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Matches\TopMatches.g.cshtml.cs

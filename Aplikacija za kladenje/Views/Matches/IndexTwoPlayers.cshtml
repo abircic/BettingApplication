@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Aplikacija_za_kladenje.Models.TwoPlayersViewModel>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstPlayer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SecondPlayer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._2)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @using (Html.BeginForm("Bet", "BetSlips", new { MatchId = item.Id, top=false }, FormMethod.Post))
+            {
+                <tr>
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstPlayer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SecondPlayer)
+                    </td>
+                    <td>
+                        <input type="submit" id=@item.Id , name="value" value=@item._1 class="btn btn-primary">
+                    </td>
+                    <td>
+                        <input type="submit" id=@item.Id name="value" value=@item._2 class="btn btn-primary">
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
