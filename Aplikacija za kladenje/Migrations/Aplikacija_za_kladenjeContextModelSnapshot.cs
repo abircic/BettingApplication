@@ -136,32 +136,6 @@ namespace Aplikacija_za_kladenje.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("Aplikacija_za_kladenje.Models.TopMatchesViewModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AwayTeamName");
-
-                    b.Property<string>("HomeTeamName");
-
-                    b.Property<decimal>("_1");
-
-                    b.Property<decimal>("_12");
-
-                    b.Property<decimal>("_1X");
-
-                    b.Property<decimal>("_2");
-
-                    b.Property<decimal>("_X");
-
-                    b.Property<decimal>("_X2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TopMatchesViewModel");
-                });
-
             modelBuilder.Entity("Aplikacija_za_kladenje.Models.TwoPlayersMatches", b =>
                 {
                     b.Property<string>("Id")

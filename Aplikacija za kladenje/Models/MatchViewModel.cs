@@ -17,6 +17,7 @@ namespace Aplikacija_za_kladenje.Models
         public decimal _X2 { get; set; }
         public decimal _12 { get; set; }
         public Boolean TopMatch { get; set; }
+        
 
     }
 }

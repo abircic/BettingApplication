@@ -40,25 +40,6 @@ namespace Aplikacija_za_kladenje.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TopMatchesViewModel",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    HomeTeamName = table.Column<string>(nullable: true),
-                    AwayTeamName = table.Column<string>(nullable: true),
-                    _1 = table.Column<decimal>(nullable: false),
-                    _X = table.Column<decimal>(nullable: false),
-                    _2 = table.Column<decimal>(nullable: false),
-                    _1X = table.Column<decimal>(nullable: false),
-                    _X2 = table.Column<decimal>(nullable: false),
-                    _12 = table.Column<decimal>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TopMatchesViewModel", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Types",
                 columns: table => new
                 {
@@ -309,9 +290,6 @@ namespace Aplikacija_za_kladenje.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Matches");
-
-            migrationBuilder.DropTable(
-                name: "TopMatchesViewModel");
 
             migrationBuilder.DropTable(
                 name: "TwoPlayersMatches");

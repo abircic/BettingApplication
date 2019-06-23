@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aplikacija_za_kladenje.Migrations
 {
     [DbContext(typeof(Aplikacija_za_kladenjeContext))]
-    [Migration("20190622095234_Initial")]
+    [Migration("20190623172826_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,32 +136,6 @@ namespace Aplikacija_za_kladenje.Migrations
                     b.HasIndex("LeagueId");
 
                     b.ToTable("Teams");
-                });
-
-            modelBuilder.Entity("Aplikacija_za_kladenje.Models.TopMatchesViewModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AwayTeamName");
-
-                    b.Property<string>("HomeTeamName");
-
-                    b.Property<decimal>("_1");
-
-                    b.Property<decimal>("_12");
-
-                    b.Property<decimal>("_1X");
-
-                    b.Property<decimal>("_2");
-
-                    b.Property<decimal>("_X");
-
-                    b.Property<decimal>("_X2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TopMatchesViewModel");
                 });
 
             modelBuilder.Entity("Aplikacija_za_kladenje.Models.TwoPlayersMatches", b =>

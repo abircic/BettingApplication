@@ -39,7 +39,6 @@ namespace Aplikacija_za_kladenje.Controllers
                 _X2 = x.Types._X2,
                 _12 = x.Types._12,
             }).ToList();
-
             return View(MatchVMList);
         }
         [HttpGet]

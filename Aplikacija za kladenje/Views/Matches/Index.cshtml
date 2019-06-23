@@ -51,34 +51,52 @@
         {
             @using (Html.BeginForm("Bet", "BetSlips", new { MatchId = item.Id, top=false }, FormMethod.Post))
             {
-                <tr>
-                   
-                    <td>
-                        @item.HomeTeamName
-                    </td>
-                    <td>
-                        @item.AwayTeamName
-                    </td>
-                    <td>
-                        <input type="submit" id=@item.Id , name="value" value=@item._1 class="btn btn-primary">
-                    </td>
-                    <td>
-                        <input type="submit" id=@item.Id name="value" value=@item._X class="btn btn-primary">
-                    </td>
-                    <td>
-                        <input type="submit" id=@item.Id name="value" value=@item._2 class="btn btn-primary">
-                    </td>
-                    <td>
-                        <input type="submit" id=@item.Id name="value" value=@item._1X class="btn btn-primary">
-                    </td>
-                    <td>
-                        <input type="submit" id=@item.Id name="value" value=@item._X2 class="btn btn-primary">
-                    </td>
-                    <td>
-                        <input type="submit" id=@item.Id name="value" value=@item._12 class="btn btn-primary">
-                    </td>
-                   
-                </tr>
+        <tr>
+
+            <td>
+                @item.HomeTeamName
+            </td>
+            <td>
+                @item.AwayTeamName
+            </td>
+            <td>
+                @if (item._1 != 0)
+                {
+                    <input type="submit" id=@item.Id , name="value" value=@item._1 class="btn btn-primary">
+                }
+            </td>
+            <td>
+                @if (item._X != 0)
+                {
+                    <input type="submit" id=@item.Id name="value" value=@item._X class="btn btn-primary">
+                }
+            </td>
+            <td>
+                @if (item._2 != 0)
+                {
+                    <input type="submit" id=@item.Id name="value" value=@item._2 class="btn btn-primary">
+                }
+            </td>
+            <td>
+                @if (item._1X != 0)
+                {
+                    <input type="submit" id=@item.Id name="value" value=@item._1X class="btn btn-primary">
+                }
+            </td>
+            <td>
+                @if (item._X2 != 0)
+                {
+                    <input type="submit" id=@item.Id name="value" value=@item._X2 class="btn btn-primary">
+                }
+            </td>
+            <td>
+                @if (item._12 != 0)
+                {
+                    <input type="submit" id=@item.Id name="value" value=@item._12 class="btn btn-primary">
+                }
+            </td>
+
+        </tr>
             }
 
         }

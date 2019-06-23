@@ -57,7 +57,7 @@ namespace Aplikacija_za_kladenje.Controllers
                 {
                     matches = item;
                 }
-               if(item.TopMatch==true)
+               if(item.TopMatch==true & item.MatchId!=MatchId)
                 {
                     temp_top_status = true;
                 }

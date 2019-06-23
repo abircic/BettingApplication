@@ -91,7 +91,14 @@ namespace Aplikacija_za_kladenje.Models
                             AwayTeam = new Teams { Name = "Real Sociedad", League = League_Spain },
                             Types = new Types { _1 = 1.95m, _X = 3.75m, _2 = 3.60m, _1X = 1.50M, _X2 = 2.70m, _12 = 1.50m },
                             TopMatch = false
-                        }
+                        },
+                         new Matches
+                         {
+                             HomeTeam = new Teams { Name = "Valencija", League = League_Spain },
+                             AwayTeam = new Teams { Name = "Huesca", League = League_Spain },
+                             Types = new Types { _1 = 1.50m, _X = 3.75m, _2 = 7.50m,_X2 = 3.50m, _12 = 1.50m },
+                             TopMatch = false
+                         }
                     );
                 context.SaveChanges();
                 var Sport_Tennis = context.Sports.SingleOrDefault(s => s.Name.Contains("Tennis"));
