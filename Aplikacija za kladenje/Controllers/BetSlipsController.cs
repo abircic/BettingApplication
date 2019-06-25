@@ -32,7 +32,7 @@ namespace Aplikacija_za_kladenje.Controllers
             }
             TempData["Odd"] = totOdd.ToString("0.00");
             TempData["NumberOfMatches"] = counter;
-            TempData["CashOut"] = stake+"kn";
+            TempData["CashOut"] = "kn";
 
             return View(await _context.BetSlip.ToListAsync());
         }
@@ -44,8 +44,52 @@ namespace Aplikacija_za_kladenje.Controllers
             return View(await _context.BetSlip.ToListAsync());
         }
         [HttpPost]
-        public async Task<IActionResult> Bet(string MatchId, decimal value, Boolean top)
+        public async Task<IActionResult> Bet(string MatchId, string type, Boolean top)
         {
+            var Wallet = _context.Wallet.FirstOrDefault();
+            TempData["Saldo"] = Wallet.Saldo;
+            decimal betValue = 0;
+            var football = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).SingleOrDefault(q => q.Id == MatchId);
+             if(football!=null)
+            {
+                switch (type)
+                {
+                    case "1":
+                        betValue = football.Types._1;
+                        break;
+                    case "X":
+                        betValue = football.Types._X;
+                        break;
+                    case "2":
+                        betValue = football.Types._2;
+                        break;
+                    case "1X":
+                        betValue = football.Types._1X;
+                        break;
+                    case "X2":
+                        betValue = football.Types._X2;
+                        break;
+                    case "12":
+                        betValue = football.Types._12;
+                        break;
+                }
+                
+            }
+             else
+            {
+                var other = _context.TwoPlayersMatches.SingleOrDefault(q => q.Id == MatchId);
+                switch (type)
+                {
+                    case "1":
+                        betValue = other._1;
+                        break;
+                    case "2":
+                        betValue = other._2;
+                        break;
+                }
+            }
+            
+            
             int counter = 0;
             int counter_odd = 0;
             BetSlip temp = new BetSlip();
@@ -73,15 +117,16 @@ namespace Aplikacija_za_kladenje.Controllers
             }
             if (matches == null)
             {
-                if(((top==true)&&(temp_top_status==false)&&(counter>4))||(top==false))
+                if(((top==true)&&(temp_top_status==false)&&(counter>5))||(top==false))
                 {
                     temp.MatchId = MatchId;
-                    var football = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).SingleOrDefault(q => q.Id == MatchId);
+                    
                     if (football != null)
                     {
                         temp.HomeTeam = football.HomeTeam.Name;
                         temp.AwayTeam = football.AwayTeam.Name;
                         temp.TopMatch = top;
+                        temp.Odd = betValue;
                     }
                     else
                     {
@@ -89,8 +134,10 @@ namespace Aplikacija_za_kladenje.Controllers
                         temp.HomeTeam = other.First.Name;
                         temp.AwayTeam = other.Second.Name;
                         temp.TopMatch = top;
+                        temp.Odd = betValue;
                     }
-                    temp.Odd = value;
+                    temp.Type = type;
+                    temp.Odd = betValue;
                     decimal totOdd = 1;
                     _context.BetSlip.Add(temp);
                     await _context.SaveChangesAsync();
@@ -103,10 +150,12 @@ namespace Aplikacija_za_kladenje.Controllers
                     await _context.SaveChangesAsync();
                 }
             }
-            else if(matches!=null && ((top==true)&&(temp_top_status==false)&& (counter > 4)))
+            else if(matches!=null && ((top==true)&&(temp_top_status==false)&& (counter > 5)))
             {
+
                 matches.MatchId = MatchId;
-                matches.Odd = value;
+                matches.Type = type;
+                matches.Odd = betValue+0.10m;
                 matches.TopMatch = top;
                 _context.BetSlip.Update(matches);
                 await _context.SaveChangesAsync();
@@ -122,7 +171,9 @@ namespace Aplikacija_za_kladenje.Controllers
             else if (matches != null && (top == false))
             {
                 matches.MatchId = MatchId;
-                matches.Odd = value;
+
+                matches.Type = type;
+                matches.Odd = betValue;
                 matches.TopMatch = top;
                 _context.BetSlip.Update(matches);
                 await _context.SaveChangesAsync();
@@ -135,11 +186,11 @@ namespace Aplikacija_za_kladenje.Controllers
                 _context.BetSlip.Update(matches);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Matches");
         }
-
-        // GET: BetSlips/Details/5
-        public async Task<IActionResult> Details(int? id)
+        
+            // GET: BetSlips/Details/5
+            public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {

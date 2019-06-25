@@ -8,6 +8,7 @@ namespace Aplikacija_za_kladenje.Models
 {
     public class Matches
     {
+
         public string Id { get; set; }
         public virtual Teams HomeTeam { get; set; }
         public virtual Teams AwayTeam { get; set; }

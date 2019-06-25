@@ -23,13 +23,14 @@ namespace Aplikacija_za_kladenje.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Matches> MatchesList = _context.Matches.Include(h=>h.HomeTeam).Include(a=>a.AwayTeam).Include(t=>t.Types).ToList();
+            List<Matches> MatchesList = _context.Matches.Include(h=>h.HomeTeam).ThenInclude(l=>l.League).Include(a=>a.AwayTeam).ThenInclude(l=>l.League).Include(t=>t.Types).ToList();
 
             MatchViewModel MatchVM = new MatchViewModel();
 
             List<MatchViewModel> MatchVMList = MatchesList.Select(x => new MatchViewModel
             {
                 Id = x.Id,
+                League=x.HomeTeam.League.Name,
                 HomeTeamName=x.HomeTeam.Name,
                 AwayTeamName=x.AwayTeam.Name,
                 _1=x.Types._1,
@@ -39,6 +40,7 @@ namespace Aplikacija_za_kladenje.Controllers
                 _X2 = x.Types._X2,
                 _12 = x.Types._12,
             }).ToList();
+            
             return View(MatchVMList);
         }
         [HttpGet]
@@ -93,7 +95,7 @@ namespace Aplikacija_za_kladenje.Controllers
             return View(AllMatches);
         }
 
-
+       
 
 
 

@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Aplikacija_za_kladenje.Models.MatchViewModel>
-
+@using Aplikacija_za_kladenje.Controllers
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -49,8 +49,9 @@
 
         @foreach (var item in Model)
         {
-            @using (Html.BeginForm("Bet", "BetSlips", new { MatchId = item.Id, top=false }, FormMethod.Post))
+            @using (Html.BeginForm("Bet", "BetSlips", new { MatchId = item.Id, top=false}, FormMethod.Post))
             {
+
         <tr>
 
             <td>
@@ -60,39 +61,39 @@
                 @item.AwayTeamName
             </td>
             <td>
-                @if (item._1 != 0)
+                @if (item._1 > 1 )
                 {
-                    <input type="submit" id=@item.Id , name="value" value=@item._1 class="btn btn-primary">
+                    <button type="submit" id=@item.Id , name="type" value="1" class="btn btn-primary">@item._1</button>
                 }
             </td>
             <td>
-                @if (item._X != 0)
+                @if (item._X > 1 )
                 {
-                    <input type="submit" id=@item.Id name="value" value=@item._X class="btn btn-primary">
+                <button type="submit" id=@item.Id , name="type" value="X" class="btn btn-primary">@item._X</button>
                 }
             </td>
             <td>
-                @if (item._2 != 0)
+                @if (item._2 > 1)
                 {
-                    <input type="submit" id=@item.Id name="value" value=@item._2 class="btn btn-primary">
+                <button type="submit" id=@item.Id , name="type" value="2" class="btn btn-primary">@item._2</button>
                 }
             </td>
             <td>
-                @if (item._1X != 0)
+                @if (item._1X > 1)
                 {
-                    <input type="submit" id=@item.Id name="value" value=@item._1X class="btn btn-primary">
+                <button type="submit" id=@item.Id , name="type" value="1X" class="btn btn-primary">@item._1X</button>
                 }
             </td>
             <td>
-                @if (item._X2 != 0)
+                @if (item._X2 > 1)
                 {
-                    <input type="submit" id=@item.Id name="value" value=@item._X2 class="btn btn-primary">
+                <button type="submit" id=@item.Id , name="type" value="X2" class="btn btn-primary">@item._X2</button>
                 }
             </td>
             <td>
-                @if (item._12 != 0)
+                @if (item._12 > 1)
                 {
-                    <input type="submit" id=@item.Id name="value" value=@item._12 class="btn btn-primary">
+                <button type="submit" id=@item.Id , name="type" value="12" class="btn btn-primary">@item._12</button>
                 }
             </td>
 

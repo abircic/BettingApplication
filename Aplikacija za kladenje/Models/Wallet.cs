@@ -9,10 +9,10 @@ namespace Aplikacija_za_kladenje.Models
     public class Wallet
     {
         [Key]
-        public int Userid { get; set; }
+        public string Userid { get; set; }
+        public decimal Saldo { get; set; }
         //[DisplayFormat(DataFormatString = "{0.00}kn")]
         //[RegularExpression(@"^(0|-?\d{0,16}(\.\d{0,2})?)$")]
-        public decimal Saldo { get; set; }
-        public string Transactions { get; set; }
+        public virtual ICollection<UserTransactions> Transactions { get; set; }
     }
 }

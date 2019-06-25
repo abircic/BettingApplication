@@ -23,7 +23,7 @@ namespace Aplikacija_za_kladenje.Models
                 context.Wallet.AddRange(
                     new Wallet
                     {
-                        Saldo = 0.00m
+                        Saldo = 100.00m
                     }
                 );
 
@@ -45,10 +45,16 @@ namespace Aplikacija_za_kladenje.Models
                     {
                         Name = "Spain",
                         Sport = Sport_Football
-                    }
+                    },
+                     new Leagues
+                     {
+                         Name = "Italy",
+                         Sport = Sport_Football
+                     }
                 );
                 context.SaveChanges();
                 var League_Spain = context.Leagues.SingleOrDefault(l => l.Name.Contains("Spain"));
+                var League_Italy = context.Leagues.SingleOrDefault(l => l.Name.Contains("Italy"));
                 context.Matches.AddRange(
                     new Matches
                     {
@@ -59,17 +65,17 @@ namespace Aplikacija_za_kladenje.Models
                     },
                      new Matches
                      {
-                         HomeTeam = new Teams { Name = "Valencia", League = League_Spain },
-                         AwayTeam = new Teams { Name = "Sevilla", League = League_Spain },
-                         Types = new Types { _1 = 2.50m, _X = 3.50m, _2 = 2.50m, _1X = 1.40M, _X2 = 1.70m, _12 = 1.80m },
-                         TopMatch=false
-                     },
-                     new Matches
-                     {
                          HomeTeam = new Teams { Name = "Atletico Madrid", League = League_Spain },
                          AwayTeam = new Teams { Name = "Villareal", League = League_Spain },
                          Types = new Types { _1 = 2.20m, _X = 3.50m, _2 = 3.80m, _1X = 1.40M, _X2 = 1.70m, _12 = 1.80m },
                          TopMatch=true
+                     },
+                     new Matches
+                     {
+                         HomeTeam = new Teams { Name = "Juventus", League = League_Italy },
+                         AwayTeam = new Teams { Name = "Frosinone", League = League_Italy },
+                         Types = new Types { _1 = 1.20m, _X = 3.75m, _2 = 7.50m, _X2 = 3.50m, _12 = 1.50m },
+                         TopMatch = true
                      },
                       new Matches
                       {
@@ -94,7 +100,14 @@ namespace Aplikacija_za_kladenje.Models
                         },
                          new Matches
                          {
-                             HomeTeam = new Teams { Name = "Valencija", League = League_Spain },
+                             HomeTeam = new Teams { Name = "Roma", League = League_Italy },
+                             AwayTeam = new Teams { Name = "Milan", League = League_Italy },
+                             Types = new Types { _1 = 3.00m, _X = 3.00m, _2 = 3.00m, _1X=1.40m, _X2 = 1.50m, _12 = 1.50m },
+                             TopMatch = false
+                         },
+                         new Matches
+                         {
+                             HomeTeam = new Teams { Name = "Valencia", League = League_Spain },
                              AwayTeam = new Teams { Name = "Huesca", League = League_Spain },
                              Types = new Types { _1 = 1.50m, _X = 3.75m, _2 = 7.50m,_X2 = 3.50m, _12 = 1.50m },
                              TopMatch = false

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aplikacija_za_kladenje.Migrations
 {
     [DbContext(typeof(Aplikacija_za_kladenjeContext))]
-    [Migration("20190623172826_Initial")]
+    [Migration("20190625001146_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -189,6 +189,33 @@ namespace Aplikacija_za_kladenje.Migrations
                     b.ToTable("Types");
                 });
 
+            modelBuilder.Entity("Aplikacija_za_kladenje.Models.UserBetMatches", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AwayTeam");
+
+                    b.Property<string>("HomeTeam");
+
+                    b.Property<string>("MatchId");
+
+                    b.Property<decimal>("Odd");
+
+                    b.Property<bool>("TopMatch");
+
+                    b.Property<string>("Type");
+
+                    b.Property<int?>("UserBetsId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserBetsId");
+
+                    b.ToTable("UserBetMatches");
+                });
+
             modelBuilder.Entity("Aplikacija_za_kladenje.Models.UserBets", b =>
                 {
                     b.Property<int>("Id")
@@ -196,8 +223,6 @@ namespace Aplikacija_za_kladenje.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("BetAmount");
-
-                    b.Property<int?>("BetSlipId");
 
                     b.Property<decimal>("CashOut");
 
@@ -207,20 +232,34 @@ namespace Aplikacija_za_kladenje.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BetSlipId");
-
                     b.ToTable("UserBets");
+                });
+
+            modelBuilder.Entity("Aplikacija_za_kladenje.Models.UserTransactions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Payment");
+
+                    b.Property<string>("Transactions");
+
+                    b.Property<string>("UserID");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserTransactions");
                 });
 
             modelBuilder.Entity("Aplikacija_za_kladenje.Models.Wallet", b =>
                 {
-                    b.Property<int>("Userid")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Userid")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<decimal>("Saldo");
-
-                    b.Property<string>("Transactions");
 
                     b.HasKey("Userid");
 
@@ -282,11 +321,18 @@ namespace Aplikacija_za_kladenje.Migrations
                         .HasForeignKey("SportId");
                 });
 
-            modelBuilder.Entity("Aplikacija_za_kladenje.Models.UserBets", b =>
+            modelBuilder.Entity("Aplikacija_za_kladenje.Models.UserBetMatches", b =>
                 {
-                    b.HasOne("Aplikacija_za_kladenje.Models.BetSlip", "BetSlip")
-                        .WithMany()
-                        .HasForeignKey("BetSlipId");
+                    b.HasOne("Aplikacija_za_kladenje.Models.UserBets", "UserBets")
+                        .WithMany("Matches")
+                        .HasForeignKey("UserBetsId");
+                });
+
+            modelBuilder.Entity("Aplikacija_za_kladenje.Models.UserTransactions", b =>
+                {
+                    b.HasOne("Aplikacija_za_kladenje.Models.Wallet", "Wallet")
+                        .WithMany("Transactions")
+                        .HasForeignKey("UserID");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,37 +1,48 @@
 ﻿@model IEnumerable<Aplikacija_za_kladenje.Models.Wallet>
 
-@{
-    ViewData["Title"] = "My Wallet";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h1>My Wallet</h1>
-
 <table class="table">
     <thead>
         <tr>
             <th>
-                UserId
+                @Html.DisplayNameFor(model => model.Saldo):
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Saldo)
+                Transactions
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-               @Html.DisplayFor(modelItem => item.Userid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Saldo) kn
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Userid">Payment</a>
-            </td>
-        </tr>
-}
+        @using (Html.BeginForm("Payment", "Wallets", FormMethod.Post))
+        {
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Saldo) kn
+                    </td>
+                    <td>
+                        <input type="button" value="Transactions" class="btn btn-primary" onclick="location.href='@Url.Action("Transactions", "Wallets")'" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit" name="submit" value="CashIn" class="btn btn-primary">Cash In</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit" name="submit" value="CashOut" class="btn btn-primary">Cash Out</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="Stake" id="stake" class="form-control" />
+                    </td>
+                </tr>
+            }
+        }
+
     </tbody>
 </table>
