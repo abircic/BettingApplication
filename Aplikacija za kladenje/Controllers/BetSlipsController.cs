@@ -172,7 +172,7 @@ namespace Aplikacija_za_kladenje.Controllers
                     return RedirectToAction("Index", "BetSlips");
                 }
             }
-            else if(matches!=null && ((top==true)&&(temp_top_status==false)&& (counter >= 6)))
+            else if((matches!=null) && (top==true)&&(counter >= 6))
             {
 
                 matches.MatchId = MatchId;
