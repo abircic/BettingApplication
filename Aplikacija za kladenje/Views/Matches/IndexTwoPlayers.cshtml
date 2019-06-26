@@ -22,7 +22,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            @using (Html.BeginForm("Bet", "BetSlips", new { MatchId = item.Id, top=false }, FormMethod.Post))
+            @using (Html.BeginForm("BetTwoPlayer", "BetSlips", new { MatchId = item.Id, top=false }, FormMethod.Post))
             {
         <tr>
 

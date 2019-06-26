@@ -58,14 +58,15 @@ namespace Aplikacija_za_kladenje.Controllers
                 }
                 counter++;
             }
-            if (counter_odd <5)
+            if ((counter_odd <=5 || counter<=5)&&temp_top_status==true)
             {
-                temp_top_status = false;
+                TempData["betmsg"] = "The transaction is not successful";
+                return RedirectToAction("Index", "BetSlips");
             }
             Wallet wallet = _context.Wallet.FirstOrDefault();
             UserTransactions transaction = new UserTransactions();
             List<UserTransactions> listTransactions = new List<UserTransactions>();
-            if (((wallet.Saldo - stake) >= 0) && ((counter>5&&temp_top_status==true)||temp_top_status==false))
+            if (((wallet.Saldo - stake) >= 0))
             {
                 wallet.Saldo -= stake;
                 transaction.UserID = wallet.Userid;
