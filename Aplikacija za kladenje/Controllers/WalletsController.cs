@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Aplikacija_za_kladenje.Models;
+using System.Text.RegularExpressions;
 
 namespace Aplikacija_za_kladenje.Controllers
 {
@@ -32,29 +33,38 @@ namespace Aplikacija_za_kladenje.Controllers
         [HttpPost]
         public async Task<IActionResult> Payment(string submit, string stake)
         {
+            TempData["msg"] = null;
             decimal Stake = decimal.Parse(stake);
             Wallet wallet = _context.Wallet.FirstOrDefault();
             UserTransactions transaction = new UserTransactions();
             List<UserTransactions> listTransactions = new List<UserTransactions>();
-            switch (submit)
+            if(submit=="CashIn")
             {
-                case "CashIn":
-                    wallet.Saldo += Stake;
-                    transaction.UserID = wallet.Userid;
-                    transaction.Payment = stake;
-                    transaction.Transactions = "Uplata u iznosu od " + stake.ToString() + " kn " + " " + DateTime.Now.ToString();
-                    listTransactions.Add(transaction);
-                    wallet.Transactions=listTransactions;
-                    break;
-                case "CashOut":
-                    wallet.Saldo -= Stake;
+                wallet.Saldo += Stake;
+                transaction.UserID = wallet.Userid;
+                transaction.Payment = stake;
+                transaction.Transactions = "Uplata u iznosu od " + stake.ToString() + " kn " + " " + DateTime.Now.ToString();
+                listTransactions.Add(transaction);
+                wallet.Transactions = listTransactions;
+                TempData["msg"] = "The transaction is successful";
+            }
+            else
+            {
+                if ((wallet.Saldo -= Stake) >= 0)
+                {
                     transaction.UserID = wallet.Userid;
                     transaction.Payment = stake;
                     transaction.Transactions = "Isplata u iznosu od " + stake.ToString() + " kn " + " " + DateTime.Now.ToString();
                     listTransactions.Add(transaction);
                     wallet.Transactions = listTransactions;
-                    break;
-            }
+                    TempData["msg"] = "The transaction is successful";
+                }
+                else
+                {
+                    TempData["msg"] = "You dont have enough funds for this transaction.";
+                    return RedirectToAction("Index");
+                }
+            } 
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }

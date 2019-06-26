@@ -32,7 +32,8 @@ namespace Aplikacija_za_kladenje.Controllers
         [HttpPost]
         public async Task<IActionResult> UserBet(decimal stake, string TotalOdd, string submit)
         {
-           if(submit=="Remove")
+            TempData["betmsg"] = null;
+            if (submit=="Remove")
             {
                 foreach (var item in _context.BetSlip)
                 {
@@ -64,12 +65,13 @@ namespace Aplikacija_za_kladenje.Controllers
             Wallet wallet = _context.Wallet.FirstOrDefault();
             UserTransactions transaction = new UserTransactions();
             List<UserTransactions> listTransactions = new List<UserTransactions>();
-            if (((wallet.Saldo -= stake) > 0) && (counter>5&&temp_top_status==true)||temp_top_status==false)
+            if (((wallet.Saldo - stake) >= 0) && ((counter>5&&temp_top_status==true)||temp_top_status==false))
             {
                 wallet.Saldo -= stake;
                 transaction.UserID = wallet.Userid;
                 transaction.Payment = stake.ToString();
                 transaction.Transactions = "Uplata listica u iznosu od " + stake.ToString() + " kn " + " " + DateTime.Now.ToString();
+                TempData["betmsg"]= "The transaction is successful";
                 listTransactions.Add(transaction);
                 wallet.Transactions = listTransactions;
                 await _context.SaveChangesAsync();
@@ -96,6 +98,11 @@ namespace Aplikacija_za_kladenje.Controllers
                 _context.UserBets.Add(UserBet);
                 await _context.UserBets.AddAsync(UserBet);
                 _context.SaveChanges();
+            }
+            else
+            {
+                TempData["betmsg"] = "The transaction is not successful";
+                return RedirectToAction("Index","BetSlips");
             }
            
             return RedirectToAction("Index");

@@ -1,13 +1,9 @@
 ﻿@model IEnumerable<Aplikacija_za_kladenje.Models.Wallet>
-
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Saldo):
-            </th>
-            <th>
-                Transactions
+                Your @Html.DisplayNameFor(model => model.Saldo):
             </th>
             <th></th>
         </tr>
@@ -22,27 +18,29 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Saldo) kn
                     </td>
+                    <td></td>
+                </tr>
+                <tr>
                     <td>
-                        <input type="button" value="Transactions" class="btn btn-primary" onclick="location.href='@Url.Action("Transactions", "Wallets")'" />
+                        <input type="text" name="Stake" id="stake" pattern="^[.]?[0-9]+[,]?[0-9]*$" placeholder="Enter the amount in format 0,00" class="form-control" />
                     </td>
                 </tr>
                 <tr>
                     <td>
+                        <input type="button" value="Transactions" class="btn btn-primary" onclick="location.href = '@Url.Action("Transactions", "Wallets")'" />
                         <button type="submit" name="submit" value="CashIn" class="btn btn-primary">Cash In</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
                         <button type="submit" name="submit" value="CashOut" class="btn btn-primary">Cash Out</button>
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        <input type="text" name="Stake" id="stake" class="form-control" />
-                    </td>
+                    <td></td>
                 </tr>
+
             }
         }
-
     </tbody>
 </table>
+@if (@TempData["msg"]!=null)
+{
+    <script>alert("@TempData["msg"]");</script>
+}

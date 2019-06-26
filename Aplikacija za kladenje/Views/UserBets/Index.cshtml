@@ -27,24 +27,29 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeStamp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BetAmount) kn 
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalOdd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CashOut) kn
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeStamp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BetAmount) kn
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalOdd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CashOut) kn
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@if (@TempData["betmsg"] != null)
+{
+    <script>alert("@TempData["betmsg"]");</script>
+}

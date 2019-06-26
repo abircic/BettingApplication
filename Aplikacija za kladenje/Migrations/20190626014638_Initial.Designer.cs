@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aplikacija_za_kladenje.Migrations
 {
     [DbContext(typeof(Aplikacija_za_kladenjeContext))]
-    [Migration("20190625001146_Initial")]
+    [Migration("20190626014638_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

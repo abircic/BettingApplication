@@ -5,11 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Bet Slip</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -32,7 +29,7 @@
         </tr>
     </thead>
     <tbody>
-        @using (Html.BeginForm("UserBet", "UserBets", new { CashOut=TempData["CashOut"], TotalOdd=TempData["Odd"]},FormMethod.Post))
+        @using (Html.BeginForm("UserBet", "UserBets", new { CashOut = TempData["CashOut"], TotalOdd = TempData["Odd"] }, FormMethod.Post))
         {
             @foreach (var item in Model)
             {
@@ -57,17 +54,23 @@
                             <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
                     </tr>
-                    }
                 }
-    <tr>
-        <td>Saldo: @TempData["Saldo"]</td>
-        <td>Total Odd: @TempData["Odd"]</td>
-        <td>Number of matches: @TempData["NumberOfMatches"]</td>
-        <td>Cash Out: <span id="cashOut"></span> @TempData["CashOut"]</td>
-        <td><input type="text" name="Stake" id="stake" class="form-control" /></td>
-        <td><button type="submit" value="Potvrdi" name="submit" class="form-control">Accept</button></td>
-        <td><button type="submit" value="Remove" name="submit" class="form-control">Remove All</button></td>
-    </tr>
+            }
+            <tr>
+                <td>Saldo: @TempData["Saldo"]</td>
+                <td>Total Odd: @TempData["Odd"]</td>
+                <td>Number of matches: @TempData["NumberOfMatches"]</td>
+                <td>Cash Out: <span id="cashOut"></span> @TempData["CashOut"]</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><input type="text" name="Stake" id="stake" pattern="^[.]?[0-9]+[,]?[0-9]*$" placeholder="Enter the amount in format 0,00" class="form-control" /></td>
+                <td></td>
+                <td><button type="submit" value="Potvrdi" name="submit" class="btn btn-primary">Accept</button></td>
+                <td><button type="submit" value="Remove" name="submit" class="btn btn-primary">Remove All</button></td>
+            </tr>
+
         }
     </tbody>
 </table>
@@ -75,14 +78,17 @@
 
 <script>
 
-    var odd = parseFloat(("@TempData["Odd"]").replace(",","."));    
+    var odd = parseFloat(("@TempData["Odd"]").replace(",","."));
 
     var stakeDOM =  document.getElementById("stake")
-   stakeDOM.addEventListener("keyup", function (event) {
-  if (event.keyCode === 13) {
+   stakeDOM.addEventListener("click", function (event) {
       event.preventDefault()
 
       document.getElementById("cashOut").innerHTML = ((parseFloat(stakeDOM.value) / 100 * 95) * odd).toFixed(2)
-    }
+ 
 });
 </script>
+@if (@TempData["betmsg"] != null)
+{
+    <script>alert("@TempData["betmsg"]");</script>
+}

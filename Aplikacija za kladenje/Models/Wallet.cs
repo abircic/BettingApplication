@@ -10,9 +10,10 @@ namespace Aplikacija_za_kladenje.Models
     {
         [Key]
         public string Userid { get; set; }
+        //[RegularExpression(@"^(0|-?\d{0,16}(\.\d{0,2})?)$")]
         public decimal Saldo { get; set; }
         //[DisplayFormat(DataFormatString = "{0.00}kn")]
-        //[RegularExpression(@"^(0|-?\d{0,16}(\.\d{0,2})?)$")]
+        
         public virtual ICollection<UserTransactions> Transactions { get; set; }
     }
 }

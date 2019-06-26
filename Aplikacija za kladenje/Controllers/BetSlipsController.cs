@@ -33,7 +33,8 @@ namespace Aplikacija_za_kladenje.Controllers
             TempData["Odd"] = totOdd.ToString("0.00");
             TempData["NumberOfMatches"] = counter;
             TempData["CashOut"] = "kn";
-
+            var Wallet = _context.Wallet.FirstOrDefault();
+            TempData["Saldo"] = Wallet.Saldo+" kn";
             return View(await _context.BetSlip.ToListAsync());
         }
 
@@ -46,8 +47,7 @@ namespace Aplikacija_za_kladenje.Controllers
         [HttpPost]
         public async Task<IActionResult> Bet(string MatchId, string type, Boolean top)
         {
-            var Wallet = _context.Wallet.FirstOrDefault();
-            TempData["Saldo"] = Wallet.Saldo;
+            
             decimal betValue = 0;
             var football = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).SingleOrDefault(q => q.Id == MatchId);
              if(football!=null)

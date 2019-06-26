@@ -33,5 +33,6 @@ namespace Aplikacija_za_kladenje.Models
         public DbSet<Aplikacija_za_kladenje.Models.Player> Players { get; set; }
         public DbSet<Aplikacija_za_kladenje.Models.UserTransactions> UserTransactions { get; set; }
 
+
     }
 }

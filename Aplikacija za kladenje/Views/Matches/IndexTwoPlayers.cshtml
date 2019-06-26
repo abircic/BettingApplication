@@ -1,22 +1,20 @@
 ﻿@model IEnumerable<Aplikacija_za_kladenje.Models.TwoPlayersViewModel>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstPlayer)
+                First player
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SecondPlayer)
+                Second player
             </th>
             <th>
-                @Html.DisplayNameFor(model => model._1)
+                1
             </th>
             <th>
-                @Html.DisplayNameFor(model => model._2)
+                2
             </th>
             <th></th>
         </tr>
@@ -46,11 +44,7 @@
                 <button type="submit" id=@item.Id , name="type" value="2" class="btn btn-primary">@item._2</button>
                 }
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            
         </tr>
             }
 

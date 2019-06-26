@@ -40,9 +40,11 @@ namespace Aplikacija_za_kladenje.Controllers
                 _X2 = x.Types._X2,
                 _12 = x.Types._12,
             }).ToList();
-            
-            return View(MatchVMList);
+
+            return View(MatchVMList.OrderBy(o => o.League));
         }
+
+
         [HttpGet]
         public IActionResult IndexTwoPlayers()
         {
@@ -94,23 +96,6 @@ namespace Aplikacija_za_kladenje.Controllers
             AllMatches.AddRange(TwoPlayersMatchVMList);
             return View(AllMatches);
         }
-
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         // GET: Matches/Create
