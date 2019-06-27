@@ -77,7 +77,7 @@ namespace Aplikacija_za_kladenje.Controllers
             }
              else
             {
-                var other = _context.TwoPlayersMatches.SingleOrDefault(q => q.Id == MatchId);
+                var other = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).SingleOrDefault(q => q.Id == MatchId);
                 switch (type)
                 {
                     case "1":
@@ -135,14 +135,13 @@ namespace Aplikacija_za_kladenje.Controllers
                     {
                         temp.HomeTeam = football.HomeTeam.Name;
                         temp.AwayTeam = football.AwayTeam.Name;
-                        if(top==true)
+                        temp.TopMatch = top;
+                        if (top==true)
                         {
-                            temp.TopMatch = top;
                             temp.Odd = betValue+0.10m;
                         }
                         else
                         {
-                            temp.TopMatch = false;
                             temp.Odd = betValue;
                         }
                     }
@@ -166,11 +165,7 @@ namespace Aplikacija_za_kladenje.Controllers
                     _context.BetSlip.Update(temp);
                     await _context.SaveChangesAsync();
                 }
-                else
-                {
-                    TempData["betmsg"] = "You need to have at least 5 pairs on ticket";
-                    return RedirectToAction("Index", "BetSlips");
-                }
+               
             }
             else if((matches!=null) && (top==true)&&(counter >= 6))
             {
@@ -260,7 +255,7 @@ namespace Aplikacija_za_kladenje.Controllers
             }
             if(match==null)
             {
-                
+                temp.MatchId = MatchId;
                 temp.HomeTeam = other.First.Name;
                 temp.AwayTeam = other.Second.Name;
                 temp.TopMatch = top;
@@ -279,7 +274,6 @@ namespace Aplikacija_za_kladenje.Controllers
             else
             {
                 match.MatchId = MatchId;
-
                 match.Type = type;
                 match.Odd = betValue;
                 match.TopMatch = top;
@@ -296,95 +290,8 @@ namespace Aplikacija_za_kladenje.Controllers
             }
             return RedirectToAction("IndexTwoPlayers", "Matches");
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // GET: BetSlips/Create
-            public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: BetSlips/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MatchId,HomeTeam,AwayTeam,Type,Odd")] BetSlip betSlip)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(betSlip);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(betSlip);
-        }
-
-        // GET: BetSlips/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var betSlip = await _context.BetSlip.FindAsync(id);
-            if (betSlip == null)
-            {
-                return NotFound();
-            }
-            return View(betSlip);
-        }
-
-        // POST: BetSlips/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MatchId,HomeTeam,AwayTeam,Type,Odd")] BetSlip betSlip)
-        {
-            if (id != betSlip.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(betSlip);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BetSlipExists(betSlip.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(betSlip);
-        }
-
+       
+   
         // GET: BetSlips/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
