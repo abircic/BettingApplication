@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Aplikacija_za_kladenje.Models;
+using System.Globalization;
+using Aplikacija_za_kladenje.Data;
 
 namespace Aplikacija_za_kladenje.Controllers
 {
@@ -30,10 +32,11 @@ namespace Aplikacija_za_kladenje.Controllers
             return View(await _context.BetSlip.ToListAsync());
         }
         [HttpPost]
-        public async Task<IActionResult> UserBet(decimal stake, string TotalOdd, string submit)
+        public async Task<IActionResult> UserBet(string stake, string TotalOdd, string submit)
         {
             TempData["betmsg"] = null;
-            if (submit=="Remove")
+            var bet_stake = decimal.Parse(stake, new NumberFormatInfo() { NumberDecimalSeparator = "." });
+            if (submit == "Remove")
             {
                 foreach (var item in _context.BetSlip)
                 {
@@ -58,7 +61,12 @@ namespace Aplikacija_za_kladenje.Controllers
                 }
                 counter++;
             }
-            if ((counter_odd <=5 || counter<=5)&&temp_top_status==true)
+            if(counter == 0)
+            {
+                TempData["betmsg"] = "0 pair on ticket";
+                return RedirectToAction("Index", "BetSlips");
+            }
+            if ((counter_odd <=5 || counter <= 5) && temp_top_status == true)
             {
                 TempData["betmsg"] = "The transaction is not successful";
                 return RedirectToAction("Index", "BetSlips");
@@ -66,12 +74,12 @@ namespace Aplikacija_za_kladenje.Controllers
             Wallet wallet = _context.Wallet.FirstOrDefault();
             UserTransactions transaction = new UserTransactions();
             List<UserTransactions> listTransactions = new List<UserTransactions>();
-            if (((wallet.Saldo - stake) >= 0))
+            if (((wallet.Saldo - bet_stake) >= 0 && bet_stake >= 1))
             {
-                wallet.Saldo -= stake;
+                wallet.Saldo -= bet_stake;
                 transaction.UserID = wallet.Userid;
-                transaction.Payment = stake.ToString();
-                transaction.Transactions = "Uplata listica u iznosu od " + stake.ToString() + " kn " + " " + DateTime.Now.ToString();
+                transaction.Payment = stake;
+                transaction.Transactions = "Uplata listica u iznosu od " + stake + " kn " + " " + DateTime.Now.ToString();
                 TempData["betmsg"]= "The transaction is successful";
                 listTransactions.Add(transaction);
                 wallet.Transactions = listTransactions;
@@ -79,8 +87,8 @@ namespace Aplikacija_za_kladenje.Controllers
                 UserBets UserBet = new UserBets();
                 decimal TotOdd = decimal.Parse(TotalOdd);
                 UserBet.TimeStamp = DateTime.Now;
-                UserBet.BetAmount = stake;
-                UserBet.CashOut = (stake / 100 * 95) * TotOdd;
+                UserBet.BetAmount = bet_stake;
+                UserBet.CashOut = (bet_stake / 100 * 95) * TotOdd;
                 UserBet.TotalOdd = TotOdd;
                 List<UserBetMatches> listBetMatches = new List<UserBetMatches>();
 

@@ -13,7 +13,7 @@ namespace Aplikacija_za_kladenje.Models
         public string AwayTeam { get; set; }
         public string Type { get; set; }
         public decimal Odd { get; set; }
-        public Boolean TopMatch { get; set; }
+        public bool TopMatch { get; set; }
         public UserBets UserBets { get; set; }
     }
 }

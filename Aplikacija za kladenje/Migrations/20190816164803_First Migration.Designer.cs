@@ -4,14 +4,16 @@ using Aplikacija_za_kladenje.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Aplikacija_za_kladenje.Migrations
 {
     [DbContext(typeof(Aplikacija_za_kladenjeContext))]
-    partial class Aplikacija_za_kladenjeContextModelSnapshot : ModelSnapshot
+    [Migration("20190816164803_First Migration")]
+    partial class FirstMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

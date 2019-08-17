@@ -15,7 +15,7 @@ namespace Aplikacija_za_kladenje.Models
         public virtual Types Types { get; set; }
         public string Result { get; set; }
         public virtual Sports Sport { get; set; }
-        public Boolean TopMatch { get; set; }
+        public bool TopMatch { get; set; }
 
     }
 }

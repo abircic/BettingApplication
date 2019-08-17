@@ -13,6 +13,6 @@ namespace Aplikacija_za_kladenje.Models
         public virtual Sports Sport { get; set; }
         public decimal _1 { get; set; }
         public decimal _2 { get; set; }
-        public Boolean TopMatch { get; set; }
+        public bool TopMatch { get; set; }
     }
 }

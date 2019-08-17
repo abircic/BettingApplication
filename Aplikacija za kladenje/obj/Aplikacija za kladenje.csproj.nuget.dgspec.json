@@ -8,7 +8,7 @@
       "version": "1.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\Ante\\Documents\\Visual Studio 2017\\Projects\\Aplikacija za kladenje\\Aplikacija za kladenje\\Aplikacija za kladenje.csproj",
-        "projectName": "Aplikacija za kladenje",
+        "projectName": "Application for betting",
         "projectPath": "C:\\Users\\Ante\\Documents\\Visual Studio 2017\\Projects\\Aplikacija za kladenje\\Aplikacija za kladenje\\Aplikacija za kladenje.csproj",
         "packagesPath": "C:\\Users\\Ante\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Ante\\Documents\\Visual Studio 2017\\Projects\\Aplikacija za kladenje\\Aplikacija za kladenje\\obj\\",
@@ -79,6 +79,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[2.2.3, )"
+            },
+            "Microsoft.jQuery.Unobtrusive.Ajax": {
+              "target": "Package",
+              "version": "[3.2.6, )"
             }
           },
           "imports": [

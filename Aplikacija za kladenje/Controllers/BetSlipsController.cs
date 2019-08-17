@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Aplikacija_za_kladenje.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -45,11 +46,11 @@ namespace Aplikacija_za_kladenje.Controllers
             return View(await _context.BetSlip.ToListAsync());
         }
         [HttpPost]
-        public async Task<IActionResult> Bet(string MatchId, string type, Boolean top)
+        public async Task<IActionResult> Bet(string matchId, string type, bool top)
         {
             
             decimal betValue = 0;
-            var football = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).SingleOrDefault(q => q.Id == MatchId);
+            var football = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).SingleOrDefault(q => q.Id == matchId);
              if(football!=null)
             {
                 switch (type)
@@ -77,7 +78,7 @@ namespace Aplikacija_za_kladenje.Controllers
             }
              else
             {
-                var other = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).SingleOrDefault(q => q.Id == MatchId);
+                var other = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).SingleOrDefault(q => q.Id == matchId);
                 switch (type)
                 {
                     case "1":
@@ -92,16 +93,18 @@ namespace Aplikacija_za_kladenje.Controllers
             
             int counter = 0;
             int counter_odd = 0;
+            bool exist_match = false;
             BetSlip temp = new BetSlip();
             BetSlip matches = null;
             Boolean temp_top_status = false;
             foreach (BetSlip item in _context.BetSlip)
             {
-               if(item.MatchId==MatchId)
+               if(item.MatchId == matchId)
                 {
+                    exist_match = true;
                     matches = item;
                 }
-               if(item.TopMatch==true && item.MatchId!=MatchId&& top==true)
+               if(item.TopMatch == true && item.MatchId != matchId && top == true)
                 {
                     TempData["betmsg"] = "Top match is on ticket already";
                     return RedirectToAction("Index","BetSlips");
@@ -112,7 +115,12 @@ namespace Aplikacija_za_kladenje.Controllers
                 }
                 counter++;
             }
-            if(counter_odd<5&&counter<5&&top==true)
+            if(counter_odd < 6 && counter < 6 && top == true && exist_match == true)
+            {
+                TempData["betmsg"] = "You already have that match on ticket";
+                return RedirectToAction("TopMatches", "Matches");
+            }
+            else if(counter_odd < 5 && counter < 5&& top == true)
             {
                 TempData["betmsg"] = "You need to have at least 5 pairs on ticket";
                 return RedirectToAction("Index", "BetSlips");
@@ -127,16 +135,16 @@ namespace Aplikacija_za_kladenje.Controllers
             }
             if (matches == null)
             {
-                if(((top==true)&&(temp_top_status==true))||(top==false))
+                if(((top == true) && (temp_top_status == true)) || (top == false))
                 {
-                    temp.MatchId = MatchId;
+                    temp.MatchId = matchId;
                     
                     if (football != null)
                     {
                         temp.HomeTeam = football.HomeTeam.Name;
                         temp.AwayTeam = football.AwayTeam.Name;
                         temp.TopMatch = top;
-                        if (top==true)
+                        if (top == true)
                         {
                             temp.Odd = betValue+0.10m;
                         }
@@ -147,7 +155,7 @@ namespace Aplikacija_za_kladenje.Controllers
                     }
                     else
                     {
-                        var other = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).SingleOrDefault(q => q.Id == MatchId);
+                        var other = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).SingleOrDefault(q => q.Id == matchId);
                         temp.HomeTeam = other.First.Name;
                         temp.AwayTeam = other.Second.Name;
                         temp.TopMatch = top;
@@ -167,10 +175,10 @@ namespace Aplikacija_za_kladenje.Controllers
                 }
                
             }
-            else if((matches!=null) && (top==true)&&(counter >= 6))
+            else if((matches != null) && (top == true) && (counter >= 6))
             {
 
-                matches.MatchId = MatchId;
+                matches.MatchId = matchId;
                 matches.Type = type;
                 matches.Odd = betValue+0.10m;
                 matches.TopMatch = top;
@@ -187,7 +195,7 @@ namespace Aplikacija_za_kladenje.Controllers
             }
             else if (matches != null && (top == false))
             {
-                matches.MatchId = MatchId;
+                matches.MatchId = matchId;
 
                 matches.Type = type;
                 matches.Odd = betValue;
@@ -253,7 +261,7 @@ namespace Aplikacija_za_kladenje.Controllers
                     match= item;
                 }
             }
-            if(match==null)
+            if(match == null)
             {
                 temp.MatchId = MatchId;
                 temp.HomeTeam = other.First.Name;

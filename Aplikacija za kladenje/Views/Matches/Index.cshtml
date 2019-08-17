@@ -51,7 +51,7 @@
 
         @foreach (var item in Model)
         {
-            @using (Html.BeginForm("Bet", "BetSlips", new { MatchId = item.Id, top=false}, FormMethod.Post))
+            @using (Html.BeginForm("Bet", "BetSlips", new { matchId = item.Id, top=false}, FormMethod.Post))
             {
 
         <tr>

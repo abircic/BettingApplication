@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Aplikacija_za_kladenje.Models;
 using System.Text.RegularExpressions;
+using System.Globalization;
+using Aplikacija_za_kladenje.Data;
 
 namespace Aplikacija_za_kladenje.Controllers
 {
@@ -34,13 +36,18 @@ namespace Aplikacija_za_kladenje.Controllers
         public async Task<IActionResult> Payment(string submit, string stake)
         {
             TempData["msg"] = null;
-            decimal Stake = decimal.Parse(stake);
+            var wallet_stake = decimal.Parse(stake, new NumberFormatInfo() { NumberDecimalSeparator = "." });
+            if(wallet_stake < 10)
+            {
+                TempData["msg"] = "Minimum is 10 kn";
+                return RedirectToAction("Index");
+            }
             Wallet wallet = _context.Wallet.FirstOrDefault();
             UserTransactions transaction = new UserTransactions();
             List<UserTransactions> listTransactions = new List<UserTransactions>();
             if(submit=="CashIn")
             {
-                wallet.Saldo += Stake;
+                wallet.Saldo += wallet_stake;
                 transaction.UserID = wallet.Userid;
                 transaction.Payment = stake;
                 transaction.Transactions = "Uplata u iznosu od " + stake.ToString() + " kn " + " " + DateTime.Now.ToString();
@@ -50,7 +57,7 @@ namespace Aplikacija_za_kladenje.Controllers
             }
             else
             {
-                if ((wallet.Saldo -= Stake) >= 0)
+                if ((wallet.Saldo -= wallet_stake) >= 0)
                 {
                     transaction.UserID = wallet.Userid;
                     transaction.Payment = stake;

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Aplikacija_za_kladenje.Models;
 using System.Web;
+using Aplikacija_za_kladenje.Data;
 
 namespace Aplikacija_za_kladenje.Controllers
 {
@@ -23,11 +24,11 @@ namespace Aplikacija_za_kladenje.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Matches> MatchesList = _context.Matches.Include(h=>h.HomeTeam).ThenInclude(l=>l.League).Include(a=>a.AwayTeam).ThenInclude(l=>l.League).Include(t=>t.Types).ToList();
+            List<Matches> matchesList = _context.Matches.Include(h=>h.HomeTeam).ThenInclude(l=>l.League).Include(a=>a.AwayTeam).ThenInclude(l=>l.League).Include(t=>t.Types).ToList();
 
-            MatchViewModel MatchVM = new MatchViewModel();
+            MatchViewModel matchVm = new MatchViewModel();
 
-            List<MatchViewModel> MatchVMList = MatchesList.Select(x => new MatchViewModel
+            List<MatchViewModel> matchVmList = matchesList.Select(x => new MatchViewModel
             {
                 Id = x.Id,
                 League=x.HomeTeam.League.Name,
@@ -41,18 +42,18 @@ namespace Aplikacija_za_kladenje.Controllers
                 _12 = x.Types._12,
             }).ToList();
 
-            return View(MatchVMList.OrderBy(o => o.League));
+            return View(matchVmList.OrderBy(o => o.League));
         }
 
 
         [HttpGet]
         public IActionResult IndexTwoPlayers()
         {
-            List<TwoPlayersMatches> MatchesList = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).Include(s=>s.Sport).ToList();
+            List<TwoPlayersMatches> matchesList = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).Include(s=>s.Sport).ToList();
 
-            TwoPlayersViewModel MatchVM = new TwoPlayersViewModel();
+            TwoPlayersViewModel matchVm = new TwoPlayersViewModel();
 
-            List<TwoPlayersViewModel> MatchVMList = MatchesList.Select(x => new TwoPlayersViewModel
+            List<TwoPlayersViewModel> matchVmList = matchesList.Select(x => new TwoPlayersViewModel
             {
                 Id = x.Id,
                 FirstPlayer=x.First.Name,
@@ -61,17 +62,17 @@ namespace Aplikacija_za_kladenje.Controllers
                 _2=x._2
             }).ToList();
 
-            return View(MatchVMList);
+            return View(matchVmList);
         }
 
         [HttpGet]
         public IActionResult TopMatches()
         {
-            List<Matches> TopMatches = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(t => t.TopMatch==true).ToList();
-            List<TwoPlayersMatches> TopTwoPlayersMatches = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).Include(s => s.Sport).Where(t => t.TopMatch == true).ToList();
-            List<TopMatchesViewModel> AllMatches=new List<TopMatchesViewModel>();
-            TopMatchesViewModel MatchVm = new TopMatchesViewModel();
-            List<TopMatchesViewModel> MatchVMList = TopMatches.Select(x => new TopMatchesViewModel
+            List<Matches> topMatches = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(t => t.TopMatch==true).ToList();
+            List<TwoPlayersMatches> topTwoPlayersMatches = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).Include(s => s.Sport).Where(t => t.TopMatch == true).ToList();
+            List<TopMatchesViewModel> allMatches=new List<TopMatchesViewModel>();
+            TopMatchesViewModel matchVm = new TopMatchesViewModel();
+            List<TopMatchesViewModel> matchVmList = topMatches.Select(x => new TopMatchesViewModel
             {
                 Id = x.Id,
                 HomeTeamName = x.HomeTeam.Name,
@@ -84,7 +85,7 @@ namespace Aplikacija_za_kladenje.Controllers
                 _12 = x.Types._12 + 0.10m
             }).ToList();
 
-            List<TopMatchesViewModel> TwoPlayersMatchVMList = TopTwoPlayersMatches.Select(x => new TopMatchesViewModel
+            List<TopMatchesViewModel> twoPlayersMatchVMList = topTwoPlayersMatches.Select(x => new TopMatchesViewModel
             {
                 Id = x.Id,
                 HomeTeamName=x.First.Name,
@@ -92,9 +93,9 @@ namespace Aplikacija_za_kladenje.Controllers
                 _1=x._1 + 0.10m,
                 _2=x._2 + 0.10m
             }).ToList();
-            AllMatches.AddRange(MatchVMList);
-            AllMatches.AddRange(TwoPlayersMatchVMList);
-            return View(AllMatches);
+            allMatches.AddRange(matchVmList);
+            allMatches.AddRange(twoPlayersMatchVMList);
+            return View(allMatches);
         }
 
 

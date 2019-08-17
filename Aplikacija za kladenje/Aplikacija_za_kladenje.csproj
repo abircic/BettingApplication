@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <RootNamespace>Aplikacija_za_kladenje</RootNamespace>
+    <AssemblyName>Aplikacija_za_kladenje</AssemblyName>
   </PropertyGroup>
 
 
@@ -17,12 +18,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
 

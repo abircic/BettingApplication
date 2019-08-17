@@ -15,7 +15,6 @@ C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplik
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.TagHelpers.output.cache
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Aplikacija za kladenje.RazorCoreGenerate.cache
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\BetSlips\Index.g.cshtml.cs
-C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.g.cshtml.cs
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Error.g.cshtml.cs
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Matches_BetSlip.g.cshtml.cs
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
@@ -39,3 +38,4 @@ C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplik
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Wallets\Index.g.cshtml.cs
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Wallets\Transactions.g.cshtml.cs
 C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\BetSlips\Delete.g.cshtml.cs
+C:\Users\Ante\Documents\Visual Studio 2017\Projects\Aplikacija za kladenje\Aplikacija za kladenje\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.g.cshtml.cs

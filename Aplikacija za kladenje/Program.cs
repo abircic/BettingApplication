@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Aplikacija_za_kladenje;
+using Aplikacija_za_kladenje.Data;
 using Aplikacija_za_kladenje.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
