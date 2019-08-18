@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 
 namespace Aplikacija_za_kladenje.Models
 {
@@ -17,8 +14,6 @@ namespace Aplikacija_za_kladenje.Models
         public decimal _1X { get; set; }
         public decimal _X2 { get; set; }
         public decimal _12 { get; set; }
-        public bool TopMatch { get; set; }
-        
 
     }
 }

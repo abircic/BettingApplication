@@ -26,7 +26,6 @@ namespace Aplikacija_za_kladenje.Controllers
         {
             List<Matches> matchesList = _context.Matches.Include(h=>h.HomeTeam).ThenInclude(l=>l.League).Include(a=>a.AwayTeam).ThenInclude(l=>l.League).Include(t=>t.Types).ToList();
 
-            MatchViewModel matchVm = new MatchViewModel();
 
             List<MatchViewModel> matchVmList = matchesList.Select(x => new MatchViewModel
             {
@@ -71,7 +70,6 @@ namespace Aplikacija_za_kladenje.Controllers
             List<Matches> topMatches = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(t => t.TopMatch==true).ToList();
             List<TwoPlayersMatches> topTwoPlayersMatches = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).Include(s => s.Sport).Where(t => t.TopMatch == true).ToList();
             List<TopMatchesViewModel> allMatches=new List<TopMatchesViewModel>();
-            TopMatchesViewModel matchVm = new TopMatchesViewModel();
             List<TopMatchesViewModel> matchVmList = topMatches.Select(x => new TopMatchesViewModel
             {
                 Id = x.Id,

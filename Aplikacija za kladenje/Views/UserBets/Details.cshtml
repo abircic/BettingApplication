@@ -4,7 +4,6 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h1>Details</h1>
 <table class="table">
     <thead>
@@ -47,18 +46,15 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.TopMatch)
                     </td>
-
                 </tr>
             }
         }
-
     </tbody>
 </table>
 <div>
     <h4>UserBets</h4>
     <hr />
     <dl class="row">
-        
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.TimeStamp)
         </dt>
@@ -83,7 +79,6 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CashOut) kn
         </dd>
-
     </dl>
 </div>
 <div>

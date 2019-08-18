@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<Aplikacija_za_kladenje.Models.TwoPlayersViewModel>
 
-
 <table class="table">
     <thead>
         <tr>
@@ -25,7 +24,6 @@
             @using (Html.BeginForm("BetTwoPlayer", "BetSlips", new { matchId = item.Id, top=false }, FormMethod.Post))
             {
         <tr>
-
             <td>
                 @Html.DisplayFor(modelItem => item.FirstPlayer)
             </td>
@@ -44,7 +42,6 @@
                 <button type="submit" id=@item.Id , name="type" value="2" class="btn btn-primary">@item._2</button>
                 }
             </td>
-            
         </tr>
             }
 

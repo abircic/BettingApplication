@@ -63,7 +63,7 @@ namespace Aplikacija_za_kladenje
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Matches}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Aplikacija_za_kladenje.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Aplikacija_za_kladenje.Models;
 
@@ -29,13 +27,12 @@ namespace Aplikacija_za_kladenje.Controllers
             {
                 totOdd = totOdd * item.Odd;
                 counter++;
-
             }
             TempData["Odd"] = totOdd.ToString("0.00");
             TempData["NumberOfMatches"] = counter;
             TempData["CashOut"] = "kn";
-            var Wallet = _context.Wallet.FirstOrDefault();
-            TempData["Saldo"] = Wallet.Saldo+" kn";
+            var wallet = _context.Wallet.FirstOrDefault();
+            TempData["Saldo"] = wallet.Saldo+" kn";
             return View(await _context.BetSlip.ToListAsync());
         }
 
@@ -48,10 +45,9 @@ namespace Aplikacija_za_kladenje.Controllers
         [HttpPost]
         public async Task<IActionResult> Bet(string matchId, string type, bool top)
         {
-            
             decimal betValue = 0;
             var football = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).SingleOrDefault(q => q.Id == matchId);
-             if(football!=null)
+             if(football != null)
             {
                 switch (type)
                 {
@@ -89,53 +85,51 @@ namespace Aplikacija_za_kladenje.Controllers
                         break;
                 }
             }
-            
-            
             int counter = 0;
-            int counter_odd = 0;
-            bool exist_match = false;
+            int counterOdd = 0;
+            bool existMatch = false;
             BetSlip temp = new BetSlip();
             BetSlip matches = null;
-            Boolean temp_top_status = false;
+            bool tempTopStatus = false;
             foreach (BetSlip item in _context.BetSlip)
             {
                if(item.MatchId == matchId)
                 {
-                    exist_match = true;
+                    existMatch = true;
                     matches = item;
                 }
                if(item.TopMatch == true && item.MatchId != matchId && top == true)
                 {
                     TempData["betmsg"] = "Top match is on ticket already";
-                    return RedirectToAction("Index","BetSlips");
+                    return RedirectToAction("TopMatchesIndex", "Home");
                 }
                     if (item.Odd > 1.10m)
                 {
-                    counter_odd++;
+                    counterOdd++;
                 }
                 counter++;
             }
-            if(counter_odd < 6 && counter < 6 && top == true && exist_match == true)
+            if(counterOdd < 6 && counter < 6 && top == true && existMatch == true)
             {
                 TempData["betmsg"] = "You already have that match on ticket";
-                return RedirectToAction("TopMatches", "Matches");
+                return RedirectToAction("TopMatchesIndex", "Home");
             }
-            else if(counter_odd < 5 && counter < 5&& top == true)
+            else if(counterOdd < 5 && counter < 5&& top == true)
             {
                 TempData["betmsg"] = "You need to have at least 5 pairs on ticket";
-                return RedirectToAction("Index", "BetSlips");
+                return RedirectToAction("Index", "Home");
             }
-            else if(counter_odd >= 5 && counter >= 5 && top == true)
+            else if(counterOdd >= 5 && counter >= 5 && top == true)
             {
-                temp_top_status = true;
+                tempTopStatus = true;
             }
             else
             {
-                temp_top_status = false;
+                tempTopStatus = false;
             }
             if (matches == null)
             {
-                if(((top == true) && (temp_top_status == true)) || (top == false))
+                if(((top == true) && (tempTopStatus == true)) || (top == false))
                 {
                     temp.MatchId = matchId;
                     
@@ -214,9 +208,9 @@ namespace Aplikacija_za_kladenje.Controllers
             else
             {
                 TempData["betmsg"] = "You need to have at least 5 pairs on ticket";
-                return RedirectToAction("Index", "BetSlips");
+                return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index","Matches");
+            return RedirectToAction("Index","Home");
         }
         
             // GET: BetSlips/Details/5
@@ -296,7 +290,7 @@ namespace Aplikacija_za_kladenje.Controllers
                 _context.BetSlip.Update(match);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("IndexTwoPlayers", "Matches");
+            return RedirectToAction("TwoPlayerIndex", "Home");
         }
        
    
@@ -326,7 +320,7 @@ namespace Aplikacija_za_kladenje.Controllers
             var betSlip = await _context.BetSlip.FindAsync(id);
             _context.BetSlip.Remove(betSlip);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Home");
         }
 
         private bool BetSlipExists(int id)

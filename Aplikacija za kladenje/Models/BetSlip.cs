@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿
 namespace Aplikacija_za_kladenje.Models
 {
     public class BetSlip
@@ -15,7 +10,6 @@ namespace Aplikacija_za_kladenje.Models
         public string Type { get; set; }
         public decimal Odd { get; set; }
         public bool TopMatch { get; set; }
-       
-        
+
     }
 }

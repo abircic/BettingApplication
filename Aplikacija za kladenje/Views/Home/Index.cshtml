@@ -1,9 +1,78 @@
 ﻿@using Aplikacija_za_kladenje.Models
-@model IndexVM
+@model MatchesPartialView
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Matches";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <h1>Bet Slip</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Home Team
+                </th>
+                <th>
+                    Away Team
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Odd
+                </th>
+                <th>
+                    Top Match
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @using (Html.BeginForm("UserBet", "UserBets", new { CashOut = TempData["CashOut"], TotalOdd = TempData["Odd"] }, FormMethod.Post))
+            {
+                @foreach (var item in Model.BetSlip)
+                {
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.HomeTeam)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AwayTeam)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Odd)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TopMatch)
+                            </td>
+                            <td>
+                                <a asp-controller="BetSlips" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                <tr>
+                    <td>Saldo: @TempData["Saldo"]</td>
+                    <td>Total Odd: @TempData["Odd"]</td>
+                    <td>Number of matches: @TempData["NumberOfMatches"]</td>
+                    <td>Cash Out: <span id="cashOut"></span> @TempData["CashOut"]</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><input type="text" name="Stake" id="stake" pattern="^[.]?[0-9]+[,]?[0-9]*$" placeholder="Enter the amount in format 0,00" class="form-control" /></td>
+                    <td></td>
+                    <td><button type="submit" value="Potvrdi" name="submit" class="btn btn-primary">Accept</button></td>
+                    <td><button type="submit" value="Remove" name="submit" class="btn btn-primary">Remove All</button></td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
 
 <h1>Matches</h1>
 
@@ -40,9 +109,6 @@
             </th>
             <th>
                 12
-            </th>
-            <th>
-                Ticket
             </th>
         </tr>
     </thead>
@@ -110,74 +176,7 @@
 </table>
 }
 
-<table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Home Team
-                </th>
-                <th>
-                    Away Team
-                </th>
-                <th>
-                    Type
-                </th>
-                <th>
-                    Odd
-                </th>
-                <th>
-                    Top Match
-                </th>
-               <th>
-               </th>
-            </tr>
-        </thead>
-        <tbody>
-            @using (Html.BeginForm("UserBet", "UserBets", new { CashOut = TempData["CashOut"], TotalOdd = TempData["Odd"] }, FormMethod.Post))
-        {
-            @foreach (var item in Model.BetSlips)
-            {
-                {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HomeTeam)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AwayTeam)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Odd)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TopMatch)
-                </td>
-                <td>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-                }
-            }
-            <tr>
-                <td>Saldo: @TempData["Saldo"]</td>
-                <td>Total Odd: @TempData["Odd"]</td>
-                <td>Number of matches: @TempData["NumberOfMatches"]</td>
-                <td>Cash Out: <span id="cashOut"></span> @TempData["CashOut"]</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td><input type="text" name="Stake" id="stake" pattern="^[.]?[0-9]+[,]?[0-9]*$" placeholder="Enter the amount in format 0,00" class="form-control" /></td>
-                <td></td>
-                <td><button type="submit" value="Potvrdi" name="submit" class="btn btn-primary">Accept</button></td>
-                <td><button type="submit" value="Remove" name="submit" class="btn btn-primary">Remove All</button></td>
-            </tr>
 
-        }
-        </tbody>
-    </table>
 
 
     <script>

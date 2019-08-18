@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Aplikacija_za_kladenje.Models;
 using System.Globalization;
@@ -35,7 +34,7 @@ namespace Aplikacija_za_kladenje.Controllers
         public async Task<IActionResult> UserBet(string stake, string TotalOdd, string submit)
         {
             TempData["betmsg"] = null;
-            var bet_stake = decimal.Parse(stake, new NumberFormatInfo() { NumberDecimalSeparator = "." });
+            
             if (submit == "Remove")
             {
                 foreach (var item in _context.BetSlip)
@@ -43,53 +42,53 @@ namespace Aplikacija_za_kladenje.Controllers
                     _context.Remove(item);
                 }
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index","BetSlips");
+                return RedirectToAction("Index","Home");
             }
-
-            Boolean temp_top_status = false;
+            var betStake = decimal.Parse(stake, new NumberFormatInfo() { NumberDecimalSeparator = "." });
+            bool tempTopStatus = false;
             int counter = 0;
-            int counter_odd = 0;
+            int counterOdd = 0;
             foreach (BetSlip item in _context.BetSlip)
             {
                 if (item.TopMatch == true)
                 {
-                    temp_top_status = true;
+                    tempTopStatus = true;
                 }
                 if (item.Odd > 1.10m)
                 {
-                    counter_odd++;
+                    counterOdd++;
                 }
                 counter++;
             }
             if(counter == 0)
             {
                 TempData["betmsg"] = "0 pair on ticket";
-                return RedirectToAction("Index", "BetSlips");
+                return RedirectToAction("Index", "Home");
             }
-            if ((counter_odd <=5 || counter <= 5) && temp_top_status == true)
+            if ((counterOdd <= 5 || counter <= 5) && tempTopStatus == true)
             {
                 TempData["betmsg"] = "The transaction is not successful";
-                return RedirectToAction("Index", "BetSlips");
+                return RedirectToAction("Index", "Home");
             }
             Wallet wallet = _context.Wallet.FirstOrDefault();
             UserTransactions transaction = new UserTransactions();
             List<UserTransactions> listTransactions = new List<UserTransactions>();
-            if (((wallet.Saldo - bet_stake) >= 0 && bet_stake >= 1))
+            if (((wallet.Saldo - betStake) >= 0 && betStake >= 1))
             {
-                wallet.Saldo -= bet_stake;
-                transaction.UserID = wallet.Userid;
+                wallet.Saldo -= betStake;
+                transaction.UserId = wallet.Userid;
                 transaction.Payment = stake;
                 transaction.Transactions = "Uplata listica u iznosu od " + stake + " kn " + " " + DateTime.Now.ToString();
                 TempData["betmsg"]= "The transaction is successful";
                 listTransactions.Add(transaction);
                 wallet.Transactions = listTransactions;
                 await _context.SaveChangesAsync();
-                UserBets UserBet = new UserBets();
-                decimal TotOdd = decimal.Parse(TotalOdd);
-                UserBet.TimeStamp = DateTime.Now;
-                UserBet.BetAmount = bet_stake;
-                UserBet.CashOut = (bet_stake / 100 * 95) * TotOdd;
-                UserBet.TotalOdd = TotOdd;
+                UserBets userBet = new UserBets();
+                decimal totOdd = decimal.Parse(TotalOdd);
+                userBet.TimeStamp = DateTime.Now;
+                userBet.BetAmount = betStake;
+                userBet.CashOut = (betStake / 100 * 95) * totOdd;
+                userBet.TotalOdd = totOdd;
                 List<UserBetMatches> listBetMatches = new List<UserBetMatches>();
 
                 foreach (var item in _context.BetSlip)
@@ -103,26 +102,19 @@ namespace Aplikacija_za_kladenje.Controllers
                     temp.TopMatch = item.TopMatch;
                     listBetMatches.Add(temp);
                 }
-                UserBet.Matches = listBetMatches;
-                _context.UserBets.Add(UserBet);
-                await _context.UserBets.AddAsync(UserBet);
+                userBet.Matches = listBetMatches;
+                _context.UserBets.Add(userBet);
+                await _context.UserBets.AddAsync(userBet);
                 _context.SaveChanges();
             }
             else
             {
                 TempData["betmsg"] = "The transaction is not successful";
-                return RedirectToAction("Index","BetSlips");
+                return RedirectToAction("Index","Home");
             }
            
             return RedirectToAction("Index");
         }
-
-
-
-
-
-
-
 
 
         // GET: UserBets/Details/5

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Aplikacija_za_kladenje.Models;
-using System.Text.RegularExpressions;
 using System.Globalization;
 using Aplikacija_za_kladenje.Data;
 
@@ -36,8 +34,8 @@ namespace Aplikacija_za_kladenje.Controllers
         public async Task<IActionResult> Payment(string submit, string stake)
         {
             TempData["msg"] = null;
-            var wallet_stake = decimal.Parse(stake, new NumberFormatInfo() { NumberDecimalSeparator = "." });
-            if(wallet_stake < 10)
+            var walletStake = decimal.Parse(stake, new NumberFormatInfo() { NumberDecimalSeparator = "." });
+            if(walletStake < 10)
             {
                 TempData["msg"] = "Minimum is 10 kn";
                 return RedirectToAction("Index");
@@ -47,8 +45,8 @@ namespace Aplikacija_za_kladenje.Controllers
             List<UserTransactions> listTransactions = new List<UserTransactions>();
             if(submit=="CashIn")
             {
-                wallet.Saldo += wallet_stake;
-                transaction.UserID = wallet.Userid;
+                wallet.Saldo += walletStake;
+                transaction.UserId = wallet.Userid;
                 transaction.Payment = stake;
                 transaction.Transactions = "Uplata u iznosu od " + stake.ToString() + " kn " + " " + DateTime.Now.ToString();
                 listTransactions.Add(transaction);
@@ -57,9 +55,9 @@ namespace Aplikacija_za_kladenje.Controllers
             }
             else
             {
-                if ((wallet.Saldo -= wallet_stake) >= 0)
+                if ((wallet.Saldo -= walletStake) >= 0)
                 {
-                    transaction.UserID = wallet.Userid;
+                    transaction.UserId = wallet.Userid;
                     transaction.Payment = stake;
                     transaction.Transactions = "Isplata u iznosu od " + stake.ToString() + " kn " + " " + DateTime.Now.ToString();
                     listTransactions.Add(transaction);

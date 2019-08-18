@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Aplikacija_za_kladenje.Models
 {
-    public class IndexVM
+    public class TopMatchesPartialView
     {
-        public List<MatchViewModel> Matches { get; set; }
-        public List<BetSlip> BetSlips { get; set; }
+        public List<TopMatchesViewModel> TopMatches { get; set; }
+        public List<BetSlip> BetSlip { get; set; }
     }
 }

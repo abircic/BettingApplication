@@ -4,10 +4,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
 <h1>Matches</h1>
-
 
 @if (Model != null)
 {
@@ -48,12 +45,10 @@
         </tr>
     </thead>
     <tbody>
-
         @foreach (var item in Model)
         {
             @using (Html.BeginForm("Bet", "BetSlips", new { matchId = item.Id, top=false}, FormMethod.Post))
             {
-
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.League)
@@ -100,7 +95,6 @@
                     <button type="submit" id=@item.Id , name="type" value="12" class="btn btn-primary">@item._12</button>
                 }
             </td>
-
         </tr>
             }
 
