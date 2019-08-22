@@ -94,6 +94,7 @@ namespace Aplikacija_za_kladenje.Controllers
                 foreach (var item in _context.BetSlip)
                 {
                     UserBetMatches temp = new UserBetMatches();
+                    //var football = _context.Matches.Include(h=>h.HomeTeam).Include(a=>a.AwayTeam).SingleOrDefault(q => q.Id == item.MatchId);
                     temp.MatchId = item.MatchId;
                     temp.HomeTeam = item.HomeTeam;
                     temp.AwayTeam = item.AwayTeam;

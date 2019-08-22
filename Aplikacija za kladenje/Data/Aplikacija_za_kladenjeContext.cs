@@ -6,7 +6,7 @@ namespace Aplikacija_za_kladenje.Data
 {
     public class Aplikacija_za_kladenjeContext : DbContext
     {
-        public Aplikacija_za_kladenjeContext (DbContextOptions<Aplikacija_za_kladenjeContext> options)
+        public Aplikacija_za_kladenjeContext(DbContextOptions<Aplikacija_za_kladenjeContext> options)
             : base(options)
         {
         }

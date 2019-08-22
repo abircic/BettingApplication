@@ -41,6 +41,7 @@ namespace Aplikacija_za_kladenje.Models
                 );
                 context.SaveChanges();
                 var sportFootball = context.Sports.SingleOrDefault(s => s.Name.Contains("Football"));
+                var sportTennis = context.Sports.SingleOrDefault(s => s.Name.Contains("Tennis"));
                 context.Leagues.AddRange(
                     new Leagues
                     {
@@ -74,126 +75,144 @@ namespace Aplikacija_za_kladenje.Models
                         HomeTeam = new Teams { Name = "Liverpool", League = leagueEngland },
                         AwayTeam = new Teams { Name = "Norwich", League = leagueEngland },
                         Types = new Types { _1 = 1.14m,_X = 6.00m, _2 = 17.00m, _X2 = 11.00m, _12 = 1.30m },
-                        TopMatch = true
+                        TopMatch = true,
+                        Sport=sportFootball
                     },
                     new Matches
                     {
                         HomeTeam = new Teams { Name = "West Ham", League = leagueEngland },
                         AwayTeam = new Teams { Name = "Man City", League = leagueEngland },
                         Types = new Types { _1 =11.00m, _X = 6.00m, _2 = 1.30m, _1X = 5.00m, _12 = 1.30m },
-                        TopMatch = true
+                        TopMatch = true,
+                        Sport = sportFootball
                     },
                     new Matches
                     {
                         HomeTeam = new Teams { Name = "Bournemouth", League = leagueEngland },
                         AwayTeam = new Teams { Name = "Sheffield Utd", League = leagueEngland },
                         Types = new Types { _1 = 1.85m, _X = 3.80m, _2 = 3.80m, _1X = 1.25m, _X2=1.80M,_12 = 1.30m },
-                        TopMatch = false
+                        TopMatch = false,
+                        Sport = sportFootball
                     },
                     new Matches
                     {
                         HomeTeam = new Teams { Name = "Burnley", League = leagueEngland },
                         AwayTeam = new Teams { Name = "Southampton", League = leagueEngland },
                         Types = new Types { _1 = 2.55m, _X = 3.20m, _2 = 2.80m, _1X = 1.80m, _X2 = 1.90M, _12 = 1.50m },
-                        TopMatch = false
+                        TopMatch = false,
+                        Sport = sportFootball
                     },
                      new Matches
                      {
                          HomeTeam = new Teams { Name = "Crystal Palace", League = leagueEngland },
                          AwayTeam = new Teams { Name = "Everton", League = leagueEngland },
                          Types = new Types { _1 = 2.50m, _X = 3.30m, _2 = 2.75m, _1X = 1.80m, _X2 = 1.90M, _12 = 1.50m },
-                         TopMatch = false
+                         TopMatch = false,
+                         Sport = sportFootball
                      },
                       new Matches
                       {
                           HomeTeam = new Teams { Name = "Watford", League = leagueEngland },
                           AwayTeam = new Teams { Name = "Brighton", League = leagueEngland },
                           Types = new Types { _1 = 1.90m, _X = 3.40m, _2 = 4.00m, _1X = 1.35m, _X2 = 1.90M, _12 = 1.50m },
-                          TopMatch = false
+                          TopMatch = false,
+                          Sport = sportFootball
                       },
                       new Matches
                       {
                           HomeTeam = new Teams { Name = "Tottenham", League = leagueEngland },
                           AwayTeam = new Teams { Name = "Aston Villa", League = leagueEngland },
                           Types = new Types { _1 = 1.25m, _X = 5.75m, _2 = 13.00m, _X2 = 4.00m, _12 = 1.50m },
-                          TopMatch = false
+                          TopMatch = false,
+                          Sport = sportFootball
                       },
                     new Matches
                     {
-                        HomeTeam = new Teams { Name = "Eibar", League = leagueEngland },
-                        AwayTeam = new Teams { Name = "Barcelona", League = leagueEngland },
+                        HomeTeam = new Teams { Name = "Eibar", League = leagueSpain },
+                        AwayTeam = new Teams { Name = "Barcelona", League = leagueSpain },
                         Types = new Types { _1 = 4.75m, _X = 4.10m, _2 = 1.70m, _1X = 2.50m, _X2 = 1.20m, _12 = 1.50m },
-                        TopMatch= false
+                        TopMatch= false,
+                        Sport = sportFootball
                     },
                      new Matches
                      {
                          HomeTeam = new Teams { Name = "Real Madrid", League = leagueSpain },
                          AwayTeam = new Teams { Name = "Betis", League = leagueSpain },
                          Types = new Types { _1 = 1.30m, _X = 6.00m, _2 = 8.00m,_X2 = 4.50m, _12 = 1.50m },
-                         TopMatch = true
+                         TopMatch = true,
+                         Sport = sportFootball
                      },
                      new Matches
                      {
                          HomeTeam = new Teams { Name = "Alaves", League = leagueSpain },
                          AwayTeam = new Teams { Name = "Girona", League = leagueSpain },
                          Types = new Types { _1 = 2.10m, _X = 3.50m, _2 = 3.40m, _1X = 1.50m, _X2 = 1.90m, _12 = 1.50m },
-                         TopMatch = false
+                         TopMatch = false,
+                         Sport = sportFootball
                      },
                       new Matches
                       {
                           HomeTeam = new Teams { Name = "Celta Vigo", League = leagueSpain },
                           AwayTeam = new Teams { Name = "Rayo Vallecano", League = leagueSpain },
                           Types = new Types { _1 = 1.30m, _X = 5.75m, _2 = 9.00m,_X2 = 6.00m, _12 = 1.40m },
-                          TopMatch = false
+                          TopMatch = false,
+                          Sport = sportFootball
                       },
                       new Matches
                       {
                           HomeTeam = new Teams { Name = "Huesca", League = leagueSpain },
                           AwayTeam = new Teams { Name = "Leganes", League = leagueSpain },
                           Types = new Types { _1 = 2.50m, _X = 3.50m, _2 = 2.60m, _1X = 1.60m, _X2 = 1.70m, _12 = 1.50m },
-                          TopMatch = false
+                          TopMatch = false,
+                          Sport = sportFootball
                       },
                        new Matches
                        {
                            HomeTeam = new Teams { Name = "Espanyol", League = leagueSpain },
                            AwayTeam = new Teams { Name = "Real Sociedad", League = leagueSpain },
                            Types = new Types { _1 = 1.95m, _X = 3.75m, _2 = 3.60m, _1X = 1.50M, _X2 = 2.70m, _12 = 1.50m },
-                           TopMatch = false
+                           TopMatch = false,
+                           Sport = sportFootball
                        },
                         new Matches
                         {
                             HomeTeam = new Teams { Name = "Roma", League = leagueItaly },
                             AwayTeam = new Teams { Name = "Parma", League = leagueItaly },
                             Types = new Types { _1 = 1.14m, _X = 9.00m, _2 = 15.00m,_X2 = 6.00m, _12 = 1.30m },
-                            TopMatch = false
+                            TopMatch = false,
+                            Sport = sportFootball
                         },
                          new Matches
                          {
                              HomeTeam = new Teams { Name = "Atalanta", League = leagueItaly },
                              AwayTeam = new Teams { Name = "Sassuolo", League = leagueItaly },
                              Types = new Types { _1 = 1.25m, _X = 6.00m, _2 = 10.00m, _X2 = 6.00m, _12 = 1.30m },
-                             TopMatch = true
+                             TopMatch = true,
+                             Sport = sportFootball
                          },
                          new Matches
                          {
                              HomeTeam = new Teams { Name = "Juventus", League = leagueItaly },
                              AwayTeam = new Teams { Name = "Frosinone", League = leagueItaly },
                              Types = new Types { _1 = 1.20m, _X = 3.75m, _2 = 7.50m, _X2 = 3.50m, _12 = 1.50m },
-                             TopMatch = true
+                             TopMatch = true,
+                             Sport = sportFootball
                          },
                          new Matches
                          {
                              HomeTeam = new Teams { Name = "Cagliari", League = leagueItaly },
                              AwayTeam = new Teams { Name = "Udinese", League = leagueItaly },
                              Types = new Types { _1 = 1.85m, _X = 3.75m, _2 = 4.00m, _1X = 1.30m, _X2 = 2.10m, _12 = 1.50m },
-                             TopMatch = false
+                             TopMatch = false,
+                             Sport = sportFootball
                          },
                          new Matches
                          {
                              HomeTeam = new Teams { Name = "Fiorentina", League = leagueItaly },
                              AwayTeam = new Teams { Name = "Genoa", League = leagueItaly },
                              Types = new Types { _1 = 2.25m, _X = 2.75m, _2 = 4.00m, _1X=1.50m, _X2 = 2.00m, _12 = 1.30m },
-                             TopMatch = false
+                             TopMatch = false,
+                             Sport = sportFootball
                          },
 
                         new Matches
@@ -201,32 +220,36 @@ namespace Aplikacija_za_kladenje.Models
                             HomeTeam = new Teams { Name = "Roma", League = leagueItaly },
                             AwayTeam = new Teams { Name = "Milan", League = leagueItaly },
                             Types = new Types { _1 = 3.00m, _X = 3.00m, _2 = 3.00m, _1X=1.40m, _X2 = 1.50m, _12 = 1.50m },
-                            TopMatch = false
+                            TopMatch = false,
+                            Sport = sportFootball
                         },
                          new Matches
                          {
                              HomeTeam = new Teams { Name = "Angers", League = leagueFrance },
                              AwayTeam = new Teams { Name = "Bordeaux", League = leagueFrance },
                              Types = new Types { _1 = 2.40m, _X = 3.00m, _2 = 3.00m, _1X = 1.50m, _X2 = 1.70m, _12 = 1.50m },
-                             TopMatch = false
+                             TopMatch = false,
+                             Sport = sportFootball
                          },
                           new Matches
                           {
                               HomeTeam = new Teams { Name = "Brest", League = leagueFrance },
                               AwayTeam = new Teams { Name = "Toulouse", League = leagueFrance },
                               Types = new Types { _1 = 2.30m, _X = 3.00m, _2 = 3.10m, _1X = 1.50m, _X2 = 1.70m, _12 = 1.50m },
-                              TopMatch = false
+                              TopMatch = false,
+                              Sport = sportFootball
                           },
                            new Matches
                            {
                                HomeTeam = new Teams { Name = "Dijon", League = leagueFrance },
                                AwayTeam = new Teams { Name = "St. Etienne", League = leagueFrance },
                                Types = new Types { _1 = 3.10m, _X = 3.10m, _2 = 2.20m, _1X = 1.70m, _X2 = 1.40m, _12 = 1.50m },
-                               TopMatch = false
+                               TopMatch = false,
+                               Sport = sportFootball
                            }
+                           
                     );
                 context.SaveChanges();
-                var sportTennis = context.Sports.SingleOrDefault(s => s.Name.Contains("Tennis"));
                 context.TwoPlayersMatches.AddRange(
                     new TwoPlayersMatches
                     {
