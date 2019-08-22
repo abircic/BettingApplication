@@ -48,7 +48,7 @@ namespace Aplikacija_za_kladenje.Controllers
                 wallet.Saldo += walletStake;
                 transaction.UserId = wallet.Userid;
                 transaction.Payment = stake;
-                transaction.Transactions = "Uplata u iznosu od " + stake.ToString() + " kn " + " " + DateTime.Now.ToString();
+                transaction.Transactions = "Uplata u iznosu od " + stake + " kn " + " " + DateTime.Now.ToString();
                 listTransactions.Add(transaction);
                 wallet.Transactions = listTransactions;
                 TempData["msg"] = "The transaction is successful";
@@ -59,7 +59,7 @@ namespace Aplikacija_za_kladenje.Controllers
                 {
                     transaction.UserId = wallet.Userid;
                     transaction.Payment = stake;
-                    transaction.Transactions = "Isplata u iznosu od " + stake.ToString() + " kn " + " " + DateTime.Now.ToString();
+                    transaction.Transactions = "Isplata u iznosu od " + stake + " kn " + " " + DateTime.Now.ToString();
                     listTransactions.Add(transaction);
                     wallet.Transactions = listTransactions;
                     TempData["msg"] = "The transaction is successful";

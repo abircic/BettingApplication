@@ -19,7 +19,7 @@ namespace Aplikacija_za_kladenje.Controllers
         }
 
         // GET: BetSlips
-        public async Task<IActionResult> Index(string stake)
+        public async Task<IActionResult> Index()
         {
             int counter = 0;
             decimal totOdd = 1;
@@ -31,6 +31,7 @@ namespace Aplikacija_za_kladenje.Controllers
             TempData["Odd"] = totOdd.ToString("0.00");
             TempData["NumberOfMatches"] = counter;
             TempData["CashOut"] = "kn";
+            TempData["Tax"] = "kn";
             var wallet = _context.Wallet.FirstOrDefault();
             TempData["Saldo"] = wallet.Saldo+" kn";
             return View(await _context.BetSlip.ToListAsync());
@@ -98,7 +99,7 @@ namespace Aplikacija_za_kladenje.Controllers
                     existMatch = true;
                     matches = item;
                 }
-               if(item.TopMatch == true && item.MatchId != matchId && top == true)
+               if(item.TopMatch && item.MatchId != matchId && top)
                 {
                     TempData["betmsg"] = "Top match is on ticket already";
                     return RedirectToAction("TopMatchesIndex", "Home");
@@ -109,12 +110,12 @@ namespace Aplikacija_za_kladenje.Controllers
                 }
                 counter++;
             }
-            if(counterOdd < 6 && counter < 6 && top == true && existMatch == true)
+            if(counterOdd < 6 && counter < 6 && top && existMatch)
             {
                 TempData["betmsg"] = "You already have that match on ticket";
                 return RedirectToAction("TopMatchesIndex", "Home");
             }
-            else if(counterOdd < 5 && counter < 5&& top == true)
+            else if(counterOdd < 5 && counter < 5&& top)
             {
                 TempData["betmsg"] = "You need to have at least 5 pairs on ticket";
                 return RedirectToAction("Index", "Home");
@@ -129,7 +130,7 @@ namespace Aplikacija_za_kladenje.Controllers
             }
             if (matches == null)
             {
-                if(((top == true) && (tempTopStatus == true)) || (top == false))
+                if(((top) && (tempTopStatus)) || (!top))
                 {
                     temp.MatchId = matchId;
                     
@@ -138,7 +139,7 @@ namespace Aplikacija_za_kladenje.Controllers
                         temp.HomeTeam = football.HomeTeam.Name;
                         temp.AwayTeam = football.AwayTeam.Name;
                         temp.TopMatch = top;
-                        if (top == true)
+                        if (top)
                         {
                             temp.Odd = betValue+0.10m;
                         }
@@ -169,7 +170,7 @@ namespace Aplikacija_za_kladenje.Controllers
                 }
                
             }
-            else if((matches != null) && (top == true) && (counter >= 6))
+            else if(top && counter >= 6)
             {
 
                 matches.MatchId = matchId;
@@ -187,7 +188,7 @@ namespace Aplikacija_za_kladenje.Controllers
                 _context.BetSlip.Update(matches);
                 await _context.SaveChangesAsync();
             }
-            else if (matches != null && (top == false))
+            else if (!top)
             {
                 matches.MatchId = matchId;
 
@@ -233,12 +234,12 @@ namespace Aplikacija_za_kladenje.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> BetTwoPlayer(string MatchId, string type, Boolean top)
+        public async Task<IActionResult> BetTwoPlayer(string matchId, string type, Boolean top)
         {
             decimal betValue = 0;
             BetSlip temp = new BetSlip();
             BetSlip match = null;
-            var other = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).SingleOrDefault(q => q.Id == MatchId);
+            var other = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).SingleOrDefault(q => q.Id == matchId);
             switch (type)
             {
                 case "1":
@@ -250,14 +251,14 @@ namespace Aplikacija_za_kladenje.Controllers
             }
             foreach (BetSlip item in _context.BetSlip)
             {
-                if (item.MatchId == MatchId)
+                if (item.MatchId == matchId)
                 {
                     match= item;
                 }
             }
             if(match == null)
             {
-                temp.MatchId = MatchId;
+                temp.MatchId = matchId;
                 temp.HomeTeam = other.First.Name;
                 temp.AwayTeam = other.Second.Name;
                 temp.TopMatch = top;
@@ -275,7 +276,7 @@ namespace Aplikacija_za_kladenje.Controllers
             }
             else
             {
-                match.MatchId = MatchId;
+                match.MatchId = matchId;
                 match.Type = type;
                 match.Odd = betValue;
                 match.TopMatch = top;

@@ -157,15 +157,15 @@ namespace Aplikacija_za_kladenje.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Payment = table.Column<string>(nullable: true),
-                    UserID = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
                     Transactions = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserTransactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserTransactions_Wallet_UserID",
-                        column: x => x.UserID,
+                        name: "FK_UserTransactions_Wallet_UserId",
+                        column: x => x.UserId,
                         principalTable: "Wallet",
                         principalColumn: "Userid",
                         onDelete: ReferentialAction.Restrict);
@@ -323,9 +323,9 @@ namespace Aplikacija_za_kladenje.Migrations
                 column: "UserBetsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserTransactions_UserID",
+                name: "IX_UserTransactions_UserId",
                 table: "UserTransactions",
-                column: "UserID");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

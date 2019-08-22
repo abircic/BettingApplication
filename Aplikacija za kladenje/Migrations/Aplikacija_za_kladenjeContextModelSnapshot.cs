@@ -15,7 +15,7 @@ namespace Aplikacija_za_kladenje.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -243,11 +243,11 @@ namespace Aplikacija_za_kladenje.Migrations
 
                     b.Property<string>("Transactions");
 
-                    b.Property<string>("UserID");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserTransactions");
                 });
@@ -300,7 +300,7 @@ namespace Aplikacija_za_kladenje.Migrations
             modelBuilder.Entity("Aplikacija_za_kladenje.Models.Teams", b =>
                 {
                     b.HasOne("Aplikacija_za_kladenje.Models.Leagues", "League")
-                        .WithMany("Teams")
+                        .WithMany()
                         .HasForeignKey("LeagueId");
                 });
 
@@ -330,7 +330,7 @@ namespace Aplikacija_za_kladenje.Migrations
                 {
                     b.HasOne("Aplikacija_za_kladenje.Models.Wallet", "Wallet")
                         .WithMany("Transactions")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }
