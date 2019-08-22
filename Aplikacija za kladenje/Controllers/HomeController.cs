@@ -22,7 +22,7 @@ namespace Aplikacija_za_kladenje.Controllers
         {
             int counter = 0;
             decimal totOdd = 1;
-            List<Matches> matchesList = _context.Matches.Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).ToList();
+            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).ToList();
             List<MatchViewModel> matchVmList = matchesList.Select(x => new MatchViewModel
             {
                 Id = x.Id,
@@ -57,15 +57,16 @@ namespace Aplikacija_za_kladenje.Controllers
         {
             int counter = 0;
             decimal totOdd = 1;
-            List<TwoPlayersMatches> matchesList = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).Include(s => s.Sport).ToList();
+            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tennis")).ToList();
             List<TwoPlayersViewModel> matchVmList = matchesList.Select(x => new TwoPlayersViewModel
             {
                 Id = x.Id,
-                FirstPlayer = x.First.Name,
-                SecondPlayer = x.Second.Name,
-                _1 = x._1,
-                _2 = x._2
+                FirstPlayer = x.HomeTeam.Name,
+                SecondPlayer = x.AwayTeam.Name,
+                _1 = x.Types._1,
+                _2 = x.Types._2
             }).ToList();
+
             foreach (BetSlip item in _context.BetSlip)
             {
                 totOdd = totOdd * item.Odd;
@@ -88,8 +89,8 @@ namespace Aplikacija_za_kladenje.Controllers
         {
             int counter = 0;
             decimal totOdd = 1;
-            List<Matches> topMatches = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(t => t.TopMatch == true).ToList();
-            List<TwoPlayersMatches> topTwoPlayersMatches = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).Include(s => s.Sport).Where(t => t.TopMatch == true).ToList();
+            List<Matches> topMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).Where(t => t.TopMatch == true).ToList();
+            List<Matches> topTwoPlayersMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tennis")).Where(t => t.TopMatch == true).ToList();
             List<TopMatchesViewModel> allMatches = new List<TopMatchesViewModel>();
             List<TopMatchesViewModel> matchVmList = topMatches.Select(x => new TopMatchesViewModel
             {
@@ -107,10 +108,10 @@ namespace Aplikacija_za_kladenje.Controllers
             List<TopMatchesViewModel> twoPlayersMatchVmList = topTwoPlayersMatches.Select(x => new TopMatchesViewModel
             {
                 Id = x.Id,
-                HomeTeamName = x.First.Name,
-                AwayTeamName = x.Second.Name,
-                _1 = x._1 + 0.10m,
-                _2 = x._2 + 0.10m
+                HomeTeamName = x.HomeTeam.Name,
+                AwayTeamName = x.AwayTeam.Name,
+                _1 = x.Types._1 + 0.10m,
+                _2 = x.Types._2 + 0.10m
             }).ToList();
             allMatches.AddRange(matchVmList);
             allMatches.AddRange(twoPlayersMatchVmList);
@@ -127,7 +128,7 @@ namespace Aplikacija_za_kladenje.Controllers
             List<BetSlip> betSlipList = _context.BetSlip.ToList();
             TopMatchesPartialView model = new TopMatchesPartialView();
             model.BetSlip = betSlipList;
-            model.TopMatches = matchVmList;
+            model.TopMatches = allMatches;
             return View(model);
         }
 

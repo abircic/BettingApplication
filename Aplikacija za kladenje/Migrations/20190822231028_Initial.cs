@@ -106,26 +106,6 @@ namespace Aplikacija_za_kladenje.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Players",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    SportId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Players", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Players_Sports_SportId",
-                        column: x => x.SportId,
-                        principalTable: "Sports",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserBetMatches",
                 columns: table => new
                 {
@@ -187,41 +167,6 @@ namespace Aplikacija_za_kladenje.Migrations
                         name: "FK_Teams_Leagues_LeagueId",
                         column: x => x.LeagueId,
                         principalTable: "Leagues",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TwoPlayersMatches",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    FirstId = table.Column<int>(nullable: true),
-                    SecondId = table.Column<int>(nullable: true),
-                    SportId = table.Column<int>(nullable: true),
-                    _1 = table.Column<decimal>(nullable: false),
-                    _2 = table.Column<decimal>(nullable: false),
-                    TopMatch = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TwoPlayersMatches", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TwoPlayersMatches_Players_FirstId",
-                        column: x => x.FirstId,
-                        principalTable: "Players",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TwoPlayersMatches_Players_SecondId",
-                        column: x => x.SecondId,
-                        principalTable: "Players",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TwoPlayersMatches_Sports_SportId",
-                        column: x => x.SportId,
-                        principalTable: "Sports",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -293,29 +238,9 @@ namespace Aplikacija_za_kladenje.Migrations
                 column: "TypesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Players_SportId",
-                table: "Players",
-                column: "SportId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Teams_LeagueId",
                 table: "Teams",
                 column: "LeagueId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TwoPlayersMatches_FirstId",
-                table: "TwoPlayersMatches",
-                column: "FirstId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TwoPlayersMatches_SecondId",
-                table: "TwoPlayersMatches",
-                column: "SecondId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TwoPlayersMatches_SportId",
-                table: "TwoPlayersMatches",
-                column: "SportId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserBetMatches_UserBetsId",
@@ -337,9 +262,6 @@ namespace Aplikacija_za_kladenje.Migrations
                 name: "Matches");
 
             migrationBuilder.DropTable(
-                name: "TwoPlayersMatches");
-
-            migrationBuilder.DropTable(
                 name: "UserBetMatches");
 
             migrationBuilder.DropTable(
@@ -350,9 +272,6 @@ namespace Aplikacija_za_kladenje.Migrations
 
             migrationBuilder.DropTable(
                 name: "Types");
-
-            migrationBuilder.DropTable(
-                name: "Players");
 
             migrationBuilder.DropTable(
                 name: "UserBets");

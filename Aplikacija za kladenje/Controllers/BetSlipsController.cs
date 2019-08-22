@@ -75,14 +75,14 @@ namespace Aplikacija_za_kladenje.Controllers
             }
              else
             {
-                var other = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).SingleOrDefault(q => q.Id == matchId);
+                var other = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).SingleOrDefault(q => q.Id == matchId);
                 switch (type)
                 {
                     case "1":
-                        betValue = other._1;
+                        betValue = other.Types._1;
                         break;
                     case "2":
-                        betValue = other._2;
+                        betValue = other.Types._2;
                         break;
                 }
             }
@@ -150,9 +150,9 @@ namespace Aplikacija_za_kladenje.Controllers
                     }
                     else
                     {
-                        var other = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).SingleOrDefault(q => q.Id == matchId);
-                        temp.HomeTeam = other.First.Name;
-                        temp.AwayTeam = other.Second.Name;
+                        var other = _context.Matches.Include(f => f.HomeTeam).Include(s => s.AwayTeam).Include(t => t.Types).SingleOrDefault(q => q.Id == matchId);
+                        temp.HomeTeam = other.HomeTeam.Name;
+                        temp.AwayTeam = other.AwayTeam.Name;
                         temp.TopMatch = top;
                         temp.Odd = betValue+0.10m;
                     }
@@ -239,14 +239,14 @@ namespace Aplikacija_za_kladenje.Controllers
             decimal betValue = 0;
             BetSlip temp = new BetSlip();
             BetSlip match = null;
-            var other = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).SingleOrDefault(q => q.Id == matchId);
+            var other = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t=>t.Types).SingleOrDefault(q => q.Id == matchId);
             switch (type)
             {
                 case "1":
-                    betValue = other._1;
+                    betValue = other.Types._1;
                     break;
                 case "2":
-                    betValue = other._2;
+                    betValue = other.Types._2;
                     break;
             }
             foreach (BetSlip item in _context.BetSlip)
@@ -259,8 +259,8 @@ namespace Aplikacija_za_kladenje.Controllers
             if(match == null)
             {
                 temp.MatchId = matchId;
-                temp.HomeTeam = other.First.Name;
-                temp.AwayTeam = other.Second.Name;
+                temp.HomeTeam = other.HomeTeam.Name;
+                temp.AwayTeam = other.AwayTeam.Name;
                 temp.TopMatch = top;
                 temp.Odd = betValue;
                 temp.Type = type;

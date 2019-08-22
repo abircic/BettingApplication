@@ -24,7 +24,7 @@ namespace Aplikacija_za_kladenje.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Matches> matchesList = _context.Matches.Include(h=>h.HomeTeam).ThenInclude(l=>l.League).Include(a=>a.AwayTeam).ThenInclude(l=>l.League).Include(t=>t.Types).ToList();
+            List<Matches> matchesList = _context.Matches.Include(a=>a.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).ToList();
 
 
             List<MatchViewModel> matchVmList = matchesList.Select(x => new MatchViewModel
@@ -48,17 +48,17 @@ namespace Aplikacija_za_kladenje.Controllers
         [HttpGet]
         public IActionResult IndexTwoPlayers()
         {
-            List<TwoPlayersMatches> matchesList = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).Include(s=>s.Sport).ToList();
+            List<Matches> matchesList = _context.Matches.Include(a=>a.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Where(s => s.Sport.Name.Contains("Tennis")).ToList();
 
             TwoPlayersViewModel matchVm = new TwoPlayersViewModel();
 
             List<TwoPlayersViewModel> matchVmList = matchesList.Select(x => new TwoPlayersViewModel
             {
                 Id = x.Id,
-                FirstPlayer=x.First.Name,
-                SecondPlayer=x.Second.Name,
-                _1=x._1,
-                _2=x._2
+                FirstPlayer=x.HomeTeam.Name,
+                SecondPlayer=x.AwayTeam.Name,
+                _1=x.Types._1,
+                _2=x.Types._2
             }).ToList();
 
             return View(matchVmList);
@@ -67,15 +67,15 @@ namespace Aplikacija_za_kladenje.Controllers
         [HttpGet]
         public IActionResult TopMatches()
         {
-            List<Matches> topMatches = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(t => t.TopMatch==true).ToList();
-            List<TwoPlayersMatches> topTwoPlayersMatches = _context.TwoPlayersMatches.Include(f => f.First).Include(s => s.Second).Include(s => s.Sport).Where(t => t.TopMatch == true).ToList();
-            List<TopMatchesViewModel> allMatches=new List<TopMatchesViewModel>();
+            List<Matches> topMatches = _context.Matches.Include(s => s.Sport.Name.Contains("Football")).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(t => t.TopMatch == true).ToList();
+            List<Matches> topTwoPlayersMatches = _context.Matches.Include(s => s.Sport.Name.Contains("Tennis")).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Include(s => s.Sport).Where(t => t.TopMatch == true).ToList();
+            List<TopMatchesViewModel> allMatches = new List<TopMatchesViewModel>();
             List<TopMatchesViewModel> matchVmList = topMatches.Select(x => new TopMatchesViewModel
             {
                 Id = x.Id,
                 HomeTeamName = x.HomeTeam.Name,
                 AwayTeamName = x.AwayTeam.Name,
-                _1 = x.Types._1+0.10m,
+                _1 = x.Types._1 + 0.10m,
                 _X = x.Types._X + 0.10m,
                 _2 = x.Types._2 + 0.10m,
                 _1X = x.Types._1X + 0.10m,
@@ -83,16 +83,16 @@ namespace Aplikacija_za_kladenje.Controllers
                 _12 = x.Types._12 + 0.10m
             }).ToList();
 
-            List<TopMatchesViewModel> twoPlayersMatchVMList = topTwoPlayersMatches.Select(x => new TopMatchesViewModel
+            List<TopMatchesViewModel> twoPlayersMatchVmList = topTwoPlayersMatches.Select(x => new TopMatchesViewModel
             {
                 Id = x.Id,
-                HomeTeamName=x.First.Name,
-                AwayTeamName=x.Second.Name,
-                _1=x._1 + 0.10m,
-                _2=x._2 + 0.10m
+                HomeTeamName = x.HomeTeam.Name,
+                AwayTeamName = x.AwayTeam.Name,
+                _1 = x.Types._1 + 0.10m,
+                _2 = x.Types._2 + 0.10m
             }).ToList();
             allMatches.AddRange(matchVmList);
-            allMatches.AddRange(twoPlayersMatchVMList);
+            allMatches.AddRange(twoPlayersMatchVmList);
             return View(allMatches);
         }
 

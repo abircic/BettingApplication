@@ -26,8 +26,6 @@ namespace Aplikacija_za_kladenje.Data
 
         public DbSet<UserBets> UserBets { get; set; }
 
-        public DbSet<TwoPlayersMatches> TwoPlayersMatches { get; set; }
-        public DbSet<Player> Players { get; set; }
         public DbSet<UserTransactions> UserTransactions { get; set; }
 
 

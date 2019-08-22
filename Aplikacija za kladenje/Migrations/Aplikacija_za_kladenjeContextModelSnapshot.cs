@@ -89,23 +89,6 @@ namespace Aplikacija_za_kladenje.Migrations
                     b.ToTable("Matches");
                 });
 
-            modelBuilder.Entity("Aplikacija_za_kladenje.Models.Player", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.Property<int?>("SportId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SportId");
-
-                    b.ToTable("Players");
-                });
-
             modelBuilder.Entity("Aplikacija_za_kladenje.Models.Sports", b =>
                 {
                     b.Property<int>("Id")
@@ -134,34 +117,6 @@ namespace Aplikacija_za_kladenje.Migrations
                     b.HasIndex("LeagueId");
 
                     b.ToTable("Teams");
-                });
-
-            modelBuilder.Entity("Aplikacija_za_kladenje.Models.TwoPlayersMatches", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("FirstId");
-
-                    b.Property<int?>("SecondId");
-
-                    b.Property<int?>("SportId");
-
-                    b.Property<bool>("TopMatch");
-
-                    b.Property<decimal>("_1");
-
-                    b.Property<decimal>("_2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FirstId");
-
-                    b.HasIndex("SecondId");
-
-                    b.HasIndex("SportId");
-
-                    b.ToTable("TwoPlayersMatches");
                 });
 
             modelBuilder.Entity("Aplikacija_za_kladenje.Models.Types", b =>
@@ -290,33 +245,11 @@ namespace Aplikacija_za_kladenje.Migrations
                         .HasForeignKey("TypesId");
                 });
 
-            modelBuilder.Entity("Aplikacija_za_kladenje.Models.Player", b =>
-                {
-                    b.HasOne("Aplikacija_za_kladenje.Models.Sports", "Sport")
-                        .WithMany()
-                        .HasForeignKey("SportId");
-                });
-
             modelBuilder.Entity("Aplikacija_za_kladenje.Models.Teams", b =>
                 {
                     b.HasOne("Aplikacija_za_kladenje.Models.Leagues", "League")
                         .WithMany()
                         .HasForeignKey("LeagueId");
-                });
-
-            modelBuilder.Entity("Aplikacija_za_kladenje.Models.TwoPlayersMatches", b =>
-                {
-                    b.HasOne("Aplikacija_za_kladenje.Models.Player", "First")
-                        .WithMany()
-                        .HasForeignKey("FirstId");
-
-                    b.HasOne("Aplikacija_za_kladenje.Models.Player", "Second")
-                        .WithMany()
-                        .HasForeignKey("SecondId");
-
-                    b.HasOne("Aplikacija_za_kladenje.Models.Sports", "Sport")
-                        .WithMany()
-                        .HasForeignKey("SportId");
                 });
 
             modelBuilder.Entity("Aplikacija_za_kladenje.Models.UserBetMatches", b =>

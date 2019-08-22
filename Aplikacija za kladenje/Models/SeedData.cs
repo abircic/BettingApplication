@@ -246,91 +246,79 @@ namespace Aplikacija_za_kladenje.Models
                                Types = new Types { _1 = 3.10m, _X = 3.10m, _2 = 2.20m, _1X = 1.70m, _X2 = 1.40m, _12 = 1.50m },
                                TopMatch = false,
                                Sport = sportFootball
-                           }
-                           
-                    );
-                context.SaveChanges();
-                context.TwoPlayersMatches.AddRange(
-                    new TwoPlayersMatches
-                    {
-                        First = new Player { Name = "Querrey S.", Sport = sportTennis },
-                        Second = new Player { Name = "Lajovic D.", Sport = sportTennis },
-                        Sport = sportTennis,
-                        _1 = 1.25m,
-                        _2 = 3.75m,
-                        TopMatch=true
-                    },
-                     new TwoPlayersMatches
-                     {
-                         First = new Player { Name = "Verdasco F.", Sport = sportTennis },
-                         Second = new Player { Name = "Londero J. I.", Sport = sportTennis },
-                         Sport = sportTennis,
-                         _1 = 1.25m,
-                         _2 = 3.75m,
-                         TopMatch = true
-                     },
-                      new TwoPlayersMatches
-                      {
-                          First = new Player { Name = "Fabbiano T.", Sport = sportTennis },
-                          Second = new Player { Name = "Djere L.", Sport = sportTennis },
-                          Sport = sportTennis,
-                          _1 = 1.50m,
-                          _2 = 2.40m,
-                          TopMatch = false
-                      }, new TwoPlayersMatches
-                      {
-                          First = new Player { Name = "Herbert P.H.", Sport = sportTennis },
-                          Second = new Player { Name = "Evans D.", Sport = sportTennis },
-                          Sport = sportTennis,
-                          _1 = 2.25m,
-                          _2 = 1.60m,
-                          TopMatch = false
-                      },
-                       new TwoPlayersMatches
-                       {
-                           First = new Player { Name = "Simon G.", Sport = sportTennis },
-                           Second = new Player { Name = "Jarry N.", Sport = sportTennis },
-                           Sport = sportTennis,
-                           _1 = 1.50m,
-                           _2 = 2.40m,
-                           TopMatch = false
-                       },
-                        new TwoPlayersMatches
-                        {
-                            First = new Player { Name = "Edmund K.", Sport = sportTennis },
-                            Second = new Player { Name = "Norrie C.", Sport = sportTennis },
-                            Sport = sportTennis,
-                            _1 = 1.50m,
-                            _2 = 2.40m,
-                            TopMatch = false
-                        },
-                         new TwoPlayersMatches
-                         {
-                             First = new Player { Name = "Johnson S.", Sport = sportTennis },
-                             Second = new Player { Name = "Hurkacz H.   ", Sport = sportTennis },
-                             Sport = sportTennis,
-                             _1 = 1.50m,
-                             _2 = 2.40m,
-                             TopMatch = false
-                         },
-                          new TwoPlayersMatches
-                          {
-                              First = new Player { Name = "Pella G.", Sport = sportTennis },
-                              Second = new Player { Name = "Fritz T.", Sport = sportTennis },
-                              Sport = sportTennis,
-                              _1 = 1.50m,
-                              _2 = 2.40m,
-                              TopMatch = false
-                          },
-                           new TwoPlayersMatches
+                           },
+                           new Matches
                            {
-                               First = new Player { Name = "Tomic B.", Sport = sportTennis },
-                               Second = new Player { Name = "Gojowczyk P.", Sport = sportTennis },
+                               HomeTeam = new Teams { Name = "Querrey S."},
+                               AwayTeam = new Teams { Name = "Lajovic D." },
+                               Types = new Types { _1 = 1.25m, _2 = 3.75m},
                                Sport = sportTennis,
-                               _1 = 1.65m,
-                               _2 = 2.10m,
+                               TopMatch = true
+                           },
+                           new Matches
+                           {
+                               HomeTeam = new Teams { Name = "Verdasco F." },
+                               AwayTeam = new Teams { Name = "Londero J. I." },
+                               Types = new Types { _1 = 1.25m, _2 = 3.75m },
+                               Sport = sportTennis,
+                               TopMatch = true
+                           },
+                           new Matches
+                           {
+                               HomeTeam = new Teams { Name = "Fabbiano T." },
+                               AwayTeam = new Teams {  Name = "Djere L." },
+                               Types = new Types { _1 = 1.50m, _2 = 2.40m },
+                               Sport = sportTennis,
                                TopMatch = false
-                           }
+                           },
+                           new Matches
+                           {
+                               HomeTeam = new Teams { Name = "Herbert P.H." },
+                               AwayTeam = new Teams { Name = "Evans D." },
+                               Types = new Types { _1 = 2.25m, _2 = 1.60m },
+                               Sport = sportTennis,
+                               TopMatch = false
+                           },
+                           new Matches
+                           {
+                               HomeTeam = new Teams { Name = "Simon G." },
+                               AwayTeam = new Teams { Name = "Jarry N." },
+                               Types = new Types { _1 = 1.50m, _2 = 2.40m, },
+                               Sport = sportTennis,
+                               TopMatch = false
+                           },
+                            new Matches
+                            {
+                                HomeTeam = new Teams { Name = "Edmund K." },
+                                AwayTeam = new Teams { Name = "Norrie C." },
+                                Types = new Types { _1 = 1.50m, _2 = 2.40m, },
+                                Sport = sportTennis,
+                                TopMatch = false
+                            },
+                            new Matches
+                            {
+                                HomeTeam = new Teams { Name = "Johnson S." },
+                                AwayTeam = new Teams { Name = "Hurkacz H." },
+                                Types = new Types { _1 = 1.50m, _2 = 2.40m, },
+                                Sport = sportTennis,
+                                TopMatch = false
+                            },
+                             new Matches
+                             {
+                                 HomeTeam = new Teams { Name = "Pella G." },
+                                 AwayTeam = new Teams { Name = "Fritz T." },
+                                 Types = new Types { _1 = 1.50m, _2 = 2.40m, },
+                                 Sport = sportTennis,
+                                 TopMatch = false
+                             },
+                             new Matches
+                             {
+                                 HomeTeam = new Teams { Name = "Tomic B." },
+                                 AwayTeam = new Teams { Name = "Gojowczyk P." },
+                                 Types = new Types { _1 = 1.65m, _2 = 2.10m, },
+                                 Sport = sportTennis,
+                                 TopMatch = false
+                             }
                     );
                 context.SaveChanges();
             }
