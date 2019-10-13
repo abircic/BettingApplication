@@ -5,29 +5,65 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Aplikacija_za_kladenje.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace Aplikacija_za_kladenje.Models
 {
     public static class SeedData
     {
+        public static void methodSeedData(UserManager<AppUser> userManager,RoleManager<IdentityRole> roleManager)
+        {
+            SeedRoles(roleManager);
+            SeedUsers(userManager);
+        }
+        public static void SeedRoles(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.RoleExistsAsync("User").Result)
+            {
+                IdentityRole role = new IdentityRole();
+                role.Name = "User";
+                IdentityResult roleResult = roleManager.CreateAsync(role).Result;
+            }
+
+
+            if (!roleManager.RoleExistsAsync("Admin").Result)
+            {
+                IdentityRole role = new IdentityRole();
+                role.Name = "Admin";
+                IdentityResult roleResult = roleManager.
+                CreateAsync(role).Result;
+            }
+        }
+
+        public static void SeedUsers(UserManager<AppUser> userManager)
+        {
+            if (userManager.FindByNameAsync("Admin").Result == null)
+            {
+                AppUser user = new AppUser();
+                user.FirstName = "Admin";
+                user.LastName = "Admin";
+                user.Age = 18;
+                user.UserName = "Admin";
+                IdentityResult result = userManager.CreateAsync(user, "Adminpass1").Result;
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "Admin").Wait();
+                    var wallet = new Wallet();
+                    wallet.Userid = user.Id;
+                    wallet.Saldo = 9999999;
+                }
+            }
+        }
         public static void InitializeAsync(IServiceProvider serviceProvider)
         {
             using (var context = new Aplikacija_za_kladenjeContext(
                 serviceProvider.GetRequiredService<
                     DbContextOptions<Aplikacija_za_kladenjeContext>>()))
             {
-                if (context.Wallet.Any())
+                if (context.Sports.Any())
                 {
                     return;   // DB has been seeded
                 }
-
-                context.Wallet.AddRange(
-                    new Wallet
-                    {
-                        Saldo = 100.00m
-                    }
-                );
-
                 context.Sports.AddRange(
                     new Sports
                     {
@@ -45,23 +81,29 @@ namespace Aplikacija_za_kladenje.Models
                 context.Leagues.AddRange(
                     new Leagues
                     {
-                        Name = "Spain",
+                        Name = "Spain La Liga",
                         Sport = sportFootball
                     },
                      new Leagues
                      {
-                         Name = "Italy",
+                         Name = "Italy Serie A",
                          Sport = sportFootball
                      },
                      new Leagues
                      {
-                         Name = "France",
+                         Name = "France Ligue 1",
                          Sport = sportFootball
                      },
                       new Leagues
                       {
-                          Name = "England",
+                          Name = "England Premier League",
                           Sport = sportFootball
+                      }
+                      ,
+                      new Leagues
+                      {
+                          Name = "ATP",
+                          Sport = sportTennis
                       }
                 );
                 context.SaveChanges();
@@ -69,6 +111,7 @@ namespace Aplikacija_za_kladenje.Models
                 var leagueItaly = context.Leagues.SingleOrDefault(l => l.Name.Contains("Italy"));
                 var leagueFrance = context.Leagues.SingleOrDefault(l => l.Name.Contains("France"));
                 var leagueEngland = context.Leagues.SingleOrDefault(l => l.Name.Contains("England"));
+                var leagueATP = context.Leagues.SingleOrDefault(l => l.Name.Contains("ATP"));
                 context.Matches.AddRange(
                     new Matches
                     {
@@ -249,72 +292,72 @@ namespace Aplikacija_za_kladenje.Models
                            },
                            new Matches
                            {
-                               HomeTeam = new Teams { Name = "Querrey S."},
-                               AwayTeam = new Teams { Name = "Lajovic D." },
+                               HomeTeam = new Teams { Name = "Querrey S.", League = leagueATP },
+                               AwayTeam = new Teams { Name = "Lajovic D.", League = leagueATP },
                                Types = new Types { _1 = 1.25m, _2 = 3.75m},
                                Sport = sportTennis,
                                TopMatch = true
                            },
                            new Matches
                            {
-                               HomeTeam = new Teams { Name = "Verdasco F." },
-                               AwayTeam = new Teams { Name = "Londero J. I." },
+                               HomeTeam = new Teams { Name = "Verdasco F.", League = leagueATP },
+                               AwayTeam = new Teams { Name = "Londero J. I.", League = leagueATP },
                                Types = new Types { _1 = 1.25m, _2 = 3.75m },
                                Sport = sportTennis,
                                TopMatch = true
                            },
                            new Matches
                            {
-                               HomeTeam = new Teams { Name = "Fabbiano T." },
-                               AwayTeam = new Teams {  Name = "Djere L." },
+                               HomeTeam = new Teams { Name = "Fabbiano T.", League = leagueATP },
+                               AwayTeam = new Teams {  Name = "Djere L.", League = leagueATP },
                                Types = new Types { _1 = 1.50m, _2 = 2.40m },
                                Sport = sportTennis,
                                TopMatch = false
                            },
                            new Matches
                            {
-                               HomeTeam = new Teams { Name = "Herbert P.H." },
-                               AwayTeam = new Teams { Name = "Evans D." },
+                               HomeTeam = new Teams { Name = "Herbert P.H.", League = leagueATP },
+                               AwayTeam = new Teams { Name = "Evans D.", League = leagueATP },
                                Types = new Types { _1 = 2.25m, _2 = 1.60m },
                                Sport = sportTennis,
                                TopMatch = false
                            },
                            new Matches
                            {
-                               HomeTeam = new Teams { Name = "Simon G." },
-                               AwayTeam = new Teams { Name = "Jarry N." },
+                               HomeTeam = new Teams { Name = "Simon G.", League = leagueATP },
+                               AwayTeam = new Teams { Name = "Jarry N.", League = leagueATP },
                                Types = new Types { _1 = 1.50m, _2 = 2.40m, },
                                Sport = sportTennis,
                                TopMatch = false
                            },
                             new Matches
                             {
-                                HomeTeam = new Teams { Name = "Edmund K." },
-                                AwayTeam = new Teams { Name = "Norrie C." },
+                                HomeTeam = new Teams { Name = "Edmund K.", League = leagueATP },
+                                AwayTeam = new Teams { Name = "Norrie C.", League = leagueATP },
                                 Types = new Types { _1 = 1.50m, _2 = 2.40m, },
                                 Sport = sportTennis,
                                 TopMatch = false
                             },
                             new Matches
                             {
-                                HomeTeam = new Teams { Name = "Johnson S." },
-                                AwayTeam = new Teams { Name = "Hurkacz H." },
+                                HomeTeam = new Teams { Name = "Johnson S.", League = leagueATP },
+                                AwayTeam = new Teams { Name = "Hurkacz H.", League = leagueATP },
                                 Types = new Types { _1 = 1.50m, _2 = 2.40m, },
                                 Sport = sportTennis,
                                 TopMatch = false
                             },
                              new Matches
                              {
-                                 HomeTeam = new Teams { Name = "Pella G." },
-                                 AwayTeam = new Teams { Name = "Fritz T." },
+                                 HomeTeam = new Teams { Name = "Pella G.", League = leagueATP },
+                                 AwayTeam = new Teams { Name = "Fritz T.", League = leagueATP },
                                  Types = new Types { _1 = 1.50m, _2 = 2.40m, },
                                  Sport = sportTennis,
                                  TopMatch = false
                              },
                              new Matches
                              {
-                                 HomeTeam = new Teams { Name = "Tomic B." },
-                                 AwayTeam = new Teams { Name = "Gojowczyk P." },
+                                 HomeTeam = new Teams { Name = "Tomic B.", League = leagueATP },
+                                 AwayTeam = new Teams { Name = "Gojowczyk P.", League = leagueATP },
                                  Types = new Types { _1 = 1.65m, _2 = 2.10m, },
                                  Sport = sportTennis,
                                  TopMatch = false

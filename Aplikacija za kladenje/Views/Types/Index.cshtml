@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Aplikacija_za_kladenje.Models.Types>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model._1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._X)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._1X)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._X2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._12)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item._1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item._X)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item._2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item._1X)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item._X2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item._12)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

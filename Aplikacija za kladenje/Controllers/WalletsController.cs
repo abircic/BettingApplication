@@ -7,9 +7,14 @@ using Microsoft.EntityFrameworkCore;
 using Aplikacija_za_kladenje.Models;
 using System.Globalization;
 using Aplikacija_za_kladenje.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Aplikacija_za_kladenjeContext = Aplikacija_za_kladenje.Data.Aplikacija_za_kladenjeContext;
 
 namespace Aplikacija_za_kladenje.Controllers
-{
+{   
+    [Authorize]
     public class WalletsController : Controller
     {
         private readonly Aplikacija_za_kladenjeContext _context;
@@ -22,7 +27,12 @@ namespace Aplikacija_za_kladenje.Controllers
         // GET: Wallets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Wallet.Include(t=>t.Transactions).ToListAsync());
+            //ViewBag.UserId = HttpContext.Session.GetString("UserId");
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var wallet = _context.Wallet.Where(x => x.Userid == userId).Include(t => t.Transactions).ToListAsync();
+            TempData["Username"] = user.UserName;
+            return View(await wallet);
         }
 
         [HttpGet]
@@ -33,6 +43,12 @@ namespace Aplikacija_za_kladenje.Controllers
         [HttpPost]
         public async Task<IActionResult> Payment(string submit, string stake)
         {
+            //ViewBag.UserId = HttpContext.Session.GetString("UserId");
+            //string userId = ViewBag.UserId;
+            //var wallet = _context.Wallet.Where(x => x.Userid.ToString() == userId).FirstOrDefault();
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var wallet = _context.Wallet.Where(x => x.Userid == userId).FirstOrDefault();
             TempData["msg"] = null;
             var walletStake = decimal.Parse(stake, new NumberFormatInfo() { NumberDecimalSeparator = "." });
             if(walletStake < 10)
@@ -40,7 +56,6 @@ namespace Aplikacija_za_kladenje.Controllers
                 TempData["msg"] = "Minimum is 10 kn";
                 return RedirectToAction("Index");
             }
-            Wallet wallet = _context.Wallet.FirstOrDefault();
             UserTransactions transaction = new UserTransactions();
             List<UserTransactions> listTransactions = new List<UserTransactions>();
             if(submit=="CashIn")
@@ -74,14 +89,17 @@ namespace Aplikacija_za_kladenje.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
-        public async Task<IActionResult> Transactions()
+        public IActionResult Transactions()
         {
-            return View(await _context.UserTransactions.ToListAsync());
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var userTransaction = _context.UserTransactions.Where(x => x.UserId == userId).ToList();
+            return View(userTransaction);
         }
 
-        private bool WalletExists(int id)
+        private bool WalletExists(string id)
         {
-            return _context.Wallet.Any(e => e.Userid == id.ToString());
+            return _context.Wallet.Any(e => e.Userid == id);
         }
     }
 }

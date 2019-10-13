@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Aplikacija_za_kladenje.Models;
-using System.Web;
 using Aplikacija_za_kladenje.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Aplikacija_za_kladenje.Controllers
 {
+    [AllowAnonymous]
     public class MatchesController : Controller
     {
         private readonly Aplikacija_za_kladenjeContext _context;
@@ -67,8 +68,8 @@ namespace Aplikacija_za_kladenje.Controllers
         [HttpGet]
         public IActionResult TopMatches()
         {
-            List<Matches> topMatches = _context.Matches.Include(s => s.Sport.Name.Contains("Football")).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(t => t.TopMatch == true).ToList();
-            List<Matches> topTwoPlayersMatches = _context.Matches.Include(s => s.Sport.Name.Contains("Tennis")).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Include(s => s.Sport).Where(t => t.TopMatch == true).ToList();
+            List<Matches> topMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).Where(t => t.TopMatch == true).ToList();
+            List<Matches> topTwoPlayersMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tennis")).Where(t => t.TopMatch == true).ToList();
             List<TopMatchesViewModel> allMatches = new List<TopMatchesViewModel>();
             List<TopMatchesViewModel> matchVmList = topMatches.Select(x => new TopMatchesViewModel
             {
@@ -170,7 +171,6 @@ namespace Aplikacija_za_kladenje.Controllers
             return View(matches);
         }
 
-        // GET: Matches/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -178,7 +178,7 @@ namespace Aplikacija_za_kladenje.Controllers
                 return NotFound();
             }
 
-            var matches = await _context.Matches
+            var matches = await _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (matches == null)
             {
@@ -188,10 +188,10 @@ namespace Aplikacija_za_kladenje.Controllers
             return View(matches);
         }
 
-        // POST: Matches/Delete/5
+        // POST: test/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var matches = await _context.Matches.FindAsync(id);
             _context.Matches.Remove(matches);
@@ -202,6 +202,43 @@ namespace Aplikacija_za_kladenje.Controllers
         private bool MatchesExists(string id)
         {
             return _context.Matches.Any(e => e.Id == id);
+        }
+        public IActionResult Add()
+        {
+            List<Teams> teamList = _context.Teams.Include(l => l.League).OrderBy(l => l.League).ToList();
+
+
+            return View(teamList);
+        }
+
+        // POST: Matches/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Add(string First, string Second, decimal _1, decimal _X, decimal _2, decimal _1X, decimal _X2, decimal _12, string league, bool topMatch)
+        {
+            var type = new Types();
+            type._1 = _1;
+            type._X = _X;
+            type._2 = _2;
+            type._1X = _1X;
+            type._X2 = _X2;
+            type._12 = _12;
+            _context.Types.Add(type);
+            _context.SaveChanges();
+            var firstTeam = _context.Teams.Include(l => l.League).Where(f => f.Name == First).FirstOrDefault();
+            var secondTeam = _context.Teams.Include(l => l.League).Where(f => f.Name == Second).FirstOrDefault();
+            var leagueTeam = _context.Leagues.Include(s => s.Sport).Where(l => l.Name == league).FirstOrDefault();
+            var match = new Matches();
+            match.HomeTeam = firstTeam;
+            match.AwayTeam = secondTeam;
+            match.Types = type;
+            match.TopMatch = topMatch;
+            match.Sport = leagueTeam.Sport;
+            _context.Matches.Add(match);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Matches");
         }
     }
 }

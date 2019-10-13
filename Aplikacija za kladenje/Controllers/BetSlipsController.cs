@@ -5,9 +5,12 @@ using Aplikacija_za_kladenje.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Aplikacija_za_kladenje.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Aplikacija_za_kladenje.Controllers
 {
+    [Authorize]
     public class BetSlipsController : Controller
     {
         private readonly Aplikacija_za_kladenjeContext _context;
@@ -21,20 +24,23 @@ namespace Aplikacija_za_kladenje.Controllers
         // GET: BetSlips
         public async Task<IActionResult> Index()
         {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var wallet = _context.Wallet.Where(x => x.Userid == userId).FirstOrDefault();
             int counter = 0;
             decimal totOdd = 1;
-            foreach (BetSlip item in _context.BetSlip)
+            foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id==userId))
             {
                 totOdd = totOdd * item.Odd;
                 counter++;
             }
+
             TempData["Odd"] = totOdd.ToString("0.00");
             TempData["NumberOfMatches"] = counter;
             TempData["CashOut"] = "kn";
             TempData["Tax"] = "kn";
-            var wallet = _context.Wallet.FirstOrDefault();
             TempData["Saldo"] = wallet.Saldo+" kn";
-            return View(await _context.BetSlip.ToListAsync());
+            return View(await _context.BetSlip.Where(x => x.User.Id == userId).ToListAsync());
         }
 
 
@@ -46,6 +52,8 @@ namespace Aplikacija_za_kladenje.Controllers
         [HttpPost]
         public async Task<IActionResult> Bet(string matchId, string type, bool top)
         {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             decimal betValue = 0;
             var football = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).SingleOrDefault(q => q.Id == matchId);
              if(football != null)
@@ -92,7 +100,7 @@ namespace Aplikacija_za_kladenje.Controllers
             BetSlip temp = new BetSlip();
             BetSlip matches = null;
             bool tempTopStatus = false;
-            foreach (BetSlip item in _context.BetSlip)
+            foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
             {
                if(item.MatchId == matchId)
                 {
@@ -158,9 +166,10 @@ namespace Aplikacija_za_kladenje.Controllers
                     }
                     temp.Type = type;
                     decimal totOdd = 1;
+                    temp.User = user;
                     _context.BetSlip.Add(temp);
                     await _context.SaveChangesAsync();
-                    foreach (BetSlip item in _context.BetSlip)
+                    foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
                     {
                         totOdd = totOdd * item.Odd;
                     }
@@ -180,7 +189,7 @@ namespace Aplikacija_za_kladenje.Controllers
                 _context.BetSlip.Update(matches);
                 await _context.SaveChangesAsync();
                 decimal totOdd = 1;
-                foreach (BetSlip item in _context.BetSlip)
+                foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
                 {
                     totOdd = totOdd * item.Odd;
                 }
@@ -198,7 +207,7 @@ namespace Aplikacija_za_kladenje.Controllers
                 _context.BetSlip.Update(matches);
                 await _context.SaveChangesAsync();
                 decimal totOdd = 1;
-                foreach (BetSlip item in _context.BetSlip)
+                foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
                 {
                     totOdd = totOdd * item.Odd;
                 }
@@ -236,6 +245,8 @@ namespace Aplikacija_za_kladenje.Controllers
         [HttpPost]
         public async Task<IActionResult> BetTwoPlayer(string matchId, string type, Boolean top)
         {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             decimal betValue = 0;
             BetSlip temp = new BetSlip();
             BetSlip match = null;
@@ -249,7 +260,7 @@ namespace Aplikacija_za_kladenje.Controllers
                     betValue = other.Types._2;
                     break;
             }
-            foreach (BetSlip item in _context.BetSlip)
+            foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
             {
                 if (item.MatchId == matchId)
                 {
@@ -264,10 +275,11 @@ namespace Aplikacija_za_kladenje.Controllers
                 temp.TopMatch = top;
                 temp.Odd = betValue;
                 temp.Type = type;
+                temp.User = user;
                 _context.BetSlip.Add(temp);
                 decimal totOdd = 1;
                 await _context.SaveChangesAsync();
-                foreach (BetSlip item in _context.BetSlip)
+                foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
                 {
                     totOdd = totOdd * item.Odd;
                 }
@@ -283,7 +295,7 @@ namespace Aplikacija_za_kladenje.Controllers
                 _context.BetSlip.Update(match);
                 await _context.SaveChangesAsync();
                 decimal totOdd = 1;
-                foreach (BetSlip item in _context.BetSlip)
+                foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
                 {
                     totOdd = totOdd * item.Odd;
                 }

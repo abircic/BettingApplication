@@ -1,10 +1,11 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using Aplikacija_za_kladenje.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Aplikacija_za_kladenje.Data
 {
-    public class Aplikacija_za_kladenjeContext : DbContext
+    public class Aplikacija_za_kladenjeContext : IdentityDbContext<AppUser>
     {
         public Aplikacija_za_kladenjeContext(DbContextOptions<Aplikacija_za_kladenjeContext> options)
             : base(options)
@@ -27,6 +28,7 @@ namespace Aplikacija_za_kladenje.Data
         public DbSet<UserBets> UserBets { get; set; }
 
         public DbSet<UserTransactions> UserTransactions { get; set; }
+
 
 
     }

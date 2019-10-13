@@ -1,0 +1,55 @@
+﻿@model Aplikacija_za_kladenje.Models.Types
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Types</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model._1)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model._1)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model._X)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model._X)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model._2)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model._2)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model._1X)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model._1X)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model._X2)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model._X2)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model._12)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model._12)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

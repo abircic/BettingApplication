@@ -10,6 +10,7 @@ namespace Aplikacija_za_kladenje.Models
         public string Type { get; set; }
         public decimal Odd { get; set; }
         public bool TopMatch { get; set; }
+        public virtual AppUser User { get; set; }
 
     }
 }

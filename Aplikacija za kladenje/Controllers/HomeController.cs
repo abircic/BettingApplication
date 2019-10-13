@@ -6,10 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 using Aplikacija_za_kladenje.Models;
 using Microsoft.EntityFrameworkCore;
 using Aplikacija_za_kladenje.Data;
-
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Aplikacija_za_kladenje.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly Aplikacija_za_kladenjeContext _context;
@@ -17,9 +23,32 @@ namespace Aplikacija_za_kladenje.Controllers
         {
             _context = context;
         }
-        
+
         public IActionResult Index()
         {
+            //ViewBag.UserId = HttpContext.Session.GetString("UserId");
+            //ViewBag.UserName = HttpContext.Session.GetString("UserName");
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var wallet = _context.Wallet.Where(x => x.Userid == userId).FirstOrDefault();
+                if (wallet == null)
+                {
+                    TempData["Username"] = null;
+                    TempData["Saldo"] = null;
+                }
+                else
+                {
+                    TempData["Username"] = user.UserName;
+                    TempData["Saldo"] = wallet.Saldo + " kn";
+                }
+            }
+            else
+            {
+                RedirectToAction("Index", "Matches");
+            }
             int counter = 0;
             decimal totOdd = 1;
             List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).ToList();
@@ -36,17 +65,18 @@ namespace Aplikacija_za_kladenje.Controllers
                 _X2 = x.Types._X2,
                 _12 = x.Types._12,
             }).OrderBy((o=>o.League)).ToList();
-            foreach (BetSlip item in _context.BetSlip)
+            foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
             {
                 totOdd = totOdd * item.Odd;
                 counter++;
             }
+           
             TempData["Odd"] = totOdd.ToString("0.00");
             TempData["NumberOfMatches"] = counter;
             TempData["CashOut"] = "kn";
-            var wallet = _context.Wallet.FirstOrDefault();
-            TempData["Saldo"] = wallet.Saldo + " kn";
-            List<BetSlip> betSlipList = _context.BetSlip.ToList();
+            
+            
+            List<BetSlip> betSlipList = _context.BetSlip.Where(b => b.User.Id == userId).ToList();
             MatchesPartialView model = new MatchesPartialView();
             model.BetSlip = betSlipList;
             model.Matches = matchVmList;
@@ -55,6 +85,8 @@ namespace Aplikacija_za_kladenje.Controllers
 
         public IActionResult TwoPlayerIndex()
         {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             int counter = 0;
             decimal totOdd = 1;
             List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tennis")).ToList();
@@ -75,9 +107,23 @@ namespace Aplikacija_za_kladenje.Controllers
             TempData["Odd"] = totOdd.ToString("0.00");
             TempData["NumberOfMatches"] = counter;
             TempData["CashOut"] = "kn";
-            var wallet = _context.Wallet.FirstOrDefault();
-            TempData["Saldo"] = wallet.Saldo + " kn";
-            List<BetSlip> betSlipList = _context.BetSlip.ToList();
+            if (User.Identity.IsAuthenticated)
+            {
+                
+                var wallet = _context.Wallet.Where(x => x.Userid == userId).FirstOrDefault();
+                if (wallet == null)
+                {
+                    TempData["Saldo"] = null;
+                }
+                else
+                {
+                    TempData["Saldo"] = wallet.Saldo + " kn";
+                    TempData["Username"] = user.UserName;
+                }
+                    
+
+            }
+            List<BetSlip> betSlipList = _context.BetSlip.Where(b => b.User.Id == userId).ToList();
             TwoPlayersPartialView model = new TwoPlayersPartialView();
             model.BetSlip = betSlipList;
             model.TwoPlayerMatches = matchVmList;
@@ -87,6 +133,8 @@ namespace Aplikacija_za_kladenje.Controllers
 
         public IActionResult TopMatchesIndex()
         {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             int counter = 0;
             decimal totOdd = 1;
             List<Matches> topMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).Where(t => t.TopMatch == true).ToList();
@@ -115,7 +163,7 @@ namespace Aplikacija_za_kladenje.Controllers
             }).ToList();
             allMatches.AddRange(matchVmList);
             allMatches.AddRange(twoPlayersMatchVmList);
-            foreach (BetSlip item in _context.BetSlip)
+            foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
             {
                 totOdd = totOdd * item.Odd;
                 counter++;
@@ -123,19 +171,58 @@ namespace Aplikacija_za_kladenje.Controllers
             TempData["Odd"] = totOdd.ToString("0.00");
             TempData["NumberOfMatches"] = counter;
             TempData["CashOut"] = "kn";
-            var wallet = _context.Wallet.FirstOrDefault();
-            TempData["Saldo"] = wallet.Saldo + " kn";
-            List<BetSlip> betSlipList = _context.BetSlip.ToList();
+            if (User.Identity.IsAuthenticated)
+            {
+                
+                var wallet = _context.Wallet.Where(x => x.Userid == userId).FirstOrDefault();
+                if (wallet == null)
+                {
+                    TempData["Saldo"] = null;
+                }
+                else
+                {
+                    TempData["Saldo"] = wallet.Saldo + " kn";
+                    TempData["Username"] = user.UserName;
+                }
+                    
+
+            }
+            List<BetSlip> betSlipList = _context.BetSlip.Where(b => b.User.Id == userId).ToList();
             TopMatchesPartialView model = new TopMatchesPartialView();
             model.BetSlip = betSlipList;
             model.TopMatches = allMatches;
             return View(model);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Authorize(Roles = "Admin")]
+        // GET: test/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var matches = await _context.Matches.Include(h=>h.HomeTeam).Include(a=>a.AwayTeam)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (matches == null)
+            {
+                return NotFound();
+            }
+
+            return View(matches);
         }
+        [Authorize(Roles = "Admin")]
+        // POST: test/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var matches = await _context.Matches.FindAsync(id);
+            _context.Matches.Remove(matches);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        
     }
 }

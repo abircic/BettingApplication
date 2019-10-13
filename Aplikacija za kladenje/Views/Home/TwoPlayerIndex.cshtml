@@ -50,7 +50,7 @@
                         @Html.DisplayFor(modelItem => item.TopMatch)
                     </td>
                     <td>
-                        <a asp-controller="BetSlips" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-controller="BetSlips" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
                     </td>
                 </tr>
             }
@@ -66,8 +66,8 @@
             <td></td>
             <td><input type="text" name="Stake" id="stake" pattern="^(?!0\.00)\d{1,6}(,\d{3})*(\.\d\d)?$" placeholder="Enter the amount in format 0.00" class="form-control" /></td>
             <td>-5%: <span id="Tax"></span> @TempData["Tax"]</td>
-            <td><button type="submit" value="Potvrdi" name="submit" class="btn btn-primary">Accept</button></td>
-            <td><button type="submit" value="Remove" name="submit" class="btn btn-primary">Remove All</button></td>
+            <td><button type="submit" value="Potvrdi" name="submit" class="btn btn-success">Accept</button></td>
+            <td><button type="submit" value="Remove" name="submit" class="btn btn-danger">Remove All</button></td>
         </tr>
 
     }
