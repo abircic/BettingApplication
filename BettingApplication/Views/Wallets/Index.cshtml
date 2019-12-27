@@ -1,0 +1,45 @@
+﻿@model IEnumerable<BettingApplication.Models.Wallet>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Your @Html.DisplayNameFor(model => model.Saldo):
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @using (Html.BeginForm("Payment", "Wallets", FormMethod.Post))
+        {
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Saldo) kn
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="Stake" id="stake" pattern="^(?!0\.00)\d{1,6}(,\d{3})*(\.\d\d)?$" placeholder="Enter the amount in format 0.00" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" value="Transactions" class="btn btn-primary" onclick="location.href = '@Url.Action("Transactions", "Wallets")'" />
+                        <button type="submit" name="submit" value="CashIn" class="btn btn-secondary">Cash In</button>
+                        <button type="submit" name="submit" value="CashOut" class="btn btn-light">Cash Out</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@if (@TempData["msg"]!=null)
+{
+    <script>alert("@TempData["msg"]");</script>
+}

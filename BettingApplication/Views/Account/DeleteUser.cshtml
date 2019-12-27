@@ -1,0 +1,11 @@
+﻿
+<form asp-action="DeleteUser" role="form">
+
+    <div class="modal-body form-horizontal">
+        <h1>Are you sure that you want delete ?</h1>
+    </div>
+     <form asp-action="Delete">
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a class="btn btn-primary" asp-action="UsersList">Back to List Users</a>
+    </form>
+</form> 

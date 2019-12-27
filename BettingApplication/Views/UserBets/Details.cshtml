@@ -1,0 +1,94 @@
+﻿@model BettingApplication.Models.UserBets
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Details</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Home Team")
+            </th>
+            <th>
+                @Html.DisplayName("Away Team")
+            </th>
+            <th>
+                @Html.Display("Type")
+            </th>
+            <th>
+                @Html.DisplayName("Odd")
+            </th>
+            <th>
+                @Html.DisplayName("TopMatch")
+            </th>
+            <th>
+                @Html.DisplayName("Result")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.BetMatches)
+        {
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Match.HomeTeam.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Match.AwayTeam.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Odd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TopMatch)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Result)
+            </td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>
+<div>
+    <h4>UserBets</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TimeStamp)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TimeStamp)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BetAmount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BetAmount) kn
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalOdd)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalOdd)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CashOut)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CashOut) kn
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+

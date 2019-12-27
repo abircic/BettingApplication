@@ -1,0 +1,45 @@
+﻿@model IEnumerable<BettingApplication.ViewModels.UsersViewModel>
+
+@{
+    ViewData["Title"] = "Users List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Users List</h1>
+<div class="top-buffer"></div>
+<div class="panel panel-primary">
+    <div class="panel-body">
+       
+        <div class="top-buffer"></div>
+        <table class="table table-bordered table-striped table-condensed">
+            <thead>
+                <tr>    
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Age</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>UserId</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                        <td>@user.Age</td>
+                        <td>@user.Username</td>
+                        <td>@user.Email</td>
+                        <td>@user.UserId</td>
+                        <td>
+                            <form asp-action="AktivateUser" asp-route-id="@user.UserId">
+                            <input type="submit" class="btn btn-success" value="Activate"></form>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
