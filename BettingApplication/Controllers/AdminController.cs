@@ -123,7 +123,7 @@ namespace BettingApplication.Controllers
         }
         public async Task<IActionResult> ImportDatabase()
         {
-            string path = @"C:\Users\antee\Documents\Visual Studio 2019\Projects\BettingApplication\MatchesImport.txt";
+            string path = @"C:\Users\antee\Documents\Visual Studio 2019\Projects\BettingApplication\MatchesImport.csv";
             using (var reader = new StreamReader(path))
             {
                 while (!reader.EndOfStream)
@@ -132,18 +132,21 @@ namespace BettingApplication.Controllers
                     var values = line.Split(';');
                     var match = new MatchViewModel();
                     var sportFootball = _context.Sports.SingleOrDefault(s => s.Name.Contains("Football"));
+                    var hour = values[8].Split(':');
+                    var firstTeam = values[0].Split('"');
                     _context.Matches.AddRange(
                         new Matches
                         {
-                            HomeTeam = _context.Teams.SingleOrDefault(s => s.Name.Contains(values[0])),
-                            AwayTeam = _context.Teams.SingleOrDefault(s => s.Name.Contains(values[1])),
+                            HomeTeam = _context.Teams.First(s => s.Name.Contains(firstTeam[1])),
+                            AwayTeam = _context.Teams.First(s => s.Name.Contains(values[1])),
+                            Time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00),
                             Types = new Types { _1 = Convert.ToDecimal(values[2]), _X = Convert.ToDecimal(values[3]), _2 = Convert.ToDecimal(values[4]), _1X = Convert.ToDecimal(values[5]), _X2 = Convert.ToDecimal(values[6]), _12 = Convert.ToDecimal(values[7]) },
                             Sport = sportFootball
                         });
                     _context.SaveChanges();
                 }
             }
-            return RedirectToAction("TwoPlayerIndex", "Home");
+            return RedirectToAction("Index", "Home");
         }
         public async Task<IActionResult> ExportTwoPlayerDatabase()
         {
@@ -178,7 +181,7 @@ namespace BettingApplication.Controllers
 
             public async Task<IActionResult> ImportTwoPlayerDatabase()
         {
-            string path = @"C:\Users\antee\Documents\Visual Studio 2019\Projects\BettingApplication\MatchesImportTwoPlayer.txt";
+            string path = @"C:\Users\antee\Documents\Visual Studio 2019\Projects\BettingApplication\MatchesImportTwoPlayer.csv";
             using (var reader = new StreamReader(path))
             {
                 while (!reader.EndOfStream)
@@ -188,12 +191,15 @@ namespace BettingApplication.Controllers
                     var match = new MatchViewModel();
                     var sportTennis = _context.Sports.SingleOrDefault(s => s.Name.Contains("Tennis"));
                     var leagueATP = _context.Leagues.SingleOrDefault(l => l.Name.Contains("ATP"));
+                    var hour = values[4].Split(':');
+                    var firstTeam = values[0].Split('"');
                     _context.Matches.AddRange(
                         new Matches
                         {
-                            HomeTeam = new Teams { Name = values[0], League = leagueATP },
+                            HomeTeam = new Teams { Name = firstTeam[1], League = leagueATP },
                             AwayTeam = new Teams { Name = values[1], League = leagueATP },
-                            Types = new Types { _1 = 1.65m, _2 = 2.10m, },
+                            Types = new Types { _1 = Convert.ToDecimal(values[2]), _X = Convert.ToDecimal(values[3])},
+                            Time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00),
                             Sport = sportTennis,
                         });
                     _context.SaveChanges();

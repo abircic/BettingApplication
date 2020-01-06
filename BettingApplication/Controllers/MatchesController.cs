@@ -25,7 +25,7 @@ namespace BettingApplication.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Matches> matchesList = _context.Matches.Include(a=>a.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).ToList();
+            List<Matches> matchesList = _context.Matches.Include(a=>a.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).ToList();
 
 
             List<MatchViewModel> matchVmList = matchesList.Select(x => new MatchViewModel
@@ -112,7 +112,7 @@ namespace BettingApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,HomeTeam,AwayTeam,Result")] Matches matches)
+        public async Task<IActionResult> Create([Bind("Id,HomeTeam,AwayTeam,SuperSportResultModel")] Matches matches)
         {
             if (ModelState.IsValid)
             {
@@ -144,7 +144,7 @@ namespace BettingApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,HomeTeam,AwayTeam,Result")] Matches matches)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,HomeTeam,AwayTeam,SuperSportResultModel")] Matches matches)
         {
             if (id != matches.Id)
             {

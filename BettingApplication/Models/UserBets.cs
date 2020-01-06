@@ -13,5 +13,6 @@ namespace BettingApplication.Models
         public virtual ICollection<UserBetMatches> BetMatches { get; set; }
         public virtual Matches Match {get; set;}
         public virtual AppUser User { get; set; }
+        public string Win { get; set; }
     }
 }

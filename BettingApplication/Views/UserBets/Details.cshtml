@@ -15,16 +15,16 @@
                 @Html.DisplayName("Away Team")
             </th>
             <th>
+                @Html.DisplayName("Time")
+            </th>
+            <th>
                 @Html.Display("Type")
             </th>
             <th>
                 @Html.DisplayName("Odd")
             </th>
             <th>
-                @Html.DisplayName("TopMatch")
-            </th>
-            <th>
-                @Html.DisplayName("Result")
+                @Html.DisplayName("Win")
             </th>
             <th></th>
         </tr>
@@ -41,16 +41,16 @@
                 @Html.DisplayFor(modelItem => item.Match.AwayTeam.Name)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Match.Time)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Odd)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TopMatch)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Result)
+                @Html.DisplayFor(modelItem => item.Win)
             </td>
         </tr>
             }

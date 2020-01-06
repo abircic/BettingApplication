@@ -20,29 +20,35 @@
             <th>
                 @Html.DisplayNameFor(model => model.CashOut)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Win)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TimeStamp)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BetAmount) kn
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalOdd)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CashOut) kn
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeStamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BetAmount) kn
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalOdd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CashOut) kn
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Win)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

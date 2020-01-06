@@ -64,6 +64,24 @@ namespace BettingApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Results",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Teams = table.Column<string>(nullable: true),
+                    Time = table.Column<string>(nullable: true),
+                    WinningTypes = table.Column<string>(nullable: true),
+                    Result = table.Column<string>(nullable: true),
+                    SportName = table.Column<string>(nullable: true),
+                    LeagueName = table.Column<string>(nullable: true),
+                    Date = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Results", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sports",
                 columns: table => new
                 {
@@ -364,7 +382,8 @@ namespace BettingApplication.Migrations
                     TotalOdd = table.Column<decimal>(nullable: false),
                     CashOut = table.Column<decimal>(nullable: false),
                     MatchId = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true),
+                    Win = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -392,8 +411,7 @@ namespace BettingApplication.Migrations
                     MatchId = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: true),
                     Odd = table.Column<decimal>(nullable: false),
-                    TopMatch = table.Column<bool>(nullable: false),
-                    Result = table.Column<bool>(nullable: false),
+                    Win = table.Column<string>(nullable: true),
                     UserBetsId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -545,6 +563,9 @@ namespace BettingApplication.Migrations
 
             migrationBuilder.DropTable(
                 name: "BetSlip");
+
+            migrationBuilder.DropTable(
+                name: "Results");
 
             migrationBuilder.DropTable(
                 name: "UserBetMatches");

@@ -7,8 +7,7 @@ namespace BettingApplication.Models
         public virtual Matches Match { get; set; }
         public string Type { get; set; }
         public decimal Odd { get; set; }
-        public bool TopMatch { get; set; }
-        public bool Result { get; set; }
+        public string Win { get; set; }
         public virtual UserBets UserBets { get; set; }
     }
 }

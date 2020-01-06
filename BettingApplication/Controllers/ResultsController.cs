@@ -2,35 +2,71 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
+using BettingApplication.Data;
+using BettingApplication.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
 namespace BettingApplication.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ResultsController : ControllerBase
+    [AllowAnonymous]
+    public class ResultsController : Controller
     {
-        [HttpGet]
-        public bool GetResult(string homeTeam, string awayTeam, string type)
+        private readonly BettingApplicationContext _context;
+
+        public ResultsController(BettingApplicationContext context)
         {
-            using (var driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
+            _context = context;
+        }
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            string[] allowedSports = new string[] { "Nogomet", "Tenis", "Hokej", "Košarka", "Rukomet" };
+            var date = DateTime.Now;
+            string url = $"https://www.supersport.hr/rezultati/sport/{date.Year}-{date.Month.ToString("00")}-{date.Day.ToString("00")}";
+            string html;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.AutomaticDecompression = DecompressionMethods.GZip;
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
             {
-                driver.Navigate().GoToUrl("https://www.psk.hr/Results/Sport?date=2019-12-15");
-                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
-                List<IWebElement> elements = driver.FindElementsByClassName("result-row").ToList();
-                Dictionary<string, string> results = new Dictionary<string, string>();
-                foreach (IWebElement el in elements)
+                html = reader.ReadToEnd();
+            }
+            var results = JsonConvert.DeserializeObject<SuperSportResultsModelDto>(html);
+            var convertedResults = new List<SuperSportResultModel>();
+            foreach (var sport in results.Sports.Where(s => allowedSports.Contains(s.SportName)))
+            {
+                foreach (var league in sport.Leagues)
                 {
-                    results[el.FindElement(By.XPath(".//div[contains(@class, 'cell name')]//span")).Text] = el.FindElement(By.XPath(".//div[contains(@class, 'cell result')]//span")).Text;
+                    foreach (var result in league.Results)
+                    {
+                        var r = new SuperSportResultModel();
+                        r.Date = results.Date;
+                        r.SportName = sport.SportName;
+                        r.LeagueName = league.LeagueName;
+                        r.Time = result.Time;
+                        r.Teams = result.Teams;
+                        r.WinningTypes = result.WinningTypes;
+                        r.Result = result.Result;
+                        if ((_context.Results.Where(t => t.Teams == r.Teams).FirstOrDefault()) == null)
+                        {
+                            _context.AddRange(r);
+                            _context.SaveChanges();
+                            convertedResults.Add(r);
+                        }
+                    }
                 }
             }
-            return true;
+            return View(convertedResults);
         }
     }
 }

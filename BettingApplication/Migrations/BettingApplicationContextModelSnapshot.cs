@@ -4,16 +4,14 @@ using BettingApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BettingApplication.Migrations
 {
     [DbContext(typeof(BettingApplicationContext))]
-    [Migration("20191207213420_Initial")]
-    partial class Initial
+    partial class BettingApplicationContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,6 +178,30 @@ namespace BettingApplication.Migrations
                     b.ToTable("Sports");
                 });
 
+            modelBuilder.Entity("BettingApplication.Models.SuperSportResultModel", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Date");
+
+                    b.Property<string>("LeagueName");
+
+                    b.Property<string>("Result");
+
+                    b.Property<string>("SportName");
+
+                    b.Property<string>("Teams");
+
+                    b.Property<string>("Time");
+
+                    b.Property<string>("WinningTypes");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Results");
+                });
+
             modelBuilder.Entity("BettingApplication.Models.Teams", b =>
                 {
                     b.Property<int>("Id")
@@ -230,13 +252,11 @@ namespace BettingApplication.Migrations
 
                     b.Property<decimal>("Odd");
 
-                    b.Property<bool>("Result");
-
-                    b.Property<bool>("TopMatch");
-
                     b.Property<string>("Type");
 
                     b.Property<int?>("UserBetsId");
+
+                    b.Property<string>("Win");
 
                     b.HasKey("Id");
 
@@ -264,6 +284,8 @@ namespace BettingApplication.Migrations
                     b.Property<decimal>("TotalOdd");
 
                     b.Property<string>("UserId");
+
+                    b.Property<string>("Win");
 
                     b.HasKey("Id");
 

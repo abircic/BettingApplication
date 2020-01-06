@@ -28,6 +28,7 @@ namespace BettingApplication.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             var userBet = _context.UserBets.Where(x => x.User.Id == userId).Include(t => t.BetMatches).ToListAsync();
             TempData["Username"] = user.UserName;
+            UserBetWin();
             return View(await userBet);
         }
 
@@ -99,6 +100,7 @@ namespace BettingApplication.Controllers
                 userBet.BetAmount = betStake;
                 userBet.CashOut = (betStake / 100 * 95) * totOdd;
                 userBet.TotalOdd = totOdd;
+                userBet.Win = "Pending";
                 userBet.User = user;
                 List<UserBetMatches> listBetMatches = new List<UserBetMatches>();
 
@@ -109,7 +111,7 @@ namespace BettingApplication.Controllers
                     temp.Match = item.Match;
                     temp.Odd = item.Odd;
                     temp.Type = item.Type;
-                    temp.TopMatch = item.TopMatch;
+                    temp.Win = "Pending";
                     listBetMatches.Add(temp);
                 }
                 userBet.BetMatches = listBetMatches;
@@ -184,6 +186,68 @@ namespace BettingApplication.Controllers
             var topMatch = _context.AdminTopMatchConfigs.FirstOrDefault();
 
             return topMatch.MinimumNumberOfMatches;
+        }
+        public void UserBetWin()
+        {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            foreach (var item in _context.UserBetMatches.Where(u => u.UserBets.User.Id == userId).Include(m => m.Match.HomeTeam).Include(u => u.UserBets).ToList())
+            {
+                var match = _context.Results.Where(t => t.Teams.Contains(item.Match.HomeTeam.Name)).FirstOrDefault();
+                if (match != null)
+                {
+                    var winningTypes = match.WinningTypes.Split(';');
+                    foreach (var type in winningTypes)
+                    {
+                        if (item.Type == type)
+                            item.Win = "Win";
+                    }
+                    if (item.Win == "Pending")
+                        item.Win = "Lose";
+                    _context.Update(item);
+                    _context.SaveChanges();
+                }
+            }
+            CheckTicket(user);
+        }
+
+        public void CheckTicket(AppUser user)
+        {
+
+            bool flag = false;
+            foreach (var item in _context.UserBets.Where(t => t.Win == "Pending").ToList())
+            {
+                foreach (var match in item.BetMatches)
+                {
+                    if (match.Win == "Lose")
+                    {
+                        item.Win = "Lose";
+                        _context.Update(item);
+                        _context.SaveChanges();
+                        break;
+                    }
+                    else if (match.Win == "Win")
+                        flag = true;
+                    else if (match.Win == "Pending")
+                        flag = false;
+                }
+
+                if (flag == true)
+                {
+                    item.Win = "Win";
+                    _context.Update(item);
+                    var wallet = _context.Wallet.Where(u => u.User.Id == user.Id).FirstOrDefault();
+                    wallet.Saldo += item.CashOut;
+                    UserTransactions transaction = new UserTransactions();
+                    transaction.UserId = wallet.User.Id;
+                    transaction.Payment = item.CashOut.ToString();
+                    transaction.Transactions = "Isplata dobitka u iznosu od " + item.CashOut + " kn " + " " + DateTime.Now.ToString();
+                    _context.Update(wallet);
+                    _context.Update(transaction);
+                    _context.SaveChanges();
+
+                }
+            }
         }
     }
 }
