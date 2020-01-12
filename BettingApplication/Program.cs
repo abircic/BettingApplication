@@ -29,7 +29,7 @@ namespace BettingApplication
                 {
                     var context = services.GetRequiredService<BettingApplicationContext>();
                     context.Database.Migrate();
-                    SeedData.InitializeAsync(services);
+                    SeedTeamsData.InitializeAsync(services);
                 }
                 catch (Exception ex)
                 {

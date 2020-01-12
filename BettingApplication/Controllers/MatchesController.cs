@@ -50,7 +50,7 @@ namespace BettingApplication.Controllers
         [HttpGet]
         public IActionResult IndexTwoPlayers()
         {
-            List<Matches> matchesList = _context.Matches.Include(a=>a.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Where(s => s.Sport.Name.Contains("Tennis")).ToList();
+            List<Matches> matchesList = _context.Matches.Include(a=>a.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Where(s => s.Sport.Name.Contains("Tenis")).ToList();
 
             TwoPlayersViewModel matchVm = new TwoPlayersViewModel();
 
@@ -70,8 +70,8 @@ namespace BettingApplication.Controllers
         [HttpGet]
         public IActionResult TopMatches()
         {
-            List<Matches> topMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).Where(t => t.TopMatch == true).ToList();
-            List<Matches> topTwoPlayersMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tennis")).Where(t => t.TopMatch == true).ToList();
+            List<Matches> topMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Nogomet")).Where(t => t.TopMatch == true).ToList();
+            List<Matches> topTwoPlayersMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tenis")).Where(t => t.TopMatch == true).ToList();
             List<TopMatchesViewModel> allMatches = new List<TopMatchesViewModel>();
             List<TopMatchesViewModel> matchVmList = topMatches.Select(x => new TopMatchesViewModel
             {

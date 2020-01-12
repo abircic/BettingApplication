@@ -84,7 +84,7 @@ namespace BettingApplication.Controllers
 
         public async Task<IActionResult> ExportDatabase()
         {
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).ToList();
+            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Nogomet")).ToList();
             List<MatchViewModel> matchVmList = matchesList.Select(x => new MatchViewModel
             {
                 Id = x.Id,
@@ -131,7 +131,7 @@ namespace BettingApplication.Controllers
                     var line = reader.ReadLine();
                     var values = line.Split(';');
                     var match = new MatchViewModel();
-                    var sportFootball = _context.Sports.SingleOrDefault(s => s.Name.Contains("Football"));
+                    var sportFootball = _context.Sports.SingleOrDefault(s => s.Name.Contains("Nogomet"));
                     var hour = values[8].Split(':');
                     var firstTeam = values[0].Split('"');
                     _context.Matches.AddRange(
@@ -150,7 +150,7 @@ namespace BettingApplication.Controllers
         }
         public async Task<IActionResult> ExportTwoPlayerDatabase()
         {
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tennis")).ToList();
+            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tenis")).ToList();
             List<TwoPlayersViewModel> matchVmList = matchesList.Select(x => new TwoPlayersViewModel
             {
                 Id = x.Id,
@@ -189,7 +189,7 @@ namespace BettingApplication.Controllers
                     var line = reader.ReadLine();
                     var values = line.Split(';');
                     var match = new MatchViewModel();
-                    var sportTennis = _context.Sports.SingleOrDefault(s => s.Name.Contains("Tennis"));
+                    var sportTennis = _context.Sports.SingleOrDefault(s => s.Name.Contains("Tenis"));
                     var leagueATP = _context.Leagues.SingleOrDefault(l => l.Name.Contains("ATP"));
                     var hour = values[4].Split(':');
                     var firstTeam = values[0].Split('"');
@@ -198,7 +198,7 @@ namespace BettingApplication.Controllers
                         {
                             HomeTeam = new Teams { Name = firstTeam[1], League = leagueATP },
                             AwayTeam = new Teams { Name = values[1], League = leagueATP },
-                            Types = new Types { _1 = Convert.ToDecimal(values[2]), _X = Convert.ToDecimal(values[3])},
+                            Types = new Types { _1 = Convert.ToDecimal(values[2]), _2 = Convert.ToDecimal(values[3])},
                             Time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00),
                             Sport = sportTennis,
                         });

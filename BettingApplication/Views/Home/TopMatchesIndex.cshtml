@@ -169,6 +169,12 @@
                     <button type="submit" id=@item.Id , name="type" value="12" class="btn btn-primary">@item._12</button>
                 }
             </td>
+            @if (User.IsInRole("Admin"))
+            {
+                <td>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            }
         </tr>
             }
         }
