@@ -24,11 +24,11 @@ namespace BettingApplication.Controllers
         // GET: UserBets
         public async Task<IActionResult> Index()
         {
+            UserBetWin();
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             var userBet = _context.UserBets.Where(x => x.User.Id == userId).Include(t => t.BetMatches).ToListAsync();
             TempData["Username"] = user.UserName;
-            UserBetWin();
             return View(await userBet);
         }
 

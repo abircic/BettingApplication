@@ -25,9 +25,10 @@ namespace BettingApplication.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            UserBetWin();
+            if(!User.IsInRole("Admin"))
+                UserBetWin();
             //ViewBag.UserId = HttpContext.Session.GetString("UserId");
             //ViewBag.UserName = HttpContext.Session.GetString("UserName");
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -234,7 +235,8 @@ namespace BettingApplication.Controllers
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            foreach (var item in _context.UserBetMatches.Where(u => u.UserBets.User.Id == userId).Include(m=>m.Match.HomeTeam).Include(u=>u.UserBets).ToList())
+            foreach (var item in _context.UserBetMatches.Where(u => u.UserBets.User.Id == userId && u.Win=="Pending")
+                .Include(m=>m.Match.HomeTeam).Include(u=>u.UserBets).ToList())
             {
                 var match = _context.Results.Where(t => t.Teams.Contains(item.Match.HomeTeam.Name)).FirstOrDefault();
                 if (match != null)
@@ -247,6 +249,7 @@ namespace BettingApplication.Controllers
                     }
                     if (item.Win == "Pending")
                         item.Win = "Lose";
+                    item.Result = match.Result;
                     _context.Update(item);
                     _context.SaveChanges();
                 }
@@ -267,6 +270,7 @@ namespace BettingApplication.Controllers
                         item.Win = "Lose";
                         _context.Update(item);
                         _context.SaveChanges();
+                        flag = false;
                         break;
                     }
                     else if (match.Win == "Win")

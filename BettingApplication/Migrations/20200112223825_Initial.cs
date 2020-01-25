@@ -412,6 +412,7 @@ namespace BettingApplication.Migrations
                     Type = table.Column<string>(nullable: true),
                     Odd = table.Column<decimal>(nullable: false),
                     Win = table.Column<string>(nullable: true),
+                    Result = table.Column<string>(nullable: true),
                     UserBetsId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

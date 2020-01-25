@@ -252,6 +252,8 @@ namespace BettingApplication.Migrations
 
                     b.Property<decimal>("Odd");
 
+                    b.Property<string>("Result");
+
                     b.Property<string>("Type");
 
                     b.Property<int?>("UserBetsId");

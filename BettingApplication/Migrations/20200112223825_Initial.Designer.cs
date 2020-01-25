@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BettingApplication.Migrations
 {
     [DbContext(typeof(BettingApplicationContext))]
-    [Migration("20191228225414_Initial")]
+    [Migration("20200112223825_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -253,6 +253,8 @@ namespace BettingApplication.Migrations
                     b.Property<string>("MatchId");
 
                     b.Property<decimal>("Odd");
+
+                    b.Property<string>("Result");
 
                     b.Property<string>("Type");
 

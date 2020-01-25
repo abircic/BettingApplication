@@ -8,6 +8,7 @@ namespace BettingApplication.Models
         public string Type { get; set; }
         public decimal Odd { get; set; }
         public string Win { get; set; }
+        public string Result { get; set; }
         public virtual UserBets UserBets { get; set; }
     }
 }
