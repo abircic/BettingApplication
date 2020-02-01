@@ -172,7 +172,7 @@
             @if (User.IsInRole("Admin"))
             {
                 <td>
-                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a class="btn btn-primary" asp-action="DeleteTopMatch" asp-route-id="@item.Id">Delete from TopMatch</a>
                 </td>
             }
         </tr>

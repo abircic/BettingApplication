@@ -193,7 +193,7 @@ namespace BettingApplication.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             foreach (var item in _context.UserBetMatches.Where(u => u.UserBets.User.Id == userId).Include(m => m.Match.HomeTeam).Include(u => u.UserBets).ToList())
             {
-                var match = _context.Results.Where(t => t.Teams.Contains(item.Match.HomeTeam.Name)).FirstOrDefault();
+                var match = _context.Results.Where(t => t.Teams.Contains(item.Match.HomeTeam.Name) && t.Teams.Contains(item.Match.AwayTeam.Name)).FirstOrDefault();
                 if (match != null)
                 {
                     var winningTypes = match.WinningTypes.Split(';');

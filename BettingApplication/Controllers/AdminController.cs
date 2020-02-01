@@ -128,29 +128,57 @@ namespace BettingApplication.Controllers
             {
                 while (!reader.EndOfStream)
                 {
-                    var line = reader.ReadLine();
-                    var values = line.Split(';');
-                    var match = new MatchViewModel();
-                    var sportFootball = _context.Sports.SingleOrDefault(s => s.Name.Contains("Nogomet"));
-                    var hour = values[8].Split(':');
-                    var firstTeam = values[0].Split('"');
-                    var secondTeam = values[1];
-                    var time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day,
-                        Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00);
-                    if ((_context.Matches.Where(t => t.HomeTeam.Name == firstTeam[1] && t.AwayTeam.Name==secondTeam && t.Time==time).FirstOrDefault()) == null)
+                    try
                     {
-                        _context.Matches.AddRange(
-                            new Matches
-                            {
-                                HomeTeam = _context.Teams.First(s => s.Name.Contains(firstTeam[1])),
-                                AwayTeam = _context.Teams.First(s => s.Name.Contains(values[1])),
-                                Time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00),
-                                Types = new Types { _1 = Convert.ToDecimal(values[2]), _X = Convert.ToDecimal(values[3]), _2 = Convert.ToDecimal(values[4]), _1X = Convert.ToDecimal(values[5]), _X2 = Convert.ToDecimal(values[6]), _12 = Convert.ToDecimal(values[7]) },
-                                Sport = sportFootball
-                            });
-                        _context.SaveChanges();
+                        var line = reader.ReadLine();
+                        var values = line.Split(';');
+                        var match = new MatchViewModel();
+                        var sportFootball = _context.Sports.SingleOrDefault(s => s.Name.Contains("Nogomet"));
+                        var hour = values[8].Split(':');
+                        var firstTeam = values[0].Split('"');
+                        var secondTeam = values[1];
+                        var time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day,
+                            Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00);
+                        var HomeTeam = _context.Teams.FirstOrDefault(s => s.Name.Contains(firstTeam[1]));
+                        var AwayTeam = _context.Teams.FirstOrDefault(s => s.Name.Contains(values[1]));
+                        if (HomeTeam == null || AwayTeam == null)
+                        {
+                            ModelState.AddModelError("Error", $"Wrong name: {firstTeam[1]} or {values[1]}");
+                            return View();
+                        }
+                        var Time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day,
+                            Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00);
+                        var Types = new Types
+                        {
+                            _1 = Convert.ToDecimal(values[2]),
+                            _X = Convert.ToDecimal(values[3]),
+                            _2 = Convert.ToDecimal(values[4]),
+                            _1X = Convert.ToDecimal(values[5]),
+                            _X2 = Convert.ToDecimal(values[6]),
+                            _12 = Convert.ToDecimal(values[7])
+                        };
+                        var Sport = sportFootball;
+                        if ((await _context.Matches.Where(t => t.HomeTeam.Name == firstTeam[1] && t.AwayTeam.Name == secondTeam && t.Time == time).FirstOrDefaultAsync()) == null)
+                        {
+                            _context.Matches.AddRange(
+                                new Matches
+                                {
+                                    HomeTeam = _context.Teams.First(s => s.Name.Contains(firstTeam[1])),
+                                    AwayTeam = _context.Teams.First(s => s.Name.Contains(values[1])),
+                                    Time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00),
+                                    Types = new Types { _1 = Convert.ToDecimal(values[2]), _X = Convert.ToDecimal(values[3]), _2 = Convert.ToDecimal(values[4]), _1X = Convert.ToDecimal(values[5]), _X2 = Convert.ToDecimal(values[6]), _12 = Convert.ToDecimal(values[7]) },
+                                    Sport = sportFootball
+                                });
+                            _context.SaveChanges();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ModelState.AddModelError("Error", $"{e}");
+                        return View();
                     }
                 }
+                return View();
             }
             return RedirectToAction("Index", "Home");
         }

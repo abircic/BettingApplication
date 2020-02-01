@@ -10,6 +10,8 @@ using BettingApplication.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -29,8 +31,10 @@ namespace BettingApplication.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            string[] allowedSports = new string[] { "Nogomet", "Tenis", "Hokej", "Košarka", "Rukomet" };
-            var date = DateTime.Now;
+            string[] allowedSports = new string[] { "Nogomet", "TENIS", "Hokej", "Košarka", "Rukomet" };
+            string[] allowedFootballLeagues = new string[]
+                {"ŠPANJOLSKA", "ITALIJA", "FRANCUSKA", "ENGLESKA", "NJEMAČKA"};
+            var date = DateTime.Now.AddDays(-7);
             string url = $"https://www.supersport.hr/rezultati/sport/{date.Year}-{date.Month.ToString("00")}-{date.Day.ToString("00")}";
             string html;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -49,20 +53,24 @@ namespace BettingApplication.Controllers
                 {
                     foreach (var result in league.Results)
                     {
-                        var r = new SuperSportResultModel();
-                        r.Date = results.Date;
-                        r.SportName = sport.SportName;
-                        r.LeagueName = league.LeagueName;
-                        r.Time = result.Time;
-                        r.Teams = result.Teams;
-                        r.WinningTypes = result.WinningTypes;
-                        r.Result = result.Result;
-                        if ((_context.Results.Where(t => t.Teams == r.Teams).FirstOrDefault()) == null)
+                        if (sport.SportName == "Nogomet" && allowedFootballLeagues.Any(league.LeagueName.Contains))
                         {
-                            _context.AddRange(r);
-                            _context.SaveChanges();
-                            convertedResults.Add(r);
+                            var r = new SuperSportResultModel();
+                            r.Date = results.Date;
+                            r.SportName = sport.SportName.ToLower();
+                            r.LeagueName = league.LeagueName;
+                            r.Time = result.Time;
+                            r.Teams = result.Teams;
+                            r.WinningTypes = result.WinningTypes;
+                            r.Result = result.Result;
+                            if ((_context.Results.Where(t => t.Teams == r.Teams).FirstOrDefault()) == null)
+                            {
+                                _context.AddRange(r);
+                                _context.SaveChanges();
+                                convertedResults.Add(r);
+                            }
                         }
+                        
                     }
                 }
             }

@@ -115,6 +115,11 @@ namespace BettingApplication.Models
                     ,
                     new Leagues
                     {
+                        Name = "Njemačka 1.",
+                        Sport = sportFootball
+                    },
+                    new Leagues
+                    {
                         Name = "ATP",
                         Sport = sportTennis
                     }
@@ -131,6 +136,7 @@ namespace BettingApplication.Models
                 var leagueItalyOne = context.Leagues.SingleOrDefault(l => l.Name.Contains("Italija 1."));
                 var leagueFranceOne = context.Leagues.SingleOrDefault(l => l.Name.Contains("Francuska 1."));
                 var leagueEnglandOne = context.Leagues.SingleOrDefault(l => l.Name.Contains("Engleska 1."));
+                var leagueGermanyOne = context.Leagues.SingleOrDefault(l => l.Name.Contains("Njemačka 1."));
                 var leagueATP = context.Leagues.SingleOrDefault(l => l.Name.Contains("ATP"));
                 context.Teams.AddRange(
                     new Teams { Name = "Brighton", League = leagueEnglandOne}, new Teams { Name = "Bournemouth", League = leagueEnglandOne},
@@ -179,6 +185,17 @@ namespace BettingApplication.Models
                     new Teams { Name = "Celta Vigo", League = leagueSpainOne }, new Teams { Name = "Osasuna", League = leagueSpainOne },
                     new Teams { Name = "Real Sociedad", League = leagueSpainOne }, new Teams { Name = "Villareal", League = leagueSpainOne },
                     new Teams { Name = "Alaves", League = leagueSpainOne }, new Teams { Name = "Betis", League = leagueSpainOne }
+                    );
+                context.Teams.AddRange(
+                    new Teams { Name = "FC Augsburg", League = leagueGermanyOne }, new Teams { Name = "B.Dortmund", League = leagueGermanyOne },
+                    new Teams { Name = "F.Düsseldorf", League = leagueGermanyOne }, new Teams { Name = "Werder Bremen", League = leagueGermanyOne },
+                    new Teams { Name = "Köln", League = leagueGermanyOne }, new Teams { Name = "Wolfsburg", League = leagueGermanyOne },
+                    new Teams { Name = "Hoffenheim", League = leagueGermanyOne }, new Teams { Name = "Frankfurt", League = leagueGermanyOne },
+                    new Teams { Name = "Mainz", League = leagueGermanyOne }, new Teams { Name = "Freiburg", League = leagueGermanyOne },
+                    new Teams { Name = "Leipzig", League = leagueGermanyOne }, new Teams { Name = "Union Berlin", League = leagueGermanyOne },
+                    new Teams { Name = "Schalke", League = leagueGermanyOne }, new Teams { Name = "B.M'gladbach", League = leagueGermanyOne },
+                    new Teams { Name = "Hertha", League = leagueGermanyOne }, new Teams { Name = "Bayern München", League = leagueGermanyOne },
+                    new Teams { Name = "Paderborn", League = leagueGermanyOne }, new Teams { Name = "B.Leverkusen", League = leagueGermanyOne }
                     );
                 context.SaveChanges();
             }

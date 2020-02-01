@@ -28,6 +28,10 @@ namespace BettingApplication.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if(!User.IsInRole("Admin"))
                 UserBetWin();
             //ViewBag.UserId = HttpContext.Session.GetString("UserId");
@@ -231,7 +235,44 @@ namespace BettingApplication.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> TopMatch(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var matches = await _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            matches.TopMatch = true;
+            if (matches == null)
+            {
+                return NotFound();
+            }
+            _context.Matches.Update(matches);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
+        }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteTopMatch(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var matches = await _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            matches.TopMatch = false;
+            if (matches == null)
+            {
+                return NotFound();
+            }
+            _context.Matches.Update(matches);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
+        }
         public void UserBetWin()
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -239,7 +280,7 @@ namespace BettingApplication.Controllers
             foreach (var item in _context.UserBetMatches.Where(u => u.UserBets.User.Id == userId && u.Win=="Pending")
                 .Include(m=>m.Match.HomeTeam).Include(u=>u.UserBets).ToList())
             {
-                var match = _context.Results.Where(t => t.Teams.Contains(item.Match.HomeTeam.Name)).FirstOrDefault();
+                var match = _context.Results.Where(t => t.Teams.Contains(item.Match.HomeTeam.Name) && t.Teams.Contains(item.Match.AwayTeam.Name)).FirstOrDefault();
                 if (match != null)
                 {
                     var winningTypes = match.WinningTypes.Split(';');
