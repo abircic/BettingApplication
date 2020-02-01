@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Query.Expressions;
 using Remotion.Linq.Clauses;
 
 namespace BettingApplication.Controllers
@@ -261,40 +262,52 @@ namespace BettingApplication.Controllers
         {
             
             bool flag = false;
-            foreach (var item in _context.UserBets.Where(t=>t.Win=="Pending").ToList())
+            string pendingFlag = "";
+            var check = _context.UserBets.Where(x => x.User.Id == user.Id).FirstOrDefault();
+            var userBets = _context.UserBets.Where(t => t.Win == "Pending" && t.User==user).Include(x=>x.BetMatches).ToList();
+            if (check != null)
             {
-                foreach (var match in item.BetMatches)
+                if (userBets.Count > 0)
                 {
-                    if (match.Win == "Lose")
+                    foreach (var item in userBets)
                     {
-                        item.Win = "Lose";
-                        _context.Update(item);
-                        _context.SaveChanges();
-                        flag = false;
-                        break;
+                        foreach (var match in item.BetMatches)
+                        {
+                            if (match.Win == "Lose")
+                            {
+                                item.Win = "Lose";
+                                _context.Update(item);
+                                _context.SaveChanges();
+                                flag = false;
+                                break;
+                            }
+                            if (match.Win == "Win")
+                                flag = true;
+                            else if (match.Win == "Pending")
+                                pendingFlag = "Pending";
+                        }
+
+                        if (flag == true && String.IsNullOrEmpty(pendingFlag))
+                        {
+                            item.Win = "Win";
+                            _context.Update(item);
+                            var wallet = _context.Wallet.Where(u => u.User.Id == user.Id).FirstOrDefault();
+                            wallet.Saldo += item.CashOut;
+                            UserTransactions transaction = new UserTransactions();
+                            transaction.UserId = wallet.User.Id;
+                            transaction.Payment = item.CashOut.ToString();
+                            transaction.Transactions = "Isplata dobitka u iznosu od " + item.CashOut + " kn " + " " + DateTime.Now;
+                            _context.Update(wallet);
+                            _context.Update(transaction);
+                            _context.SaveChanges();
+
+                        }
                     }
-                    else if (match.Win == "Win")
-                        flag = true;
-                    else if (match.Win == "Pending")
-                        flag = false;
                 }
-
-                if (flag == true)
-                {
-                    item.Win = "Win";
-                    _context.Update(item);
-                    var wallet = _context.Wallet.Where(u => u.User.Id == user.Id).FirstOrDefault();
-                    wallet.Saldo += item.CashOut;
-                    UserTransactions transaction = new UserTransactions();
-                    transaction.UserId = wallet.User.Id;
-                    transaction.Payment = item.CashOut.ToString();
-                    transaction.Transactions = "Isplata dobitka u iznosu od " + item.CashOut + " kn " + " " + DateTime.Now.ToString();
-                    _context.Update(wallet);
-                    _context.Update(transaction);
-                    _context.SaveChanges();
-
-                }
+                
             }
+
+            
         }
     }
 }

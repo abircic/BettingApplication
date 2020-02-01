@@ -134,16 +134,22 @@ namespace BettingApplication.Controllers
                     var sportFootball = _context.Sports.SingleOrDefault(s => s.Name.Contains("Nogomet"));
                     var hour = values[8].Split(':');
                     var firstTeam = values[0].Split('"');
-                    _context.Matches.AddRange(
-                        new Matches
-                        {
-                            HomeTeam = _context.Teams.First(s => s.Name.Contains(firstTeam[1])),
-                            AwayTeam = _context.Teams.First(s => s.Name.Contains(values[1])),
-                            Time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00),
-                            Types = new Types { _1 = Convert.ToDecimal(values[2]), _X = Convert.ToDecimal(values[3]), _2 = Convert.ToDecimal(values[4]), _1X = Convert.ToDecimal(values[5]), _X2 = Convert.ToDecimal(values[6]), _12 = Convert.ToDecimal(values[7]) },
-                            Sport = sportFootball
-                        });
-                    _context.SaveChanges();
+                    var secondTeam = values[1];
+                    var time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day,
+                        Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00);
+                    if ((_context.Matches.Where(t => t.HomeTeam.Name == firstTeam[1] && t.AwayTeam.Name==secondTeam && t.Time==time).FirstOrDefault()) == null)
+                    {
+                        _context.Matches.AddRange(
+                            new Matches
+                            {
+                                HomeTeam = _context.Teams.First(s => s.Name.Contains(firstTeam[1])),
+                                AwayTeam = _context.Teams.First(s => s.Name.Contains(values[1])),
+                                Time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00),
+                                Types = new Types { _1 = Convert.ToDecimal(values[2]), _X = Convert.ToDecimal(values[3]), _2 = Convert.ToDecimal(values[4]), _1X = Convert.ToDecimal(values[5]), _X2 = Convert.ToDecimal(values[6]), _12 = Convert.ToDecimal(values[7]) },
+                                Sport = sportFootball
+                            });
+                        _context.SaveChanges();
+                    }
                 }
             }
             return RedirectToAction("Index", "Home");

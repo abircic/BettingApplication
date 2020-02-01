@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using BettingApplication.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
+using BettingApplication.Services;
 using Microsoft.AspNetCore.Identity;
 
 namespace BettingApplication
@@ -60,9 +61,10 @@ namespace BettingApplication
                    options.LoginPath = "/user/login";
                });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
             services.AddDbContext<BettingApplicationContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("BettingApplicationContext")));
+                options.UseSqlServer(Configuration.GetConnectionString("BettingApplicationContext")));
+            services.AddHostedService<ResultHostedService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

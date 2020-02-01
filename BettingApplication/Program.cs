@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 using BettingApplication;
 using BettingApplication.Data;
@@ -17,9 +19,11 @@ namespace BettingApplication
 {
     public class Program
     {
+        internal const int Port = 5000;
         public static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
+            var host = CreateWebHostBuilder(args)
+                .Build();
 
             using (var scope = host.Services.CreateScope())
             {
