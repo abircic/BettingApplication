@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using BettingApplication.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
-using BettingApplication.Services;
+//using BettingApplication.Services;
 using Microsoft.AspNetCore.Identity;
 
 namespace BettingApplication
@@ -31,6 +31,7 @@ namespace BettingApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddIdentity<AppUser, IdentityRole>(options =>
              {
                  options.User.RequireUniqueEmail = false;
@@ -63,7 +64,7 @@ namespace BettingApplication
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<BettingApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("BettingApplicationContext")));
-            services.AddHostedService<ResultHostedService>();
+            //services.AddHostedService<ResultHostedService>();
 
         }
 

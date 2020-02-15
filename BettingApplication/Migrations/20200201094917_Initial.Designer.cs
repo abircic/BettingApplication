@@ -180,7 +180,7 @@ namespace BettingApplication.Migrations
                     b.ToTable("Sports");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.SuperSportResultModel", b =>
+            modelBuilder.Entity("BettingApplication.Models.ResultModel", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();

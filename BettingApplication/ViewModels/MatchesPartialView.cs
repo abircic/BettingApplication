@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using BettingApplication.Models;
 
-namespace BettingApplication.Models
+namespace BettingApplication.ViewModels
 {
     public class MatchesPartialView
     {

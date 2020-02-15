@@ -12,8 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Query.Expressions;
-using Remotion.Linq.Clauses;
+using BettingApplication.ViewModels;
 
 namespace BettingApplication.Controllers
 {
@@ -21,13 +20,114 @@ namespace BettingApplication.Controllers
     public class HomeController : Controller
     {
         private readonly BettingApplicationContext _context;
+        public string CurrentFilter { get; set; }
         public HomeController(BettingApplicationContext context)
         {
             _context = context;
         }
-
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchStringLeague, string searchStringSport, string searchStringTeam)
         {
+            ViewData["CurrentFilterSport"] = searchStringSport;
+            if (!String.IsNullOrEmpty(searchStringSport))
+            {
+
+                var filterUserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var filterMatches = _context.Matches.Include(c => c.Sport)
+                    .Include(h => h.HomeTeam).ThenInclude(l => l.League)
+                    .Include(a => a.AwayTeam).ThenInclude(l => l.League)
+                    .Include(t => t.Types).Where(m => m.Sport.Name.ToUpper().Contains(searchStringSport.ToUpper())).ToList();
+                if (filterMatches.Count > 0)
+                {
+                    var filterMatchVmList = filterMatches.Select(x => new MatchViewModel
+                    {
+                        Id = x.Id,
+                        League = x.HomeTeam.League.Name,
+                        HomeTeamName = x.HomeTeam.Name,
+                        AwayTeamName = x.AwayTeam.Name,
+                        Time = x.Time,
+                        _1 = x.Types._1,
+                        _X = x.Types._X,
+                        _2 = x.Types._2,
+                        _1X = x.Types._1X,
+                        _X2 = x.Types._X2,
+                        _12 = x.Types._12,
+                    }).OrderBy((o => o.League)).ToList();
+                    MatchesPartialView filterModel = new MatchesPartialView();
+                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == filterUserId).ToList();
+                    filterModel.BetSlip = filterBetSlipList;
+                    filterModel.Matches = filterMatchVmList;
+                    return View(filterModel);
+                }
+               
+            }
+            ViewData["CurrentFilterLeague"] = searchStringLeague;
+            if (!String.IsNullOrEmpty(searchStringLeague))
+            {
+
+                var filterUserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var filterMatches = _context.Matches.Include(c => c.Sport)
+                    .Include(h => h.HomeTeam).ThenInclude(l => l.League)
+                    .Include(a => a.AwayTeam).ThenInclude(l => l.League)
+                    .Include(t => t.Types).Where(m => m.HomeTeam.League.Name.ToUpper().Contains(searchStringLeague.ToUpper())).ToList();
+                if (filterMatches.Count > 0)
+                {
+                    var filterMatchVmList = filterMatches.Select(x => new MatchViewModel
+                    {
+                        Id = x.Id,
+                        League = x.HomeTeam.League.Name,
+                        HomeTeamName = x.HomeTeam.Name,
+                        AwayTeamName = x.AwayTeam.Name,
+                        Time = x.Time,
+                        _1 = x.Types._1,
+                        _X = x.Types._X,
+                        _2 = x.Types._2,
+                        _1X = x.Types._1X,
+                        _X2 = x.Types._X2,
+                        _12 = x.Types._12,
+                    }).OrderBy((o => o.League)).ToList();
+                    MatchesPartialView filterModel = new MatchesPartialView();
+                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == filterUserId).ToList();
+                    filterModel.BetSlip = filterBetSlipList;
+                    filterModel.Matches = filterMatchVmList;
+                    return View(filterModel);
+                }
+                
+            }
+            ViewData["CurrentFilterTeam"] = searchStringTeam;
+            if (!String.IsNullOrEmpty(searchStringTeam))
+            {
+
+                var filterUserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var filterMatches = _context.Matches.Include(c => c.Sport).
+                    Include(h => h.HomeTeam).ThenInclude(l => l.League).
+                    Include(a => a.AwayTeam).ThenInclude(l => l.League).
+                    Include(t => t.Types).
+                    Where(m => m.HomeTeam.Name.ToUpper().Contains(searchStringTeam.ToUpper()) || m.AwayTeam.Name.ToUpper().Contains(searchStringTeam.ToUpper())).ToList();
+                if (filterMatches.Count > 0)
+                {
+                    var filterMatchVmList = filterMatches.Select(x => new MatchViewModel
+                    {
+                        Id = x.Id,
+                        League = x.HomeTeam.League.Name,
+                        HomeTeamName = x.HomeTeam.Name,
+                        AwayTeamName = x.AwayTeam.Name,
+                        Time = x.Time,
+                        _1 = x.Types._1,
+                        _X = x.Types._X,
+                        _2 = x.Types._2,
+                        _1X = x.Types._1X,
+                        _X2 = x.Types._X2,
+                        _12 = x.Types._12,
+                    }).OrderBy((o => o.League)).ToList();
+                    MatchesPartialView filterModel = new MatchesPartialView();
+                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == filterUserId).ToList();
+                    filterModel.BetSlip = filterBetSlipList;
+                    filterModel.Matches = filterMatchVmList;
+                    return View(filterModel);
+                }
+                
+            }
+
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account");
@@ -350,5 +450,6 @@ namespace BettingApplication.Controllers
 
             
         }
+       
     }
 }

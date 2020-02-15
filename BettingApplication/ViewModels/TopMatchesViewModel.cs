@@ -2,7 +2,7 @@
 
 using System;
 
-namespace BettingApplication.Models
+namespace BettingApplication.ViewModels
 {
     public class TopMatchesViewModel
     {

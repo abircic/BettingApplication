@@ -8,6 +8,7 @@ using BettingApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using BettingApplication.Models;
 using System.IO;
+using BettingApplication.ViewModels;
 
 namespace BettingApplication.Controllers
 {

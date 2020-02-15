@@ -30,7 +30,7 @@ namespace BettingApplication.Data
         public DbSet<UserTransactions> UserTransactions { get; set; }
         public DbSet<UserBetMatches> UserBetMatches { get; set; }
         public DbSet<AdminTopMatchConfig> AdminTopMatchConfigs { get; set; }
-        public DbSet<SuperSportResultModel> Results { get; set; }
+        public DbSet<ResultModel> Results { get; set; }
 
 
     }

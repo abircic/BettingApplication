@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BettingApplication.Models;
 using BettingApplication.Data;
+using BettingApplication.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 
@@ -112,7 +113,7 @@ namespace BettingApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,HomeTeam,AwayTeam,SuperSportResultModel")] Matches matches)
+        public async Task<IActionResult> Create([Bind("Id,HomeTeam,AwayTeam,ResultModel")] Matches matches)
         {
             if (ModelState.IsValid)
             {
@@ -144,7 +145,7 @@ namespace BettingApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,HomeTeam,AwayTeam,SuperSportResultModel")] Matches matches)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,HomeTeam,AwayTeam,ResultModel")] Matches matches)
         {
             if (id != matches.Id)
             {
