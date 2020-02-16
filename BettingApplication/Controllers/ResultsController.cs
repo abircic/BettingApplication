@@ -72,7 +72,7 @@ namespace BettingApplication.Controllers
                 return "1;1X;12";
             if (secondValue > firstValue)
                 return "2;X2;12";
-            return "X";
+            return "1X;X;X2";
         }
 
         private string CheckSportName(string name)

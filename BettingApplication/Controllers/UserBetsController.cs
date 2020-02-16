@@ -46,7 +46,11 @@ namespace BettingApplication.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             var wallet = _context.Wallet.Where(x => x.User == user).FirstOrDefault();
             TempData["betmsg"] = null;
-            
+            if (stake == null)
+            {
+                TempData["betmsg"] = "Enter the amount";
+                return RedirectToAction("Index", "Home");
+            }
             if (submit == "Remove")
             {
                 foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
@@ -60,8 +64,16 @@ namespace BettingApplication.Controllers
             bool tempTopStatus = false;
             int counter = 0;
             int counterOdd = 0;
-            foreach (BetSlip item in _context.BetSlip.Include(m=>m.Match).Where(b => b.User.Id == userId))
+            foreach (BetSlip item in _context.BetSlip.Include(m=>m.Match)
+                .Include(h=>h.Match.HomeTeam)
+                .Include(a=>a.Match.AwayTeam)
+                .Where(b => b.User.Id == userId))
             {
+                if (item.Match.Time < DateTime.Now)
+                {
+                    TempData["betmsg"] = $"{item.Match.HomeTeam.Name} - {item.Match.AwayTeam.Name} is started already";
+                    return RedirectToAction("Index", "Home");
+                }
                 if (item.TopMatch == true)
                 {
                     tempTopStatus = true;
