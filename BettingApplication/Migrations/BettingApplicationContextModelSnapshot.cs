@@ -165,19 +165,6 @@ namespace BettingApplication.Migrations
                     b.ToTable("Matches");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.Sports", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sports");
-                });
-
             modelBuilder.Entity("BettingApplication.Models.ResultModel", b =>
                 {
                     b.Property<string>("Id")
@@ -200,6 +187,19 @@ namespace BettingApplication.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Results");
+                });
+
+            modelBuilder.Entity("BettingApplication.Models.Sports", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sports");
                 });
 
             modelBuilder.Entity("BettingApplication.Models.Teams", b =>

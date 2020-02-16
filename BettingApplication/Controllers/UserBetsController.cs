@@ -191,7 +191,7 @@ namespace BettingApplication.Controllers
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            foreach (var item in _context.UserBetMatches.Where(u => u.UserBets.User.Id == userId).Include(m => m.Match.HomeTeam).Include(u => u.UserBets).ToList())
+            foreach (var item in _context.UserBetMatches.Where(u => u.UserBets.User.Id == userId).Include(m => m.Match.HomeTeam).Include(a=>a.Match.AwayTeam).Include(u => u.UserBets).ToList())
             {
                 var match = _context.Results.Where(t => t.Teams.Contains(item.Match.HomeTeam.Name) && t.Teams.Contains(item.Match.AwayTeam.Name)).FirstOrDefault();
                 if (match != null)

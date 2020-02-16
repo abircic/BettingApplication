@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BettingApplication.Migrations
 {
     [DbContext(typeof(BettingApplicationContext))]
-    [Migration("20200201094917_Initial")]
+    [Migration("20200216140417_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -167,19 +167,6 @@ namespace BettingApplication.Migrations
                     b.ToTable("Matches");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.Sports", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sports");
-                });
-
             modelBuilder.Entity("BettingApplication.Models.ResultModel", b =>
                 {
                     b.Property<string>("Id")
@@ -202,6 +189,19 @@ namespace BettingApplication.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Results");
+                });
+
+            modelBuilder.Entity("BettingApplication.Models.Sports", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sports");
                 });
 
             modelBuilder.Entity("BettingApplication.Models.Teams", b =>

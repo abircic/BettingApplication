@@ -20,7 +20,7 @@ namespace BettingApplication.Models
         }
         public void ExportDatabase()
         {
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Nogomet")).ToList();
+            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).ToList();
             List<MatchViewModel> matchVmList = matchesList.Select(x => new MatchViewModel
             {
                 Id = x.Id,
@@ -66,7 +66,7 @@ namespace BettingApplication.Models
                     var line = reader.ReadLine();
                     var values = line.Split(';');
                     var match = new MatchViewModel();
-                    var sportFootball = _context.Sports.SingleOrDefault(s => s.Name.Contains("Nogomet"));
+                    var sportFootball = _context.Sports.SingleOrDefault(s => s.Name.Contains("Football"));
                     _context.Matches.AddRange(
                         new Matches
                         {

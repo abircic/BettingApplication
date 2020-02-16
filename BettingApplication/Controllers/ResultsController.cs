@@ -31,7 +31,7 @@ namespace BettingApplication.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            //string[] allowedSports = new string[] { "Nogomet", "TENIS", "Hokej", "Košarka", "Rukomet" };
+            //string[] allowedSports = new string[] { "Football", "TENIS", "Hokej", "Košarka", "Rukomet" };
             //string[] allowedFootballLeagues = new string[]
             //    {"ŠPANJOLSKA", "ITALIJA", "FRANCUSKA", "ENGLESKA", "NJEMAČKA"};
             var date = DateTime.Now;
@@ -78,7 +78,7 @@ namespace BettingApplication.Controllers
         private string CheckSportName(string name)
         {
             if (name == "Fudbal")
-                return "Nogomet";
+                return "Football";
             return name;
         }
     }

@@ -8,6 +8,11 @@ namespace BettingApplication.Models
     public class OfferModel
     { 
         public List<Locations> Locations { get; set; } 
+        public Sport Sport { get; set; }
+    }
+    public class Sport
+    {
+        public string Name { get; set; }
     }
     public class Locations
     {

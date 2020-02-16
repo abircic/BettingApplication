@@ -17,7 +17,7 @@ namespace BettingApplication.Models
         public List<ParticipantsModel> Participants { get; set; }
         public SportModel Sport { get; set; }
         public LeagueModel League { get; set; }
-        public DateTimeOffset StartDate { get; set; }
+        public DateTime StartDate { get; set; }
         public string Status { get; set; }
     }
 

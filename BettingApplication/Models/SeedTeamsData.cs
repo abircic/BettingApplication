@@ -74,7 +74,7 @@ namespace BettingApplication.Models
                 context.Sports.AddRange(
                     new Sports
                     {
-                        Name = "Nogomet"
+                        Name = "Football"
                     }
                     ,
                     new Sports
@@ -88,7 +88,7 @@ namespace BettingApplication.Models
                     }
                 );
                 context.SaveChanges();
-                var sportFootball = context.Sports.SingleOrDefault(s => s.Name.Contains("Nogomet"));
+                var sportFootball = context.Sports.SingleOrDefault(s => s.Name.Contains("Football"));
                 var sportTennis = context.Sports.SingleOrDefault(s => s.Name.Contains("Tenis"));
                 var sportBasketball = context.Sports.SingleOrDefault(s => s.Name.Contains("Košarka"));
                 context.Leagues.AddRange(

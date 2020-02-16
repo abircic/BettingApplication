@@ -85,7 +85,7 @@ namespace BettingApplication.Controllers
 
         public async Task<IActionResult> ExportDatabase()
         {
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Nogomet")).ToList();
+            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).ToList();
             List<MatchViewModel> matchVmList = matchesList.Select(x => new MatchViewModel
             {
                 Id = x.Id,
@@ -134,7 +134,7 @@ namespace BettingApplication.Controllers
                         var line = reader.ReadLine();
                         var values = line.Split(';');
                         var match = new MatchViewModel();
-                        var sportFootball = _context.Sports.SingleOrDefault(s => s.Name.Contains("Nogomet"));
+                        var sportFootball = _context.Sports.SingleOrDefault(s => s.Name.Contains("Football"));
                         var hour = values[8].Split(':');
                         var firstTeam = values[0].Split('"');
                         var secondTeam = values[1];

@@ -159,7 +159,10 @@ namespace BettingApplication.Controllers
             }
             int counter = 0;
             decimal totOdd = 1;
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Nogomet")).ToList();
+            List<Matches> matchesList = _context.Matches.Include(c => c.Sport)
+                .Include(h => h.HomeTeam).ThenInclude(l => l.League)
+                .Include(a => a.AwayTeam).ThenInclude(l => l.League)
+                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).ToList();
             List<MatchViewModel> matchVmList = matchesList.Select(x => new MatchViewModel
             {
                 Id = x.Id,
@@ -247,7 +250,7 @@ namespace BettingApplication.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             int counter = 0;
             decimal totOdd = 1;
-            List<Matches> topMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Nogomet")).Where(t => t.TopMatch == true).ToList();
+            List<Matches> topMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).Where(t => t.TopMatch == true).ToList();
             List<Matches> topTwoPlayersMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tenis")).Where(t => t.TopMatch == true).ToList();
             List<TopMatchesViewModel> allMatches = new List<TopMatchesViewModel>();
             List<TopMatchesViewModel> matchVmList = topMatches.Select(x => new TopMatchesViewModel
@@ -378,7 +381,9 @@ namespace BettingApplication.Controllers
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             foreach (var item in _context.UserBetMatches.Where(u => u.UserBets.User.Id == userId && u.Win=="Pending")
-                .Include(m=>m.Match.HomeTeam).Include(u=>u.UserBets).ToList())
+                .Include(m=>m.Match.HomeTeam)
+                .Include(a=>a.Match.AwayTeam)
+                .Include(u=>u.UserBets).ToList())
             {
                 var match = _context.Results.Where(t => t.Teams.Contains(item.Match.HomeTeam.Name) && t.Teams.Contains(item.Match.AwayTeam.Name)).FirstOrDefault();
                 if (match != null)
