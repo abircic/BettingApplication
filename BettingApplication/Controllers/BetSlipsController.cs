@@ -319,8 +319,9 @@ namespace BettingApplication.Controllers
             {
                 return NotFound();
             }
-
-            return View(betSlip);
+            _context.BetSlip.Remove(betSlip);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: BetSlips/Delete/5

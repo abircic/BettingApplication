@@ -136,7 +136,7 @@ namespace BettingApplication.Controllers
                
                
             }
-            return View();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

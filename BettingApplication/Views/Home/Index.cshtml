@@ -8,6 +8,18 @@
 
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    body {
+        background-color: #121212;
+        color: white;
+    }
+    th {
+        color: white;
+    }
+    td {
+        color: white;
+    }
+</style>
     <form asp-action="Index" method="get">
         <div class="form-actions no-color">
             <p>
@@ -76,7 +88,7 @@
                 @Html.DisplayFor(modelItem => item.TopMatch)
             </td>
             <td>
-                <a asp-controller="BetSlips" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
+                <a asp-controller="BetSlips" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">x</a>
             </td>
         </tr>
                 }
@@ -195,7 +207,7 @@
                                 @if (item._X2 > 1)
                                 {
                                     <button type="submit" id=@item.Id , name="type" value="X2" class="btn btn-primary">@item._X2</button>
-                                }
+                                } 
                             </td>
                             <td>
                                 @if (item._12 > 1)

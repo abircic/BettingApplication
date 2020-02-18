@@ -9,13 +9,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - BettingApplication</title>
     <style>
+        header {
+            background-color: darkred;
+        }
         .navbar-collapse ul {
-            justify-content: space-around;
-            font-size: 22px;
+            justify-content: center;
+            align-items: center;
+            font-size: 3vh;
+            display: flex;
+            flex-direction: row;
+            height: 4vh;
         }
         .btnSize {
-            height: 40px;
-            width: 120px;
+            display: block;
+            height: 100%;
+            border-right: black solid 1px;
+            min-width: 10vw;
+            text-align: center;
+            color: white;
+        }
+        .btnSize:hover {
+            text-decoration: none;
+            background-color: grey;
+            color: white;
+        }
+        .account-data {
+            font-size: 2vh;
+            font-weight: bold;
+            color: yellowgreen;
+        }
+        .account-data-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+            text-align: center;
+            margin-left: 2vw;
+            height: 100%;
+            width: 10vw;
         }
     </style>
     <environment include="Development">
@@ -31,7 +62,7 @@
               crossorigin="anonymous"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
     </environment>
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="@Href("css/site.css")" />
 
     <environment include="Development">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -51,7 +82,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -67,24 +98,24 @@
                             }
 
                             <li class="nav-item">
-                                <a class="btn btn-outline-primary btnSize" asp-area="" asp-controller="Home" asp-action="Index">Matches</a>
+                                <a class="btnSize" asp-area="" asp-controller="Home" asp-action="Index">Matches</a>
                             </li>
                             <li class="nav-item">
-                                <a class="btn btn-outline-primary btnSize" asp-area="" asp-controller="Home" asp-action="TwoPlayerIndex">Tennis</a>
+                                <a class="btnSize" asp-area="" asp-controller="Home" asp-action="TwoPlayerIndex">Tennis</a>
                             </li>
                             <li class="nav-item">
-                                <a class="btn btn-outline-primary btnSize" asp-area="" asp-controller="Home" asp-action="TopMatchesIndex">Top Matches</a>
+                                <a class="btnSize" asp-area="" asp-controller="Home" asp-action="TopMatchesIndex">Top Matches</a>
                             </li>
                             <li class="nav-item">
-                                <a class="btn btn-outline-dark btnSize" asp-area="" asp-controller="UserBets" asp-action="Index">UserBet</a>
+                                <a class="btnSize" asp-area="" asp-controller="UserBets" asp-action="Index">UserBet</a>
                             </li>
                             <li class="nav-item">
-                                <a class="btn btn-outline-dark btnSize" asp-area="" asp-controller="Wallets" asp-action="Index">Wallet</a>
+                                <a class="btnSize" asp-area="" asp-controller="Wallets" asp-action="Index">Wallet</a>
                             </li>
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="btn btn-outline-danger btnSize" asp-area="" asp-controller="Admin" asp-action="Menu">Admin</a>
+                                    <a class="btnSize" asp-area="" asp-controller="Admin" asp-action="Menu">Admin</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="badge badge-pill badge-success" asp-area="" asp-controller="Account" asp-action="UsersForActivate">@TempData["UsersForActivate"]</a>
@@ -92,14 +123,12 @@
                             }
 
                             <li class="nav-item">
-                                <a class="btn btn-outline-danger btnSize" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                <a class="btnSize" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                             </li>
-                            <li class="nav-item">
-                                <h3 class="text-dark font-weight-bold" asp-area="">@TempData["Username"]</h3>
-                            </li>
-                            <li class="nav-item">
-                                <h3 class="text-dark font-weight-bold" asp-area="">@TempData["Saldo"]</h3>
-                            </li>
+                            <div class ="account-data-container">
+                                <h3 class="account-data" asp-area="">@TempData["Username"]</h3>
+                                <h3 class="account-data" asp-area="">@TempData["Saldo"]</h3>
+                            </div>
                         }
                         else
                         {

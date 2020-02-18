@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BettingApplication.Migrations
 {
     [DbContext(typeof(BettingApplicationContext))]
-    [Migration("20200216140417_Initial")]
+    [Migration("20200218215838_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -172,7 +172,9 @@ namespace BettingApplication.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Date");
+                    b.Property<string>("AwayTeam");
+
+                    b.Property<string>("HomeTeam");
 
                     b.Property<string>("LeagueName");
 
@@ -180,9 +182,7 @@ namespace BettingApplication.Migrations
 
                     b.Property<string>("SportName");
 
-                    b.Property<string>("Teams");
-
-                    b.Property<string>("Time");
+                    b.Property<DateTime>("Time");
 
                     b.Property<string>("WinningTypes");
 

@@ -68,13 +68,13 @@ namespace BettingApplication.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Teams = table.Column<string>(nullable: true),
-                    Time = table.Column<string>(nullable: true),
+                    HomeTeam = table.Column<string>(nullable: true),
+                    AwayTeam = table.Column<string>(nullable: true),
+                    Time = table.Column<DateTime>(nullable: false),
                     WinningTypes = table.Column<string>(nullable: true),
                     Result = table.Column<string>(nullable: true),
                     SportName = table.Column<string>(nullable: true),
-                    LeagueName = table.Column<string>(nullable: true),
-                    Date = table.Column<string>(nullable: true)
+                    LeagueName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

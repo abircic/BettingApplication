@@ -32,6 +32,7 @@ namespace BettingApplication.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             var wallet = _context.Wallet.Where(x => x.User == user).Include(t => t.Transactions).ToListAsync();
             TempData["Username"] = user.UserName;
+            TempData["Saldo"] = wallet.Result[0].Saldo + " kn";
             return View(await wallet);
         }
 

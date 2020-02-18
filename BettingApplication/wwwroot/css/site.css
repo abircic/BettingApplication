@@ -9,6 +9,7 @@ a.navbar-brand {
 
 /* Sticky footer styles
 -------------------------------------------------- */
+
 html {
   font-size: 14px;
 }
@@ -42,8 +43,10 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-color: #121212;
+    color: white;
 }
 .footer {
   position: absolute;

@@ -27,9 +27,27 @@ namespace BettingApplication.Controllers
             UserBetWin();
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            var userBet = _context.UserBets.Where(x => x.User.Id == userId).Include(t => t.BetMatches).ToListAsync();
-            TempData["Username"] = user.UserName;
-            return View(await userBet);
+            var userBet = _context.UserBets.Where(x => x.User.Id == userId).Include(t => t.BetMatches).ToList();
+            var wallet = new Wallet();
+            if (User.Identity.IsAuthenticated)
+            {
+                lock (wallet)
+                {
+                    wallet = _context.Wallet.Where(x => x.User == user).FirstOrDefault();
+                }
+                
+                if (wallet == null)
+                {
+                    TempData["Username"] = null;
+                    TempData["Saldo"] = null;
+                }
+                else
+                {
+                    TempData["Username"] = user.UserName;
+                    TempData["Saldo"] = wallet.Saldo + " kn";
+                }
+            }
+            return View(userBet);
         }
 
         [HttpGet]
@@ -46,7 +64,7 @@ namespace BettingApplication.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             var wallet = _context.Wallet.Where(x => x.User == user).FirstOrDefault();
             TempData["betmsg"] = null;
-            if (stake == null)
+            if (stake == null && submit!="Remove")
             {
                 TempData["betmsg"] = "Enter the amount";
                 return RedirectToAction("Index", "Home");
@@ -205,7 +223,9 @@ namespace BettingApplication.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             foreach (var item in _context.UserBetMatches.Where(u => u.UserBets.User.Id == userId).Include(m => m.Match.HomeTeam).Include(a=>a.Match.AwayTeam).Include(u => u.UserBets).ToList())
             {
-                var match = _context.Results.Where(t => t.Teams.Contains(item.Match.HomeTeam.Name) && t.Teams.Contains(item.Match.AwayTeam.Name)).FirstOrDefault();
+                var match = _context.Results.Where(t => t.HomeTeam.Contains(item.Match.HomeTeam.Name) 
+                && t.AwayTeam.Contains(item.Match.AwayTeam.Name)
+                && t.Time == item.Match.Time).FirstOrDefault();
                 if (match != null)
                 {
                     var winningTypes = match.WinningTypes.Split(';');

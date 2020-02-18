@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using BettingApplication.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
+using BettingApplication.Services;
 //using BettingApplication.Services;
 using Microsoft.AspNetCore.Identity;
 
@@ -65,6 +66,7 @@ namespace BettingApplication
             services.AddDbContext<BettingApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("BettingApplicationContext")));
             //services.AddHostedService<ResultHostedService>();
+            //services.AddHostedService<OfferHostedService>();
 
         }
 
@@ -99,7 +101,7 @@ namespace BettingApplication
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Admin}/{action=Menu}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

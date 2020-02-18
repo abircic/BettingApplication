@@ -67,18 +67,18 @@ namespace BettingApplication.Services
                 var convertedResult = new List<ResultModel>();
                 foreach (var result in results.Where(t => t.Scores.Count > 0))
                 {
-                    var r = new ResultModel();
-                    r.Date = result.Fixture.StartDate.Date.ToString("dd.MM.yyyy");
-                    r.SportName = CheckSportName(result.Fixture.Sport.Name);
-                    r.LeagueName = result.Fixture.League.Name;
-                    r.Time =
-                        $"{result.Fixture.StartDate.Hour.ToString("00")}:{result.Fixture.StartDate.Minute.ToString("00")}";
-                    r.Teams = $"{result.Fixture.Participants[0].Name} - {result.Fixture.Participants[1].Name}";
-                    r.WinningTypes = CalculateWinningTypes(Int32.Parse(result.Scores[0].Value),
-                        Int32.Parse(result.Scores[1].Value));
-                    r.Result = $"{result.Scores[0].Value}:{result.Scores[1].Value}";
-                    if ((_context.Results.Where(t => t.Teams == r.Teams).FirstOrDefault()) == null)
+                    if (_context.Results.Where(t => t.Id == result.Fixture.EventId).FirstOrDefault() == null)
                     {
+                        var r = new ResultModel();
+                        r.Id = result.Fixture.EventId;
+                        r.SportName = result.Fixture.Sport.Name;
+                        r.LeagueName = result.Fixture.League.Name;
+                        r.Time = result.Fixture.StartDate;
+                        r.HomeTeam = result.Fixture.Participants[0].Name;
+                        r.AwayTeam = result.Fixture.Participants[1].Name;
+                        r.WinningTypes = CalculateWinningTypes(Int32.Parse(result.Scores[0].Value),
+                            Int32.Parse(result.Scores[1].Value));
+                        r.Result = $"{result.Scores[0].Value}:{result.Scores[1].Value}";
                         _context.AddRange(r);
                         _context.SaveChanges();
                         convertedResult.Add(r);
@@ -93,13 +93,6 @@ namespace BettingApplication.Services
             if (secondValue > firstValue)
                 return "2;X2;12";
             return "X";
-        }
-
-        private string CheckSportName(string name)
-        {
-            if (name == "Fudbal")
-                return "Football";
-            return name;
         }
     }
 }

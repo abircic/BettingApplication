@@ -170,7 +170,9 @@ namespace BettingApplication.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Date");
+                    b.Property<string>("AwayTeam");
+
+                    b.Property<string>("HomeTeam");
 
                     b.Property<string>("LeagueName");
 
@@ -178,9 +180,7 @@ namespace BettingApplication.Migrations
 
                     b.Property<string>("SportName");
 
-                    b.Property<string>("Teams");
-
-                    b.Property<string>("Time");
+                    b.Property<DateTime>("Time");
 
                     b.Property<string>("WinningTypes");
 
