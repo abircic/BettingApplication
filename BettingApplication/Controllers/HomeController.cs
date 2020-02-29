@@ -82,7 +82,9 @@ namespace BettingApplication.Controllers
                         _12 = x.Types._12,
                     }).OrderBy((o => o.League)).ToList();
                     MatchesPartialView filterModel = new MatchesPartialView();
-                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == userId).ToList();
+                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == userId)
+                        .Include(m => m.Match).ThenInclude(h => h.HomeTeam)
+                        .Include(m => m.Match).ThenInclude(a => a.AwayTeam).ToList();
                     filterModel.BetSlip = filterBetSlipList;
                     filterModel.Matches = filterMatchVmList;
                     return View(filterModel);
@@ -113,7 +115,9 @@ namespace BettingApplication.Controllers
                         _12 = x.Types._12,
                     }).OrderBy((o => o.League)).ToList();
                     MatchesPartialView filterModel = new MatchesPartialView();
-                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == userId).ToList();
+                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == userId)
+                        .Include(m => m.Match).ThenInclude(h => h.HomeTeam)
+                        .Include(m => m.Match).ThenInclude(a => a.AwayTeam).ToList();
                     filterModel.BetSlip = filterBetSlipList;
                     filterModel.Matches = filterMatchVmList;
                     return View(filterModel);
@@ -146,7 +150,9 @@ namespace BettingApplication.Controllers
                         _12 = x.Types._12,
                     }).OrderBy((o => o.League)).ToList();
                     MatchesPartialView filterModel = new MatchesPartialView();
-                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == userId).ToList();
+                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == userId)
+                        .Include(m=>m.Match).ThenInclude(h=>h.HomeTeam)
+                        .Include(m => m.Match).ThenInclude(a=>a.AwayTeam).ToList();
                     filterModel.BetSlip = filterBetSlipList;
                     filterModel.Matches = filterMatchVmList;
                     return View(filterModel);

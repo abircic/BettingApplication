@@ -26,7 +26,9 @@ namespace BettingApplication.Controllers
         public async Task<IActionResult> Index()
         {
             var date = DateTime.Now;
-            string url = $"https://sportdataprovider.volcanobet.me/api/public/prematch/SportEvents?SportId=1&from=2020-02-{date.AddDays(-1).Day}T23:00:00.000Z&to=2020-02-{date.AddDays(1).Day}T06:00:00.000Z&timezone=-60&clientType=WebConsumer&v=1.1.435&lang=sr-Latn-EN";
+            var yesterday = date.AddDays(-1).ToString("yyyy-MM-dd");
+            var tommorow = date.AddDays(1).ToString("yyyy-MM-dd");
+            string url = $"https://sportdataprovider.volcanobet.me/api/public/prematch/SportEvents?SportId=1&from={yesterday}T23:00:00.000Z&to={tommorow}T06:00:00.000Z&timezone=-60&clientType=WebConsumer&v=1.1.496-rc6&lang=sr-Latn-EN";
             string html;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AutomaticDecompression = DecompressionMethods.GZip;
