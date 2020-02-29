@@ -55,7 +55,7 @@ namespace BettingApplication.Controllers
                     r.Id = result.Fixture.EventId;
                     r.SportName = result.Fixture.Sport.Name;
                     r.LeagueName = $"{result.Fixture.League.LocationName} - {result.Fixture.League.Name}";
-                    r.Time = result.Fixture.StartDate;
+                    r.Time = result.Fixture.StartDate.AddHours(1);
                     r.HomeTeam = result.Fixture.Participants[0].Name;
                     r.AwayTeam = result.Fixture.Participants[1].Name;
                     r.WinningTypes = CalculateWinningTypes(Int32.Parse(result.Scores[0].Value),

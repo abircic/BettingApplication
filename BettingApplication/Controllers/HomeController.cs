@@ -25,13 +25,42 @@ namespace BettingApplication.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index(string searchStringLeague, string searchStringSport, string searchStringTeam)
+        public async Task<IActionResult> Index(string searchStringLeague, string searchStringSport, string searchStringTeam, string sortMatches)
         {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (!String.IsNullOrEmpty(sortMatches))
+            {
+                var sortedMatches = _context.Matches.Include(c => c.Sport)
+                    .Include(h => h.HomeTeam).ThenInclude(l => l.League)
+                    .Include(a => a.AwayTeam).ThenInclude(l => l.League)
+                    .Include(t => t.Types).ToList();
+                if (sortedMatches.Count > 0)
+                {
+                    var sortedMatchVmList = sortedMatches.Select(x => new MatchViewModel
+                    {
+                        Id = x.Id,
+                        League = x.HomeTeam.League.Name,
+                        HomeTeamName = x.HomeTeam.Name,
+                        AwayTeamName = x.AwayTeam.Name,
+                        Time = x.Time,
+                        _1 = x.Types._1,
+                        _X = x.Types._X,
+                        _2 = x.Types._2,
+                        _1X = x.Types._1X,
+                        _X2 = x.Types._X2,
+                        _12 = x.Types._12,
+                    }).OrderBy((o => o.Time)).ToList();
+                    MatchesPartialView sortedModel = new MatchesPartialView();
+                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == userId).ToList();
+                    sortedModel.BetSlip = filterBetSlipList;
+                    sortedModel.Matches = sortedMatchVmList;
+                    return View(sortedModel);
+                }
+            }
             ViewData["CurrentFilterSport"] = searchStringSport;
             if (!String.IsNullOrEmpty(searchStringSport))
             {
-
-                var filterUserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 var filterMatches = _context.Matches.Include(c => c.Sport)
                     .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                     .Include(a => a.AwayTeam).ThenInclude(l => l.League)
@@ -53,7 +82,7 @@ namespace BettingApplication.Controllers
                         _12 = x.Types._12,
                     }).OrderBy((o => o.League)).ToList();
                     MatchesPartialView filterModel = new MatchesPartialView();
-                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == filterUserId).ToList();
+                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == userId).ToList();
                     filterModel.BetSlip = filterBetSlipList;
                     filterModel.Matches = filterMatchVmList;
                     return View(filterModel);
@@ -63,8 +92,6 @@ namespace BettingApplication.Controllers
             ViewData["CurrentFilterLeague"] = searchStringLeague;
             if (!String.IsNullOrEmpty(searchStringLeague))
             {
-
-                var filterUserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 var filterMatches = _context.Matches.Include(c => c.Sport)
                     .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                     .Include(a => a.AwayTeam).ThenInclude(l => l.League)
@@ -86,7 +113,7 @@ namespace BettingApplication.Controllers
                         _12 = x.Types._12,
                     }).OrderBy((o => o.League)).ToList();
                     MatchesPartialView filterModel = new MatchesPartialView();
-                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == filterUserId).ToList();
+                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == userId).ToList();
                     filterModel.BetSlip = filterBetSlipList;
                     filterModel.Matches = filterMatchVmList;
                     return View(filterModel);
@@ -97,7 +124,6 @@ namespace BettingApplication.Controllers
             if (!String.IsNullOrEmpty(searchStringTeam))
             {
 
-                var filterUserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 var filterMatches = _context.Matches.Include(c => c.Sport).
                     Include(h => h.HomeTeam).ThenInclude(l => l.League).
                     Include(a => a.AwayTeam).ThenInclude(l => l.League).
@@ -120,7 +146,7 @@ namespace BettingApplication.Controllers
                         _12 = x.Types._12,
                     }).OrderBy((o => o.League)).ToList();
                     MatchesPartialView filterModel = new MatchesPartialView();
-                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == filterUserId).ToList();
+                    List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == userId).ToList();
                     filterModel.BetSlip = filterBetSlipList;
                     filterModel.Matches = filterMatchVmList;
                     return View(filterModel);
@@ -136,8 +162,7 @@ namespace BettingApplication.Controllers
                 UserBetWin();
             //ViewBag.UserId = HttpContext.Session.GetString("UserId");
             //ViewBag.UserName = HttpContext.Session.GetString("UserName");
-            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            
             @TempData["UsersForActivate"] = _context.Users.Where(u => u.EmailConfirmed == false).Count();
             if (User.Identity.IsAuthenticated)
             {

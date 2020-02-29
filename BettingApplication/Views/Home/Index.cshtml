@@ -19,22 +19,35 @@
     td {
         color: white;
     }
+    .bet-slip {
+        position: static;
+        background-color: gray;
+        height: 70vh;
+        width: 29vw;
+        margin-right: 0;
+        margin-left: 70vw;
+        overflow: scroll;
+    }
+    .matches {
+        width: 70vw;
+        margin-left: 0;
+    }
 </style>
     <form asp-action="Index" method="get">
         <div class="form-actions no-color">
             <p>
                 Find by sport: <input type="text" name="SearchStringSport" value="@ViewData["currentFilterSport"]" />
                 <input type="submit" value="Search" class="btn btn-primary" />
-                Legaue: <input type="text" name="SearchStringLeague" value="@ViewData["currentFilterLeague"]" />
+                League: <input type="text" name="SearchStringLeague" value="@ViewData["currentFilterLeague"]" />
                 <input type="submit" value="Search" class="btn btn-primary" />
                 Team: <input type="text" name="SearchStringTeam" value="@ViewData["currentFilterTeam"]" />
                 <input type="submit" value="Search" class="btn btn-primary" />
+                <input type="submit" name ="sortMatches" value="Sort by time" class="btn btn-primary" />
                 <a asp-action="Index">Full List</a>
-        </div>
+</div>
     </form>
 
-<h1>Bet Slip</h1>
-<table class="table">
+<table class="bet-slip">
     <thead>
         <tr>
             <th>
@@ -117,7 +130,7 @@
 
 @if (Model != null)
 {
-    <table class="table">
+    <table class="table matches">
         <thead>
             <tr>
                 <th><h1>Matches</h1>
