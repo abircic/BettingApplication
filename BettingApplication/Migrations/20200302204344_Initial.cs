@@ -311,7 +311,8 @@ namespace BettingApplication.Migrations
                     TypesId = table.Column<int>(nullable: true),
                     Result = table.Column<string>(nullable: true),
                     SportId = table.Column<int>(nullable: true),
-                    TopMatch = table.Column<bool>(nullable: false)
+                    TopMatch = table.Column<bool>(nullable: false),
+                    Hide = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

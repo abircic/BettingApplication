@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BettingApplication.Migrations
 {
     [DbContext(typeof(BettingApplicationContext))]
-    [Migration("20200218215838_Initial")]
+    [Migration("20200302204344_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,6 +141,8 @@ namespace BettingApplication.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("AwayTeamId");
+
+                    b.Property<bool>("Hide");
 
                     b.Property<int?>("HomeTeamId");
 

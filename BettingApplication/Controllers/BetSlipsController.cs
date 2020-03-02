@@ -219,6 +219,7 @@ namespace BettingApplication.Controllers
                 TempData["betmsg"] = $"You need to have at least {topMatchValue} pairs on ticket";
                 return RedirectToAction("Index", "Home");
             }
+
             return RedirectToAction("Index","Home");
         }
         

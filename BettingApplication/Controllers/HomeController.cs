@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using BettingApplication.ViewModels;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BettingApplication.Controllers
 {
@@ -193,7 +194,7 @@ namespace BettingApplication.Controllers
             List<Matches> matchesList = _context.Matches.Include(c => c.Sport)
                 .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                 .Include(a => a.AwayTeam).ThenInclude(l => l.League)
-                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).ToList();
+                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football") && s.Hide == false).ToList();
             List<MatchViewModel> matchVmList = matchesList.Select(x => new MatchViewModel
             {
                 Id = x.Id,
@@ -232,7 +233,9 @@ namespace BettingApplication.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             int counter = 0;
             decimal totOdd = 1;
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tenis")).ToList();
+            List<Matches> matchesList = _context.Matches.Include(c => c.Sport)
+                .Include(h => h.HomeTeam).Include(a => a.AwayTeam)
+                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tenis") && s.Hide == false).ToList();
             List<TwoPlayersViewModel> matchVmList = matchesList.Select(x => new TwoPlayersViewModel
             {
                 Id = x.Id,
@@ -281,7 +284,10 @@ namespace BettingApplication.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             int counter = 0;
             decimal totOdd = 1;
-            List<Matches> topMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).Where(t => t.TopMatch == true).ToList();
+            List<Matches> topMatches = _context.Matches.Include(c => c.Sport)
+                .Include(h => h.HomeTeam).ThenInclude(l => l.League)
+                .Include(a => a.AwayTeam).ThenInclude(l => l.League)
+                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football") && s.Hide == false).Where(t => t.TopMatch == true).ToList();
             List<Matches> topTwoPlayersMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tenis")).Where(t => t.TopMatch == true).ToList();
             List<TopMatchesViewModel> allMatches = new List<TopMatchesViewModel>();
             List<TopMatchesViewModel> matchVmList = topMatches.Select(x => new TopMatchesViewModel
@@ -349,7 +355,9 @@ namespace BettingApplication.Controllers
                 return NotFound();
             }
 
-            var matches = await _context.Matches.Include(h=>h.HomeTeam).Include(a=>a.AwayTeam)
+            var matches = await _context.Matches
+                .Include(h=>h.HomeTeam)
+                .Include(a=>a.AwayTeam)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (matches == null)
             {
@@ -365,7 +373,8 @@ namespace BettingApplication.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var matches = await _context.Matches.FindAsync(id);
-            _context.Matches.Remove(matches);
+            matches.Hide = true;
+            _context.Matches.Update(matches);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -417,7 +426,7 @@ namespace BettingApplication.Controllers
                 .Include(u=>u.UserBets).ToList())
             {
                 var match = _context.Results.Where(t => t.HomeTeam.Contains(item.Match.HomeTeam.Name) 
-                && t.AwayTeam.Contains(item.Match.AwayTeam.Name) 
+                || t.AwayTeam.Contains(item.Match.AwayTeam.Name) 
                 && t.Time==item.Match.Time).FirstOrDefault();
                 if (match != null)
                 {
@@ -450,6 +459,7 @@ namespace BettingApplication.Controllers
                 {
                     foreach (var item in userBets)
                     {
+                        pendingFlag = null;
                         foreach (var match in item.BetMatches)
                         {
                             if (match.Win == "Lose")

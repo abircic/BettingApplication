@@ -129,6 +129,7 @@ namespace BettingApplication.Controllers
                             {
                                 matchModel.Types = types;
                                 matchModel.TopMatch = false;
+                                matchModel.Hide = false;
                                 _context.Matches.Add(matchModel);
                                 _context.SaveChanges();
                             }

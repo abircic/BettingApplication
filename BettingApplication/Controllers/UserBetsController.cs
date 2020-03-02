@@ -224,7 +224,7 @@ namespace BettingApplication.Controllers
             foreach (var item in _context.UserBetMatches.Where(u => u.UserBets.User.Id == userId).Include(m => m.Match.HomeTeam).Include(a=>a.Match.AwayTeam).Include(u => u.UserBets).ToList())
             {
                 var match = _context.Results.Where(t => t.HomeTeam.Contains(item.Match.HomeTeam.Name) 
-                && t.AwayTeam.Contains(item.Match.AwayTeam.Name)
+                || t.AwayTeam.Contains(item.Match.AwayTeam.Name)
                 && t.Time == item.Match.Time).FirstOrDefault();
                 if (match != null)
                 {
@@ -256,6 +256,7 @@ namespace BettingApplication.Controllers
                     {
                         foreach (var item in userBets)
                         {
+                            pendingFlag = null;
                             foreach (var match in item.BetMatches)
                             {
                                 if (match.Win == "Lose")

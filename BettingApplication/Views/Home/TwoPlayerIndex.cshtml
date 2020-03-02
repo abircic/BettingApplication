@@ -12,20 +12,59 @@
 
     th {
         color: white;
+        text-align: center;
     }
+
     td {
         color: white;
     }
+
+    .bet-slip {
+        display: block;
+        position: absolute;
+        background-color: black;
+        height: 85vh;
+        width: 29vw;
+        margin-right: 0;
+        margin-left: 70vw;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        justify-content: space-around;
+    }
+
+    .matches {
+        display: block;
+        position: absolute;
+        width: 70vw;
+        margin-left: 0;
+        height: 85vh;
+        margin-right: 0;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        /*border: solid 5px white;*/
+        padding-left: 1.5vw;
+    }
+
+
+    .bet-slip-bet {
+        font-size: 12px;
+        text-align: center;
+        height: 10vh;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
 </style>
 <h1>Bet Slip</h1>
-<table class="table">
+<table class="bet-slip">
     <thead>
         <tr>
             <th>
-                Home Team
+                Home
             </th>
             <th>
-                Away Team
+                Away
             </th>
             <th>
                 Time
@@ -37,7 +76,7 @@
                 Odd
             </th>
             <th>
-                Top Match
+                Top
             </th>
             <th>
             </th>
@@ -49,7 +88,7 @@
         @foreach (var item in Model.BetSlip)
         {
             {
-        <tr>
+        <tr class="bet-slip-bet">
             <td>
                 @Html.DisplayFor(modelItem => item.Match.HomeTeam.Name)
             </td>
@@ -86,14 +125,14 @@
             <td><input type="text" name="Stake" id="stake" pattern="^(?!0\.00)\d{1,6}(,\d{3})*(\.\d\d)?$" placeholder="Enter the amount in format 0.00" class="form-control" /></td>
             <td>-5%: <span id="Tax"></span> @TempData["Tax"]</td>
             <td><button type="submit" value="Potvrdi" name="submit" class="btn btn-success">Accept</button></td>
-            <td><button type="submit" value="Remove" name="submit" class="btn btn-danger">Remove All</button></td>
+            <td><button type="submit" value="Remove" name="submit" class="btn btn-danger">Clear</button></td>
         </tr>
 
     }
     </tbody>
 </table>
 
-<table class="table">
+<table class="table matches">
     <thead>
     <tr>
         <th>

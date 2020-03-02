@@ -1,4 +1,5 @@
 ﻿@*@page*@
+Page.SmartNavigation = true
 @using BettingApplication.Models
 @*@using Microsoft.AspNetCore.Http*@
 @model BettingApplication.ViewModels.MatchesPartialView
@@ -12,49 +13,77 @@
     body {
         background-color: #121212;
         color: white;
+        overflow-x: hidden;
     }
+
     th {
         color: white;
+        text-align: center;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
+
     td {
         color: white;
     }
+
     .bet-slip {
-        position: static;
-        background-color: gray;
-        height: 70vh;
+        display: block;
+        position: absolute;
+        background-color: black;
+        height: 85vh;
         width: 29vw;
-        margin-right: 0;
-        margin-left: 70vw;
-        overflow: scroll;
+        left: 70vw;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        justify-content: space-around;
     }
+
     .matches {
+        display: block;
+        position: absolute;
         width: 70vw;
-        margin-left: 0;
+        left: 0;
+        height: 85vh;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        /*border: solid 5px white;*/
+        padding-left: 1.5vw;
+    }
+
+
+    .bet-slip-bet {
+        font-size: 12px;
+        text-align: center;
+        height: 10vh;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
     }
 </style>
-    <form asp-action="Index" method="get">
-        <div class="form-actions no-color">
-            <p>
-                Find by sport: <input type="text" name="SearchStringSport" value="@ViewData["currentFilterSport"]" />
-                <input type="submit" value="Search" class="btn btn-primary" />
-                League: <input type="text" name="SearchStringLeague" value="@ViewData["currentFilterLeague"]" />
-                <input type="submit" value="Search" class="btn btn-primary" />
-                Team: <input type="text" name="SearchStringTeam" value="@ViewData["currentFilterTeam"]" />
-                <input type="submit" value="Search" class="btn btn-primary" />
-                <input type="submit" name ="sortMatches" value="Sort by time" class="btn btn-primary" />
-                <a asp-action="Index">Full List</a>
-</div>
-    </form>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by sport: <input type="text" name="SearchStringSport" value="@ViewData["currentFilterSport"]" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+            League: <input type="text" name="SearchStringLeague" value="@ViewData["currentFilterLeague"]" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+            Team: <input type="text" name="SearchStringTeam" value="@ViewData["currentFilterTeam"]" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+            <input type="submit" name="sortMatches" value="Sort by time" class="btn btn-primary" />
+            <a asp-action="Index">Full List</a>
+    </div>
+</form>
 
 <table class="bet-slip">
     <thead>
         <tr>
             <th>
-                Home Team
+                Home
             </th>
             <th>
-                Away Team
+                Away
             </th>
             <th>
                 Time
@@ -66,44 +95,44 @@
                 Odd
             </th>
             <th>
-                Top Match
+                Top
             </th>
             <th>
             </th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="bet-slip-body">
         @using (Html.BeginForm("UserBet", "UserBets", new { CashOut = TempData["CashOut"], TotalOdd = TempData["Odd"] }, FormMethod.Post))
         {
             @foreach (var item in Model.BetSlip)
             {
                 {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Match.HomeTeam.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Match.AwayTeam.Name)
-            </td>
-            <td>
-                @{
-                    string time = item.Match.Time.ToShortTimeString();
-                }
-                @Html.DisplayFor(modelItem => time)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Odd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TopMatch)
-            </td>
-            <td>
-                <a asp-controller="BetSlips" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">x</a>
-            </td>
-        </tr>
+                    <tr class="bet-slip-bet">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Match.HomeTeam.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Match.AwayTeam.Name)
+                        </td>
+                        <td>
+                            @{
+                                string time = item.Match.Time.ToShortTimeString();
+                            }
+                            @Html.DisplayFor(modelItem => time)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Odd)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TopMatch)
+                        </td>
+                        <td>
+                            <a asp-controller="BetSlips" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">x</a>
+                        </td>
+                    </tr>
                 }
             }
             <tr>
@@ -118,7 +147,7 @@
                 <td><input type="text" name="Stake" id="stake" pattern="^(?!0\.00)\d{1,6}(,\d{3})*(\.\d\d)?$" placeholder="Enter the amount in format 0.00" class="form-control" /></td>
                 <td>-5%: <span id="Tax"></span> @TempData["Tax"]</td>
                 <td><button type="submit" value="Potvrdi" name="submit" class="btn btn-success">Accept</button></td>
-                <td><button type="submit" value="Remove" name="submit" class="btn btn-danger">Remove All</button></td>
+                <td><button type="submit" value="Remove" name="submit" class="btn btn-danger">Clear</button></td>
             </tr>
 
 
@@ -133,10 +162,11 @@
     <table class="table matches">
         <thead>
             <tr>
-                <th><h1>Matches</h1>
+                <th>
+                    <h1>Matches</h1>
                 </th>
                 <th></th>
-               
+
             </tr>
         </thead>
         <tbody>
@@ -220,7 +250,7 @@
                                 @if (item._X2 > 1)
                                 {
                                     <button type="submit" id=@item.Id , name="type" value="X2" class="btn btn-primary">@item._X2</button>
-                                } 
+                                }
                             </td>
                             <td>
                                 @if (item._12 > 1)
@@ -231,14 +261,15 @@
                             @if (User.IsInRole("Admin"))
                             {
                                 <td>
-                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">X</a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-primary" asp-action="TopMatch" asp-route-id="@item.Id">TopMatch</a>
+                                    <a class="btn btn-primary" asp-action="TopMatch" asp-route-id="@item.Id">Top</a>
                                 </td>
                             }
 
                         </tr>
+                        <input type="hidden" id="div_position" name="div_position" />
                     }
 
                 }
@@ -251,14 +282,25 @@
 
 
 <script>
+    $(function(){
+        var posName = location.href + "_top";
+        $(window).unload(function() {
+            var top = $(document).scrollTop();
+            $.cookie(posName, top);
+        });
 
+        var goTop = parseInt($.cookie(posName));
+        if (goTop) {
+            $(document).scrollTop(goTop);
+            $.cookie(posName, "");
+        }
+    });
     var odd = parseFloat(("@TempData["Odd"]").replace(",","."));
 
     var stakeDOM =  document.getElementById("stake")
    stakeDOM.addEventListener("click", function (event) {
-      event.preventDefault()
-
-      document.getElementById("cashOut").innerHTML = ((parseFloat(stakeDOM.value) / 100 * 95) * odd).toFixed(2)
+       event.preventDefault();
+       document.getElementById("cashOut").innerHTML = ((parseFloat(stakeDOM.value) / 100 * 95) * odd).toFixed(2);
       document.getElementById("Tax").innerHTML = ((parseFloat(stakeDOM.value) *0.95).toFixed(2));
 });
 </script>
