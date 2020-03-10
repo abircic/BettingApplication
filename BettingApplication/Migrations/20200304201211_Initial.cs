@@ -407,8 +407,7 @@ namespace BettingApplication.Migrations
                 name: "UserBetMatches",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     MatchId = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: true),
                     Odd = table.Column<decimal>(nullable: false),

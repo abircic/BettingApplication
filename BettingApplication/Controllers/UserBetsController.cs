@@ -47,7 +47,8 @@ namespace BettingApplication.Controllers
                     TempData["Saldo"] = wallet.Saldo + " kn";
                 }
             }
-            return View(userBet);
+
+            return View(userBet.OrderByDescending(u => u.TimeStamp));
         }
 
         [HttpGet]
@@ -223,9 +224,7 @@ namespace BettingApplication.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             foreach (var item in _context.UserBetMatches.Where(u => u.UserBets.User.Id == userId).Include(m => m.Match.HomeTeam).Include(a=>a.Match.AwayTeam).Include(u => u.UserBets).ToList())
             {
-                var match = _context.Results.Where(t => t.HomeTeam.Contains(item.Match.HomeTeam.Name) 
-                || t.AwayTeam.Contains(item.Match.AwayTeam.Name)
-                && t.Time == item.Match.Time).FirstOrDefault();
+                var match = _context.Results.Where(m=>m.Id==item.Match.Id).FirstOrDefault();
                 if (match != null)
                 {
                     var winningTypes = match.WinningTypes.Split(';');

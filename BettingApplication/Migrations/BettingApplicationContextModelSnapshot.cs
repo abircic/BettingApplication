@@ -246,9 +246,8 @@ namespace BettingApplication.Migrations
 
             modelBuilder.Entity("BettingApplication.Models.UserBetMatches", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("MatchId");
 

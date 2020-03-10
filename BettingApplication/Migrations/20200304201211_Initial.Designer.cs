@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BettingApplication.Migrations
 {
     [DbContext(typeof(BettingApplicationContext))]
-    [Migration("20200302204344_Initial")]
+    [Migration("20200304201211_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -248,9 +248,8 @@ namespace BettingApplication.Migrations
 
             modelBuilder.Entity("BettingApplication.Models.UserBetMatches", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("MatchId");
 

@@ -65,7 +65,7 @@ namespace BettingApplication
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<BettingApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("BettingApplicationContext")));
-            //services.AddHostedService<ResultHostedService>();
+            services.AddHostedService<ResultHostedService>();
             //services.AddHostedService<OfferHostedService>();
 
         }

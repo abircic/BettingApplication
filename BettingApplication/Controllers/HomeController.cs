@@ -425,9 +425,7 @@ namespace BettingApplication.Controllers
                 .Include(a=>a.Match.AwayTeam)
                 .Include(u=>u.UserBets).ToList())
             {
-                var match = _context.Results.Where(t => t.HomeTeam.Contains(item.Match.HomeTeam.Name) 
-                || t.AwayTeam.Contains(item.Match.AwayTeam.Name) 
-                && t.Time==item.Match.Time).FirstOrDefault();
+                var match = _context.Results.Where(m=>m.Id==item.Match.Id).FirstOrDefault();
                 if (match != null)
                 {
                     var winningTypes = match.WinningTypes.Split(';');

@@ -67,7 +67,7 @@ namespace BettingApplication.Controllers
                         foreach (var eventDateEvent in eventDate.Events)
                         {
                             var matchModel = new Matches();
-                            matchModel.Id = Guid.NewGuid().ToString();
+                            matchModel.Id = eventDateEvent.Id;
                             var types = new Types();
                             matchModel.Sport = sport;
                             matchModel.Time = eventDateEvent.Fixture.StartDate.AddHours(1);

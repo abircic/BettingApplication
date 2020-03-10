@@ -34,7 +34,7 @@ namespace BettingApplication.Models
 
     public class Events
     {
-        public bool IsLive { get; set; }
+        public string Id { get; set; }
         public FixtureModel Fixture { get; set; }
         public List<Markets> Markets { get; set; }
     }
