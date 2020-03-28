@@ -52,7 +52,8 @@ namespace BettingApplication.Controllers
         public async Task<IActionResult> Bet(string matchId, string type, bool top)
         {
             int topMatchValue = GetTopMatchValue();
-            var match = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Where(m => m.Id == matchId).FirstOrDefault();
+            var match = _context.Matches.Include(h => h.HomeTeam)
+                .Include(a => a.AwayTeam).Where(m => m.Id == matchId).FirstOrDefault();
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             decimal betValue = 0;
@@ -82,7 +83,7 @@ namespace BettingApplication.Controllers
                 }
                 
             }
-             else
+            else
             {
                 var other = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).SingleOrDefault(q => q.Id == matchId);
                 switch (type)
@@ -104,20 +105,20 @@ namespace BettingApplication.Controllers
             foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
             {
                if(item.Match == match)
-                {
+               {
                     existMatch = true;
                     matches = item;
-                }
+               }
                if(item.TopMatch && item.Match != match && top)
-                {
+               {
                     TempData["betmsg"] = "Top match is on ticket already";
                     return RedirectToAction("TopMatchesIndex", "Home");
-                }
-                    if (item.Odd > 1.10m)
-                {
+               }
+               if (item.Odd > 1.10m)
+               {
                     counterOdd++;
-                }
-                counter++;
+               }
+               counter++;
             }
             if(counterOdd < topMatchValue+1 && counter < topMatchValue+1 && top && existMatch)
             {

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<BettingApplication.Models.Matches>
+
+@{
+    ViewData["Title"] = "AddResult";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>AddResult</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeTeam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwayTeam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Competition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Result)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            @using (Html.BeginForm("AddResult", "Results", new {MatchId = item.Id}, FormMethod.Post))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HomeTeam.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AwayTeam.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Time)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Competition)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Result)
+                    </td>
+
+                    <td>
+                        <input type="text" name="result" class="form-control" placeholder="Result"/>
+                    </td>
+                    <td>
+                        <input type="submit" value="Add Result" class="btn btn-primary"/>
+                    </td>
+                </tr>
+            }
+        }
+        </tbody>
+</table>

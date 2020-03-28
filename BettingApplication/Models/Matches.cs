@@ -17,6 +17,7 @@ namespace BettingApplication.Models
         public virtual Sports Sport { get; set; }
         public bool TopMatch { get; set; }
         public bool Hide { get; set; }
+        public string Competition { get; set; }
 
     }
 }

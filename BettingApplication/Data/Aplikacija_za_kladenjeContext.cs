@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using BettingApplication.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using BettingApplication.ViewModels;
 
 namespace BettingApplication.Data
 {
@@ -31,6 +32,7 @@ namespace BettingApplication.Data
         public DbSet<UserBetMatches> UserBetMatches { get; set; }
         public DbSet<AdminTopMatchConfig> AdminTopMatchConfigs { get; set; }
         public DbSet<ResultModel> Results { get; set; }
+        public DbSet<BettingApplication.ViewModels.MatchViewModel> MatchViewModel { get; set; }
 
 
     }

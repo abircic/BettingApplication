@@ -140,6 +140,8 @@ namespace BettingApplication.Migrations
 
                     b.Property<int?>("AwayTeamId");
 
+                    b.Property<string>("Competition");
+
                     b.Property<bool>("Hide");
 
                     b.Property<int?>("HomeTeamId");

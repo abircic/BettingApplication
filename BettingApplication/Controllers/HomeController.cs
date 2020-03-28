@@ -41,7 +41,7 @@ namespace BettingApplication.Controllers
                     var sortedMatchVmList = sortedMatches.Select(x => new MatchViewModel
                     {
                         Id = x.Id,
-                        League = x.HomeTeam.League.Name,
+                        League = x.Competition,
                         HomeTeamName = x.HomeTeam.Name,
                         AwayTeamName = x.AwayTeam.Name,
                         Time = x.Time,
@@ -71,7 +71,7 @@ namespace BettingApplication.Controllers
                     var filterMatchVmList = filterMatches.Select(x => new MatchViewModel
                     {
                         Id = x.Id,
-                        League = x.HomeTeam.League.Name,
+                        League = x.Competition,
                         HomeTeamName = x.HomeTeam.Name,
                         AwayTeamName = x.AwayTeam.Name,
                         Time = x.Time,
@@ -98,13 +98,13 @@ namespace BettingApplication.Controllers
                 var filterMatches = _context.Matches.Include(c => c.Sport)
                     .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                     .Include(a => a.AwayTeam).ThenInclude(l => l.League)
-                    .Include(t => t.Types).Where(m => m.HomeTeam.League.Name.ToUpper().Contains(searchStringLeague.ToUpper())).ToList();
+                    .Include(t => t.Types).Where(m => m.Competition.ToUpper().Contains(searchStringLeague.ToUpper())).ToList();
                 if (filterMatches.Count > 0)
                 {
                     var filterMatchVmList = filterMatches.Select(x => new MatchViewModel
                     {
                         Id = x.Id,
-                        League = x.HomeTeam.League.Name,
+                        League = x.Competition,
                         HomeTeamName = x.HomeTeam.Name,
                         AwayTeamName = x.AwayTeam.Name,
                         Time = x.Time,
@@ -139,7 +139,7 @@ namespace BettingApplication.Controllers
                     var filterMatchVmList = filterMatches.Select(x => new MatchViewModel
                     {
                         Id = x.Id,
-                        League = x.HomeTeam.League.Name,
+                        League = x.Competition,
                         HomeTeamName = x.HomeTeam.Name,
                         AwayTeamName = x.AwayTeam.Name,
                         Time = x.Time,
@@ -198,7 +198,7 @@ namespace BettingApplication.Controllers
             List<MatchViewModel> matchVmList = matchesList.Select(x => new MatchViewModel
             {
                 Id = x.Id,
-                League = x.HomeTeam.League.Name,
+                League = x.Competition,
                 HomeTeamName = x.HomeTeam.Name,
                 AwayTeamName = x.AwayTeam.Name,
                 Time = x.Time,

@@ -104,51 +104,54 @@
                             <li class="nav-item">
                                 <a class="btnSize" asp-area="" asp-controller="Home" asp-action="Index">Matches</a>
                             </li>
-                            <li class="nav-item">
+                            @*<li class="nav-item">
                                 <a class="btnSize" asp-area="" asp-controller="Home" asp-action="TwoPlayerIndex">Tennis</a>
-                            </li>
+                            </li>*@
                             <li class="nav-item">
                                 <a class="btnSize" asp-area="" asp-controller="Home" asp-action="TopMatchesIndex">Top Matches</a>
                             </li>
                             <li class="nav-item">
                                 <a class="btnSize" asp-area="" asp-controller="UserBets" asp-action="Index">My Bets</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="btnSize" asp-area="" asp-controller="Wallets" asp-action="Index">Wallet</a>
-                            </li>
-                            @if (User.IsInRole("Admin"))
+                            @if (!User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="btnSize" asp-area="" asp-controller="Admin" asp-action="Menu">Admin</a>
+                                    <a class="btnSize" asp-area="" asp-controller="Wallets" asp-action="Index">Wallet</a>
+                                </li>
+                            }
+                            @if (User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="btnSize" asp-area="" asp-controller="Admin" asp-action="Menu">Admin</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="badge badge-pill badge-success" asp-area="" asp-controller="Account" asp-action="UsersForActivate">@TempData["UsersForActivate"]</a>
+                                    </li>
+                                }
+
+                                <li class="nav-item">
+                                    <a class="btnSize" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                </li>
+                                <div class="account-data-container">
+                                    <h3 class="account-data" asp-area="">@TempData["Username"]</h3>
+                                    <h3 class="account-data" asp-area="">@TempData["Saldo"]</h3>
+                                </div>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="btnSize" asp-area="" asp-controller="Home" asp-action="Index">Matches</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="badge badge-pill badge-success" asp-area="" asp-controller="Account" asp-action="UsersForActivate">@TempData["UsersForActivate"]</a>
+                                    <a class="btnSize" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btnSize" asp-area="" asp-controller="Account" asp-action="Register">Registration</a>
                                 </li>
                             }
 
-                            <li class="nav-item">
-                                <a class="btnSize" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                            </li>
-                            <div class ="account-data-container">
-                                <h3 class="account-data" asp-area="">@TempData["Username"]</h3>
-                                <h3 class="account-data" asp-area="">@TempData["Saldo"]</h3>
-                            </div>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="btnSize" asp-area="" asp-controller="Home" asp-action="Index">Matches</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btnSize" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btnSize" asp-area="" asp-controller="Account" asp-action="Register">Registration</a>
-                            </li>
-                        }
 
-
-                    </ul>
+                        </ul>
                 </div>
             </div>
         </nav>

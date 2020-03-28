@@ -67,6 +67,7 @@ namespace BettingApplication.Controllers
                         foreach (var eventDateEvent in eventDate.Events)
                         {
                             var matchModel = new Matches();
+                            matchModel.Competition = league.Name;
                             matchModel.Id = eventDateEvent.Id;
                             var types = new Types();
                             matchModel.Sport = sport;

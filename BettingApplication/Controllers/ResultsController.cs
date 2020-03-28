@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using BettingApplication.Data;
 using BettingApplication.Models;
+using BettingApplication.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -115,6 +116,91 @@ namespace BettingApplication.Controllers
             if (secondValue > firstValue)
                 return "2;X2;12";
             return "1X;X;X2";
+        }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddResult()
+        {
+            List<Matches> matchesList = _context.Matches.Include(c => c.Sport)
+                .Include(h => h.HomeTeam).ThenInclude(l => l.League)
+                .Include(a => a.AwayTeam).ThenInclude(l => l.League)
+                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football") && s.Result == null).OrderBy(x=>x.Competition).ToList();
+            return View(matchesList);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost, ActionName("AddResult")]
+        public async Task<IActionResult> AddResult(string MatchId, string result)
+        {
+            var match = _context.Matches.Where((x => x.Id == MatchId)).Include(c => c.Sport)
+                .Include(h => h.HomeTeam).ThenInclude(l => l.League)
+                .Include(a => a.AwayTeam).ThenInclude(l => l.League).SingleOrDefault();
+            match.Result = result;
+            _context.Matches.Update(match);
+            var newResult = new ResultModel();
+            var exist = _context.Results.Where(x => x.Id == MatchId).SingleOrDefault();
+            if (exist == null)
+            {
+                newResult.Id = match.Id;
+                newResult.HomeTeam = match.HomeTeam.Name;
+                newResult.AwayTeam = match.AwayTeam.Name;
+                newResult.Time = match.Time;
+                newResult.Result = result;
+                newResult.SportName = match.Sport.Name;
+                var splitResult = result.Split(":");
+                newResult.WinningTypes = CalculateWinningTypes(Int32.Parse(splitResult[0]),
+                    Int32.Parse(splitResult[1]));
+                _context.Results.Add(newResult);
+            }
+            
+            _context.SaveChanges();
+            List<Matches> matchesList = _context.Matches.Include(c => c.Sport)
+                .Include(h => h.HomeTeam).ThenInclude(l => l.League)
+                .Include(a => a.AwayTeam).ThenInclude(l => l.League)
+                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football") && s.Result == null).OrderBy(x => x.Competition).ToList();
+            return View(matchesList);
+        }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddYesterdayResult()
+        {
+            var dateTime = DateTime.Now.AddDays(-1);
+            List<Matches> matchesList = _context.Matches.Include(c => c.Sport)
+                .Include(h => h.HomeTeam).ThenInclude(l => l.League)
+                .Include(a => a.AwayTeam).ThenInclude(l => l.League)
+                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football") && s.Time.Day==dateTime.Day && s.Result==null).OrderBy(x => x.Competition).ToList();
+            return View(matchesList);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost, ActionName("AddYesterdayResult")]
+        public async Task<IActionResult> AddYesterdayResult(string MatchId, string result)
+        {
+            var dateTime = DateTime.Now.AddDays(-1);
+            var match = _context.Matches.Where((x => x.Id == MatchId)).Include(c => c.Sport)
+                .Include(h => h.HomeTeam).ThenInclude(l => l.League)
+                .Include(a => a.AwayTeam).ThenInclude(l => l.League).SingleOrDefault();
+            match.Result = result;
+            _context.Matches.Update(match);
+            var newResult = new ResultModel();
+            var exist = _context.Results.Where(x => x.Id == MatchId).SingleOrDefault();
+            if (exist == null)
+            {
+                newResult.Id = match.Id;
+                newResult.HomeTeam = match.HomeTeam.Name;
+                newResult.AwayTeam = match.AwayTeam.Name;
+                newResult.Time = match.Time;
+                newResult.Result = result;
+                newResult.SportName = match.Sport.Name;
+                var splitResult = result.Split(":");
+                newResult.WinningTypes = CalculateWinningTypes(Int32.Parse(splitResult[0]),
+                    Int32.Parse(splitResult[1]));
+                _context.Results.Add(newResult);
+            }
+            _context.SaveChanges();
+            List<Matches> matchesList = _context.Matches.Include(c => c.Sport)
+                .Include(h => h.HomeTeam).ThenInclude(l => l.League)
+                .Include(a => a.AwayTeam).ThenInclude(l => l.League)
+                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football") && s.Time.Day == dateTime.Day && s.Result == null).OrderBy(x => x.Competition).ToList();
+            return View(matchesList);
         }
     }
 }

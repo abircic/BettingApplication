@@ -70,7 +70,7 @@
             <input type="submit" value="Search" class="btn btn-primary" />
             Team: <input type="text" name="SearchStringTeam" value="@ViewData["currentFilterTeam"]" />
             <input type="submit" value="Search" class="btn btn-primary" />
-            <input type="submit" name="sortMatches" value="Sort by time" class="btn btn-primary" />
+            @*<input type="submit" name="sortMatches" value="Sort by time" class="btn btn-primary" />*@
             <a asp-action="Index">Full List</a>
     </div>
 </form>
@@ -186,7 +186,8 @@
                                     @Html.DisplayFor(modelItem => item.League)
                                 </th>
                                 temp = item.League;
-                                <th></th>
+                                <th>
+                                </th>
                                 <th>
                                     Time
                                 </th>
@@ -210,7 +211,7 @@
                                 </th>
                             }
                         </tr>
-                        <tr>
+                        <tr class="matches-match">
 
                             <td>
                                 @item.HomeTeamName
@@ -268,10 +269,9 @@
                             }
 
                         </tr>
-                        <input type="hidden" id="div_position" name="div_position" />
                     }
-
                 }
+               
             }
         </tbody>
     </table>
@@ -281,27 +281,28 @@
 
 
 <script>
-    $(function(){
-        var posName = location.href + "_top";
-        $(window).unload(function() {
-            var top = $(document).scrollTop();
-            $.cookie(posName, top);
-        });
-
-        var goTop = parseInt($.cookie(posName));
-        if (goTop) {
-            $(document).scrollTop(goTop);
-            $.cookie(posName, "");
-        }
+    document.getElementsByClassName("matches")[0].addEventListener('scroll', function () {
+        window.localStorage.setItem('scrollTop', document.getElementsByClassName("matches")[0].scrollTop);
     });
-    var odd = parseFloat(("@TempData["Odd"]").replace(",","."));
+    function restoreScroll() {
+        var position = window.localStorage.getItem("scrollTop");
+        if (!isNaN(position)) {
+            $(document.getElementsByClassName("matches")[0]).scrollTop(position);
+        } else {
+            $(document.getElementsByClassName("matches")[0]).scrollTop(0);
+        }
 
+    };
+    restoreScroll();
+
+    var odd = parseFloat(("@TempData["Odd"]").replace(",","."));
     var stakeDOM =  document.getElementById("stake")
-   stakeDOM.addEventListener("click", function (event) {
-       event.preventDefault();
-       document.getElementById("cashOut").innerHTML = ((parseFloat(stakeDOM.value) / 100 * 95) * odd).toFixed(2);
-      document.getElementById("Tax").innerHTML = ((parseFloat(stakeDOM.value) *0.95).toFixed(2));
-});
+    stakeDOM.addEventListener("click", function (event) {
+        event.preventDefault();
+        document.getElementById("cashOut").innerHTML = ((parseFloat(stakeDOM.value) / 100 * 95) * odd).toFixed(2);
+        document.getElementById("Tax").innerHTML = ((parseFloat(stakeDOM.value) * 0.95).toFixed(2));
+    });
+
 </script>
 @if (@TempData["betmsg"] != null)
 {

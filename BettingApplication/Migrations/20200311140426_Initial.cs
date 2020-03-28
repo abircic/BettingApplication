@@ -312,7 +312,8 @@ namespace BettingApplication.Migrations
                     Result = table.Column<string>(nullable: true),
                     SportId = table.Column<int>(nullable: true),
                     TopMatch = table.Column<bool>(nullable: false),
-                    Hide = table.Column<bool>(nullable: false)
+                    Hide = table.Column<bool>(nullable: false),
+                    Competition = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
