@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BettingApplication.Data;
 using BettingApplication.Models;
+using BettingApplication.Services.Interfaces;
 using BettingApplication.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,17 +18,19 @@ namespace BettingApplication.Controllers
     public class AccountController : Controller
     {
         private readonly BettingApplicationContext _context;
-        private readonly UserManager<AppUser> userManager;
-        private readonly SignInManager<AppUser> signInManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly ILogger<AccountController> logger;
-        public AccountController(BettingApplicationContext context, RoleManager<IdentityRole> roleManager,
+        private readonly IAccountService _accountService;
+        public AccountController(IAccountService accountService, BettingApplicationContext context, RoleManager<IdentityRole> roleManager,
             UserManager<AppUser> userManager,SignInManager<AppUser> signInManager)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            this._userManager = userManager;
+            this._signInManager = signInManager;
             this.roleManager = roleManager;
             _context = context;
+            _accountService = accountService;
         }
         public IActionResult Register()
         {
@@ -38,7 +41,7 @@ namespace BettingApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isExist = IsUsernameExist(model.UserName);
+                var isExist = await _accountService.IsUsernameExist(model.UserName);
                 if (isExist)
                 {
                     ModelState.AddModelError("UsernameExist", "Username already exist");
@@ -52,16 +55,10 @@ namespace BettingApplication.Controllers
                     Age = model.Age,
                     Email= model.Email
                 };
-                var result = await userManager.CreateAsync(user, model.Password);
+                var result = await _userManager.CreateAsync(user, model.Password);
                 if(result.Succeeded)
                 {
-                    userManager.AddToRoleAsync(user, "User").Wait();
-                    //await signInManager.SignInAsync(user, isPersistent:false);
-                    Wallet wallet = new Wallet();
-                    wallet.User = user;
-                    wallet.Saldo = 0.00m;
-                    _context.Wallet.Add(wallet);
-                    _context.SaveChanges();
+                    await _accountService.Register(user);
                     ViewBag.ErrorTitle = "Registration succesful";
                     ViewBag.ErrorMessage = "Before you can login, Admin need to activate your account :)";
                     return View("View");
@@ -84,7 +81,7 @@ namespace BettingApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
                 if (result.Succeeded && model.UserName == "admin")
                 {
                     return RedirectToAction("UsersForActivate", "Account");
@@ -94,13 +91,14 @@ namespace BettingApplication.Controllers
                 {
                     return RedirectToAction("Index", "Home");
                 }
-                var user = _context.Users.Where(x => x.UserName == model.UserName).SingleOrDefault();
+
+                var user = await _accountService.GetUser(model.UserName);
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Wrong username");
                     return View();
                 }
-                else if (user.EmailConfirmed == false)
+                if (user.EmailConfirmed == false)
                 {
                     ModelState.AddModelError(string.Empty, "Sorry account is not verified yet");
                 }
@@ -111,49 +109,26 @@ namespace BettingApplication.Controllers
         }
         public async Task<IActionResult> LogOut()
         {
-            await signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }
-        public bool IsUsernameExist(string username)
-        {
-            var v = _context.Users.Where(a => a.UserName == username).FirstOrDefault();
-            if (v == null)
-            {
-                return false;
-            }
-            else
-                return true;
-        }
+       
 
-        public IActionResult UsersList()
+        public async Task<IActionResult> UsersList()
         {
-            var usersList = (from user in _context.Users.Where(u=>u.UserName!="Admin")
-                             select new UsersViewModel
-                             {
-                                 UserId = user.Id,
-                                 Username = user.UserName,
-                                 FirstName = user.FirstName,
-                                 LastName = user.LastName,
-                                 Age = user.Age,
-                                 Email = user.Email
-                             }).ToList();
-            return View(usersList);
+            var response = await _accountService.GetUsersList();
+            return View(response);
         }
 
         [HttpGet]
         public async Task<IActionResult> DeleteUser(string id)
         {
-            string name = string.Empty;
             if (!String.IsNullOrEmpty(id))
             {
-                AppUser applicationUser = await userManager.FindByIdAsync(id);
-                if (applicationUser != null)
-                {
-                    name = applicationUser.FirstName;
-                }
-                UsersViewModel test = new UsersViewModel();
-                test.FirstName = applicationUser.FirstName;
-                test.LastName = applicationUser.LastName;
+                AppUser applicationUser = await _userManager.FindByIdAsync(id);
+                //UsersViewModel test = new UsersViewModel();
+                //test.FirstName = applicationUser.FirstName;
+                //test.LastName = applicationUser.LastName;
             }
             return View();
         }
@@ -162,31 +137,16 @@ namespace BettingApplication.Controllers
         {
             if (!String.IsNullOrEmpty(id))
             {
-                foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == id))
-                {
-                    _context.Remove(item);
-                }
-                foreach (UserTransaction item in _context.UserTransaction.Where(b => b.UserId == id))
-                {
-                    _context.Remove(item);
-                }
-                foreach (UserBetMatch item in _context.UserBetMatch.Where(b => b.UserBet.User.Id == id))
-                {
-                    _context.Remove(item);
-                }
-                foreach (UserBet item in _context.UserBet.Where(b => b.User.Id == id))
-                {
-                    _context.Remove(item);
-                }
 
-                var user = _context.Wallet.Where(u => u.User.Id == id).FirstOrDefault();
+                await _accountService.DeleteUser(id);
+                var user = _context.Wallet.Where(u => u.User.Id == id).FirstOrDefault();//TODO
                 _context.Wallet.Remove(user);
                 _context.SaveChanges();
 
-                AppUser applicationUser = await userManager.FindByIdAsync(id);
+                AppUser applicationUser = await _userManager.FindByIdAsync(id);
                 if (applicationUser != null)
                 {
-                    IdentityResult result = await userManager.DeleteAsync(applicationUser);
+                    IdentityResult result = await _userManager.DeleteAsync(applicationUser);
                     if (result.Succeeded)
                     {
                         return RedirectToAction("UsersList");
@@ -196,66 +156,25 @@ namespace BettingApplication.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult UsersForActivate()
+        public async Task<IActionResult> UsersForActivate()
         {
-            var usersList = (from user in _context.Users.Where(u => u.UserName != "Admin" && u.EmailConfirmed==false)
-                             select new UsersViewModel
-                             {
-                                 UserId = user.Id,
-                                 Username = user.UserName,
-                                 FirstName = user.FirstName,
-                                 LastName = user.LastName,
-                                 Age = user.Age,
-                                 Email = user.Email
-                             }).ToList();
-            return View(usersList);
+            var response = await _accountService.GetUsersForActivate();
+            return View(response);
         }
+
         [HttpPost, ActionName("AktivateUser")]
         public async Task<IActionResult> UsersForActivate(string id)
         {
             if (!String.IsNullOrEmpty(id))
             {
-                AppUser applicationUser = await userManager.FindByIdAsync(id);
+                AppUser applicationUser = await _userManager.FindByIdAsync(id);
                 if (applicationUser != null)
                 {
-                   applicationUser.EmailConfirmed = true;
-                    _context.SaveChanges();
+                    _accountService.ActivateUser(applicationUser);
                 }
             }
             return RedirectToAction("UsersForActivate", "Account");
         }
-        //private async Task CreateRolesandUsers()
-        //{
-        //    bool x = await roleManager.RoleExistsAsync("Admin");
-        //    if (!x)
-        //    {
-        //        // first we create Admin rool    
-        //        var role = new IdentityRole();
-        //        role.Name = "Admin";
-        //        await roleManager.CreateAsync(role);
-
-        //        //Here we create a Admin super user who will maintain the website                   
-
-        //        var user = new AppUser();
-        //        user.UserName = "admin";
-        //        string userPWD = "admin";
-        //        IdentityResult chkUser = await userManager.CreateAsync(user, userPWD);
-
-        //        //Add default User to Role Admin    
-        //        if (chkUser.Succeeded)
-        //        {
-        //            var result1 = await userManager.AddToRoleAsync(user, "Admin");
-        //        }
-        //    }
-
-        //    // creating Creating Manager role     
-        //    x = await roleManager.RoleExistsAsync("User");
-        //    if (!x)
-        //    {
-        //        var role = new IdentityRole();
-        //        role.Name = "User";
-        //        await roleManager.CreateAsync(role);
-        //    }
 
     }
 }

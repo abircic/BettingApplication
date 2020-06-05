@@ -27,7 +27,7 @@
     <thead>
         <tr>
             <th>
-                ResultLeaguesModel
+                League
             </th>
             <th>
                 First Team
@@ -38,18 +38,18 @@
         </tr>
     </thead>
     <tbody>
-        @using (Html.BeginForm("Matches", "Add", new { }, FormMethod.Post))
+        @using (Html.BeginForm("Add", "Matches", new { }, FormMethod.Post))
         {
         <tr>
             <td>
                 @{
                     string temp = null;
                 }
-                <select name="ResultLeaguesModel" id="1">
-                    <option value="0">Select ResultLeaguesModel</option>
+                <select name="league" id="1">
+                    <option value="0">Select League name</option>
 
                     @{
-                        foreach (var item in Model)
+                        foreach (var item in Model.OrderBy(x=>x.League.Name))
                         {
                             @if (@temp != item.League.Name)
                             {
@@ -66,7 +66,7 @@
                     <option value="0">Select Team</option>
 
                     @{
-                        foreach (var item in Model)
+                        foreach (var item in Model.OrderBy(x=>x.Name))
                         {
                             <option value="@item.Name">@item.Name</option>
                         }
@@ -79,7 +79,7 @@
                     <option value="1">Select Team</option>
 
                     @{
-                        foreach (var item in Model)
+                        foreach (var item in Model.OrderBy(x=>x.Name))
                         {
                             <option value="@item.Name">@item.Name</option>
                         }
@@ -110,6 +110,9 @@
             </th>
             <th>
                 Top Match
+            </th>
+            <th>
+                Time
             </th>
         </tr>
     </thead>
@@ -148,6 +151,11 @@
             </td>
             <td>
                 <input type="checkbox" name="topMatch" value="true"><br>
+            </td>
+            <td>
+                <div class="form-group">
+                    <input name="time" class="form-control" placeholder="15:00" />
+                </div>
             </td>
         </tr>
             

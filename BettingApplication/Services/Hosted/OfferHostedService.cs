@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -13,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Type = BettingApplication.Models.Type;
 
-namespace BettingApplication.Services
+namespace BettingApplication.Services.Hosted
 {
     public class OfferHostedService : IHostedService
     {

@@ -7,13 +7,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using BettingApplication.Data;
 using BettingApplication.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
-namespace BettingApplication.Services
+namespace BettingApplication.Services.Hosted
 {
     public class ResultHostedService : IHostedService
     {
