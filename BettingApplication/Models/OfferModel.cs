@@ -10,17 +10,17 @@ namespace BettingApplication.Models
         public List<Locations> Locations { get; set; } 
         public Sport Sport { get; set; }
     }
-    public class Sport
+    public class SportModel
     {
         public string Name { get; set; }
     }
     public class Locations
     {
         public string Name { get; set; }
-        public List<League> Leagues { get; set; }
+        public List<LeagueModel> Leagues { get; set; }
     }
 
-    public class League
+    public class LeagueModel
     {
         public string Name { get; set; }
         public List<EventDateGroups> EventDateGroups { get; set; }

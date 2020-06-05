@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BettingApplication.Models.Sports>
+﻿@model IEnumerable<BettingApplication.Models.Sport>
 
 @{
     ViewData["Title"] = "Add";
@@ -20,9 +20,6 @@
 </style>
 <h1>Add</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -36,7 +33,7 @@
         </tr>
     </thead>
     <tbody>
-        @using (Html.BeginForm("Leagues", "Add", new { }, FormMethod.Post))
+        @using (Html.BeginForm("League", "Add", new { }, FormMethod.Post))
         {
             <tr>
                 <td>
@@ -66,6 +63,13 @@
                 <td>
                     <a class="btn btn-outline-dark" asp-action="Index">Back to List</a>
                 </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                    <td>
+                        <input type="button" class="btn btn-outline-primary btnSize" value="Add Sport" onclick="location.href='@Url.Action("Create", "Sport")'" />
+                    </td>
             </tr>
         }
     </tbody>

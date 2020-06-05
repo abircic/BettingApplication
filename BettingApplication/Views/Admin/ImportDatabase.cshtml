@@ -1,6 +1,18 @@
-﻿
+﻿<style>
+    body {
+        background-color: #121212;
+        color: white;
+    }
+
+    th {
+        color: white;
+    }
+
+    td {
+        color: white;
+    }
+</style>
 @if (@Html.ValidationMessage("Error") != null)
 {
     @Html.ValidationMessage("Error")
 }
-<text>Success</text>

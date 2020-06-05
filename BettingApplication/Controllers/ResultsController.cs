@@ -32,11 +32,11 @@ namespace BettingApplication.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            //string[] allowedSports = new string[] { "Football", "TENIS", "Hokej", "Košarka", "Rukomet" };
-            //string[] allowedFootballLeagues = new string[]
+            //string[] allowedSport = new string[] { "Football", "TENIS", "Hokej", "Košarka", "Rukomet" };
+            //string[] allowedFootballLeague = new string[]
             //    {"ŠPANJOLSKA", "ITALIJA", "FRANCUSKA", "ENGLESKA", "NJEMAČKA"};
             var date = DateTime.Now;
-            //string url = $"https://sportdataprovider.volcanobet.me/api/public/Results/getResultOverviews?date={date.Year}-{date.Month.ToString("00")}-{date.Day}T00:00:00.000Z&sportId=1&clientType=WebConsumer&v=1.1.435&lang=sr-Latn-EN";
+            //string url = $"https://sportdataprovider.volcanobet.me/api/public/Result/getResultOverviews?date={date.Year}-{date.Month.ToString("00")}-{date.Day}T00:00:00.000Z&sportId=1&clientType=WebConsumer&v=1.1.435&lang=sr-Latn-EN";
             string url = "https://sportdataprovider.volcanobet.me/api/public/Results/getDailyResultOverviews?sportId=1&clientType=WebConsumer&v=1.1.496-rc6&lang=sr-Latn-ME";
             string html;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -51,7 +51,7 @@ namespace BettingApplication.Controllers
             var convertedResult = new List<ResultModel>();
             foreach (var result in results.Where(t=>t.Scores.Count>0))
             {
-                if (_context.Results.Where(t => t.Id == result.Fixture.EventId).FirstOrDefault() == null)
+                if (_context.Result.Where(t => t.Id == result.Fixture.EventId).FirstOrDefault() == null)
                 {
                     var r = new ResultModel();
                     r.Id = result.Fixture.EventId;
@@ -72,11 +72,11 @@ namespace BettingApplication.Controllers
         }
         public async Task<IActionResult> YesterdayResult()
         {
-            //string[] allowedSports = new string[] { "Football", "TENIS", "Hokej", "Košarka", "Rukomet" };
-            //string[] allowedFootballLeagues = new string[]
+            //string[] allowedSport = new string[] { "Football", "TENIS", "Hokej", "Košarka", "Rukomet" };
+            //string[] allowedFootballLeague = new string[]
             //    {"ŠPANJOLSKA", "ITALIJA", "FRANCUSKA", "ENGLESKA", "NJEMAČKA"};
             var date = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
-            string url = $"https://sportdataprovider.volcanobet.me/api/public/Results/getResultOverviews?date={date}T00:00:00.000Z&sportId=1&clientType=WebConsumer&v=1.1.507&lang=sr-Latn-EN";
+            string url = $"https://sportdataprovider.volcanobet.me/api/public/Result/getResultOverviews?date={date}T00:00:00.000Z&sportId=1&clientType=WebConsumer&v=1.1.507&lang=sr-Latn-EN";
             string html;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AutomaticDecompression = DecompressionMethods.GZip;
@@ -90,7 +90,7 @@ namespace BettingApplication.Controllers
             var convertedResult = new List<ResultModel>();
             foreach (var result in results.Where(t => t.Scores.Count > 0))
             {
-                if (_context.Results.Where(t => t.Id == result.Fixture.EventId).FirstOrDefault() == null)
+                if (_context.Result.Where(t => t.Id == result.Fixture.EventId).FirstOrDefault() == null)
                 {
                     var r = new ResultModel();
                     r.Id = result.Fixture.EventId;
@@ -120,10 +120,10 @@ namespace BettingApplication.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddResult()
         {
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport)
+            List<Match> matchesList = _context.Match.Include(c => c.Sport)
                 .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                 .Include(a => a.AwayTeam).ThenInclude(l => l.League)
-                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football") && s.Result == null).OrderBy(x=>x.Competition).ToList();
+                .Include(t => t.Type).Where(s => s.Sport.Name.Contains("Football") && s.Result == null).OrderBy(x=>x.Competition).ToList();
             return View(matchesList);
         }
 
@@ -131,13 +131,13 @@ namespace BettingApplication.Controllers
         [HttpPost, ActionName("AddResult")]
         public async Task<IActionResult> AddResult(string MatchId, string result)
         {
-            var match = _context.Matches.Where((x => x.Id == MatchId)).Include(c => c.Sport)
+            var match = _context.Match.Where((x => x.Id == MatchId)).Include(c => c.Sport)
                 .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                 .Include(a => a.AwayTeam).ThenInclude(l => l.League).SingleOrDefault();
             match.Result = result;
-            _context.Matches.Update(match);
+            _context.Match.Update(match);
             var newResult = new ResultModel();
-            var exist = _context.Results.Where(x => x.Id == MatchId).SingleOrDefault();
+            var exist = _context.Result.Where(x => x.Id == MatchId).SingleOrDefault();
             if (exist == null)
             {
                 newResult.Id = match.Id;
@@ -149,24 +149,24 @@ namespace BettingApplication.Controllers
                 var splitResult = result.Split(":");
                 newResult.WinningTypes = CalculateWinningTypes(Int32.Parse(splitResult[0]),
                     Int32.Parse(splitResult[1]));
-                _context.Results.Add(newResult);
+                _context.Result.Add(newResult);
             }
             
             _context.SaveChanges();
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport)
+            List<Match> matchesList = _context.Match.Include(c => c.Sport)
                 .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                 .Include(a => a.AwayTeam).ThenInclude(l => l.League)
-                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football") && s.Result == null).OrderBy(x => x.Competition).ToList();
+                .Include(t => t.Type).Where(s => s.Sport.Name.Contains("Football") && s.Result == null).OrderBy(x => x.Competition).ToList();
             return View(matchesList);
         }
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddYesterdayResult()
         {
             var dateTime = DateTime.Now.AddDays(-1);
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport)
+            List<Match> matchesList = _context.Match.Include(c => c.Sport)
                 .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                 .Include(a => a.AwayTeam).ThenInclude(l => l.League)
-                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football") && s.Time.Day==dateTime.Day && s.Result==null).OrderBy(x => x.Competition).ToList();
+                .Include(t => t.Type).Where(s => s.Sport.Name.Contains("Football") && s.Time.Day==dateTime.Day && s.Result==null).OrderBy(x => x.Competition).ToList();
             return View(matchesList);
         }
 
@@ -175,13 +175,13 @@ namespace BettingApplication.Controllers
         public async Task<IActionResult> AddYesterdayResult(string MatchId, string result)
         {
             var dateTime = DateTime.Now.AddDays(-1);
-            var match = _context.Matches.Where((x => x.Id == MatchId)).Include(c => c.Sport)
+            var match = _context.Match.Where((x => x.Id == MatchId)).Include(c => c.Sport)
                 .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                 .Include(a => a.AwayTeam).ThenInclude(l => l.League).SingleOrDefault();
             match.Result = result;
-            _context.Matches.Update(match);
+            _context.Match.Update(match);
             var newResult = new ResultModel();
-            var exist = _context.Results.Where(x => x.Id == MatchId).SingleOrDefault();
+            var exist = _context.Result.Where(x => x.Id == MatchId).SingleOrDefault();
             if (exist == null)
             {
                 newResult.Id = match.Id;
@@ -193,13 +193,13 @@ namespace BettingApplication.Controllers
                 var splitResult = result.Split(":");
                 newResult.WinningTypes = CalculateWinningTypes(Int32.Parse(splitResult[0]),
                     Int32.Parse(splitResult[1]));
-                _context.Results.Add(newResult);
+                _context.Result.Add(newResult);
             }
             _context.SaveChanges();
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport)
+            List<Match> matchesList = _context.Match.Include(c => c.Sport)
                 .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                 .Include(a => a.AwayTeam).ThenInclude(l => l.League)
-                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football") && s.Time.Day == dateTime.Day && s.Result == null).OrderBy(x => x.Competition).ToList();
+                .Include(t => t.Type).Where(s => s.Sport.Name.Contains("Football") && s.Time.Day == dateTime.Day && s.Result == null).OrderBy(x => x.Competition).ToList();
             return View(matchesList);
         }
     }

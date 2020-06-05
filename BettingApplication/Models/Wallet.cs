@@ -9,9 +9,9 @@ namespace BettingApplication.Models
 {
     public class Wallet
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public decimal Saldo { get; set; }
         public virtual AppUser User { get; set; }
-        public virtual ICollection<UserTransactions> Transactions { get; set; }
+        public virtual ICollection<UserTransaction> Transactions { get; set; }
     }
 }

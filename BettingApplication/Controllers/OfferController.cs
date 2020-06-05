@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Type = BettingApplication.Models.Type;
 
 namespace BettingApplication.Controllers
 {
@@ -39,10 +40,10 @@ namespace BettingApplication.Controllers
                 html = reader.ReadToEnd();
             }
             var offer = JsonConvert.DeserializeObject<OfferModel>(html);
-            var sport = await _context.Sports.Where(s => s.Name == offer.Sport.Name).FirstOrDefaultAsync();
+            var sport = await _context.Sport.Where(s => s.Name == offer.Sport.Name).FirstOrDefaultAsync();
             if (sport == null)
             {
-                sport = new Sports();
+                sport = new Sport();
                 sport.Name = offer.Sport.Name;
                 _context.AddRange(sport);
                 _context.SaveChanges();
@@ -52,13 +53,13 @@ namespace BettingApplication.Controllers
                 
                 foreach (var league in location.Leagues)
                 {
-                    var leagueDatabase = await _context.Leagues.Where(l => l.Name == $"{location.Name} - {league.Name}").SingleOrDefaultAsync();
+                    var leagueDatabase = await _context.League.Where(l => l.Name == $"{location.Name} - {league.Name}").SingleOrDefaultAsync();
                     if (leagueDatabase == null)
                     {
-                         leagueDatabase = new Leagues();
+                         leagueDatabase = new League();
                          leagueDatabase.Name = $"{location.Name} - {league.Name}";
                          leagueDatabase.Sport = sport;
-                        _context.Leagues.AddRange(leagueDatabase);
+                        _context.League.AddRange(leagueDatabase);
                         _context.SaveChanges();
                     }
                    
@@ -66,30 +67,30 @@ namespace BettingApplication.Controllers
                     {
                         foreach (var eventDateEvent in eventDate.Events)
                         {
-                            var matchModel = new Matches();
+                            var matchModel = new Match();
                             matchModel.Competition = league.Name;
                             matchModel.Id = eventDateEvent.Id;
-                            var types = new Types();
+                            var types = new Type();
                             matchModel.Sport = sport;
                             matchModel.Time = eventDateEvent.Fixture.StartDate.AddHours(1);
-                            var firstTeam = await _context.Teams.Where(t => t.Name == eventDateEvent.Fixture.Participants[0].Name).FirstOrDefaultAsync();
-                            var secondTeam = await _context.Teams.Where(t => t.Name == eventDateEvent.Fixture.Participants[1].Name).FirstOrDefaultAsync();
+                            var firstTeam = await _context.Team.Where(t => t.Name == eventDateEvent.Fixture.Participants[0].Name).FirstOrDefaultAsync();
+                            var secondTeam = await _context.Team.Where(t => t.Name == eventDateEvent.Fixture.Participants[1].Name).FirstOrDefaultAsync();
                             if (firstTeam == null)
                             {
-                                firstTeam = new Teams();
+                                firstTeam = new Team();
                                 firstTeam.League = leagueDatabase;
                                 firstTeam.Name = eventDateEvent.Fixture.Participants[0].Name;
-                                _context.Teams.AddRange(firstTeam);
+                                _context.Team.AddRange(firstTeam);
                                 matchModel.HomeTeam = firstTeam;
                             }
                             if (firstTeam != null)
                                 matchModel.HomeTeam = firstTeam;
                             if (secondTeam == null)
                             {
-                                secondTeam = new Teams();
+                                secondTeam = new Team();
                                 secondTeam.League = leagueDatabase;
                                 secondTeam.Name = eventDateEvent.Fixture.Participants[1].Name;
-                                _context.Teams.AddRange(secondTeam);
+                                _context.Team.AddRange(secondTeam);
                                 matchModel.AwayTeam = secondTeam;
                             }
                             if (secondTeam != null)
@@ -121,17 +122,17 @@ namespace BettingApplication.Controllers
                                     }
                                 }
                             }
-                            var matchExist = await _context.Matches
+                            var matchExist = await _context.Match
                                 .Include(h => h.HomeTeam)
                                 .Include(a => a.AwayTeam)
                                 .Where(m => m.HomeTeam == matchModel.HomeTeam && m.AwayTeam == matchModel.AwayTeam &&
                                             m.Time == matchModel.Time).FirstOrDefaultAsync();
                             if (matchExist == null && matchModel.HomeTeam != null && matchModel.AwayTeam != null)
                             {
-                                matchModel.Types = types;
+                                matchModel.Type = types;
                                 matchModel.TopMatch = false;
                                 matchModel.Hide = false;
-                                _context.Matches.Add(matchModel);
+                                _context.Match.Add(matchModel);
                                 _context.SaveChanges();
                             }
                         }

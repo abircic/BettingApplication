@@ -2,10 +2,10 @@
 
 namespace BettingApplication.Models
 {
-    public class Sports
+    public class Sport
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<Leagues> Leagues { get; set; }
+        public virtual ICollection<League> League { get; set; }
     }
 }

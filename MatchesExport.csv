@@ -1,1 +1,137 @@
-League, Home Team, Away Team, 1, X, 2, 1X, X2
+ResultLeagueModel, Home Team, Away Team, 1, X, 2, 1X, X2
+Albania - Superliga, KF Partizani Tirana, Skënderbeu Korçë, 2,40, 2,80, 2,90, 1,36
+Austria - tipp3-Bundesliga, FC Red Bull Salzburg, SK Rapid Wien, 1,43, 5,20, 6,60, 1,11
+Austria - tipp3-Bundesliga, LASK Linz, TSV Hartberg, 1,23, 6,40, 10,00, 1,05
+Austria - tipp3-Bundesliga, Sturm Graz, RZ Pellets WAC, 3,15, 3,50, 2,18, 1,66
+Belarus - Alf Championship, First League, Favorit, Libertas, 1,81, 4,60, 2,95, 0,00
+Belarus - Alf Championship, First League, Racing, Standard, 2,60, 4,30, 2,02, 0,00
+Costa Rica - Liga de Ascenso, Clausura, Escazuceña, Consultants Moravia, 2,24, 3,00, 3,00, 1,35
+Costa Rica - Primera Division, Clausura, Club UCR, San Carlos, 3,10, 3,70, 1,95, 1,75
+Costa Rica - Primera Division, Clausura, Deportivo Saprissa, ADR Jicaral, 1,45, 4,10, 6,00, 1,12
+Costa Rica - Primera Division, Clausura, Santos de Guápiles, Perez Zeledon, 1,60, 3,90, 4,50, 1,18
+Costa Rica - Primera Division, Clausura, Cartaginés, Herediano, 2,47, 3,15, 2,55, 1,45
+Czech Republic - Fortuna liga, AC Sparta Praha, FK Teplice, 1,21, 6,40, 12,00, 1,04
+Estonia - Meistriliiga, Paide LM, Flora Tallinn, 3,40, 3,50, 1,97, 1,78
+Germany - 2.Bundesliga, Hannover 96, Dynamo Dresden, 1,65, 3,85, 5,00, 1,15
+Germany - 3.Bundesliga, Hallescher FC, Eintracht Braunschweig, 2,42, 3,25, 2,70, 1,41
+Germany - 3.Bundesliga, Bayern M. 2, Preußen Münster, 1,41, 4,60, 6,20, 1,11
+Germany - 3.Bundesliga, 1. FC Kaiserslautern, TSV 1860 München, 2,60, 3,15, 2,60, 1,45
+Germany - 3.Bundesliga, MSV Duisburg, FC Carl Zeiss Jena, 1,35, 4,90, 7,00, 1,09
+Germany - 3.Bundesliga, Chemnitzer FC, SG Sonnenhof Großaspach, 1,58, 3,85, 5,20, 1,15
+Germany - Bundesliga, SV Werder Bremen, Eintracht Frankfurt, 2,75, 3,55, 2,55, 1,51
+Germany - Women DFB Pokal, w/Gütersloh, VfL Wolfsburg W, 22,00, 15,00, 1,00, 0,00
+Hungary - Magyar Kupa, Honved, Mezokövesdi Zsóry, 3,10, 2,95, 2,22, 1,58
+International - Copa Libertadores SRL, sim/Gremio FB Porto Alegrense RS, sim/CD Universidad Catolica, 1,42, 4,00, 7,60, 1,08
+International - Copa Libertadores SRL, sim/CA River Plate, sim/Sao Paulo FC, 1,67, 3,85, 4,40, 1,19
+International - Copa Libertadores SRL, sim/CA Paranaense PR, sim/Jorge Wilstermann, 1,44, 3,95, 7,20, 1,09
+International - Copa Libertadores SRL, sim/Penarol Montevideo , sim/Colo Colo, 1,83, 3,25, 4,30, 1,20
+International - Copa Libertadores SRL, sim/Palmeiras, sim/Club Bolivar, 1,25, 5,20, 10,00, 1,05
+International - Copa Libertadores SRL, sim/Boca Juniors, sim/Libertad, 1,46, 4,40, 5,80, 1,12
+International - Copa Libertadores SRL, sim/LDU Quito, sim/EM Deportivo Binacional, 1,31, 5,20, 7,60, 1,08
+International - Copa Libertadores SRL, sim/America de Cali, sim/SC Internacional, 2,55, 3,30, 2,55, 1,46
+International - Esports Battle - Champions League B, Liverpool FC (Kray), Manchester City (Meltosik), 2,60, 2,75, 2,85, 1,37
+International - Esports Battle - Champions League B, Liverpool FC (Kray), FC Barcelona (Upcake22), 3,45, 2,55, 2,37, 1,50
+International - Esports Battle - Champions League B, Liverpool FC (Kray), Real Madrid (Kraftvk), 2,13, 2,80, 3,70, 1,26
+International - Esports Battle - Champions League B, Real Madrid (Kraftvk), Manchester City (Meltosik), 3,20, 2,55, 2,55, 1,45
+International - Esports Battle - Champions League B, FC Barcelona (Upcake22), Liverpool FC (Kray), 2,38, 2,55, 3,50, 1,28
+International - Esports Battle - Champions League B, Paris Saint Germain (Labotryas), Manchester City (Meltosik), 2,34, 2,75, 3,20, 1,31
+International - Esports Battle - Champions League B, Real Madrid (Kraftvk), FC Barcelona (Upcake22), 3,35, 2,55, 2,43, 1,48
+International - Esports Battle - Champions League B, Real Madrid (Kraftvk), Paris Saint Germain (Labotryas), 3,10, 3,40, 2,08, 1,64
+International - Esports Battle - Champions League B, Manchester City (Meltosik), FC Barcelona (Upcake22), 2,55, 2,44, 3,40, 1,29
+International - Esports Battle - Champions League B, Manchester City (Meltosik), Paris Saint Germain (Labotryas), 3,15, 2,80, 2,34, 1,52
+International - Esports Battle - Champions League B, Paris Saint Germain (Labotryas), FC Barcelona (Upcake22), 2,44, 2,47, 3,50, 1,28
+International - Esports Battle - Champions League B, Real Madrid (Kraftvk), Liverpool FC (Kray), 3,65, 2,85, 2,10, 1,62
+International - Esports Battle - Champions League B, FC Barcelona (Upcake22), Manchester City (Meltosik), 3,35, 2,47, 2,50, 1,46
+International - Esports Battle - Champions League B, Manchester City (Meltosik), Liverpool FC (Kray), 2,85, 2,75, 2,60, 1,43
+International - Esports Battle - Champions League B, Liverpool FC (Kray), Paris Saint Germain (Labotryas), 2,70, 3,25, 2,38, 1,50
+International - Esports Battle - Champions League B, FC Barcelona (Upcake22), Paris Saint Germain (Labotryas), 3,45, 2,46, 2,47, 1,47
+International - Esports Battle - Champions League B, Paris Saint Germain (Labotryas), Liverpool FC (Kray), 2,38, 3,25, 2,70, 1,41
+International - Esports Battle - Champions League B, FC Barcelona (Upcake22), Real Madrid (Kraftvk), 2,41, 2,60, 3,35, 1,30
+International - Esports Battle - Champions League B, Paris Saint Germain (Labotryas), Real Madrid (Kraftvk), 2,08, 3,40, 3,10, 1,33
+International - Esports Battle - Champions League B, Manchester City (Meltosik), Real Madrid (Kraftvk), 2,55, 2,55, 3,15, 1,32
+International - Esports Battle - Europa League, Ajax Amsterdam (Meltosik), Bayer 04 Leverkusen (Labotryas), 2,85, 2,95, 2,44, 1,48
+International - Esports Battle - Europa League, CF Valencia (Kraftvk), FC Porto (Kray), 2,32, 2,60, 3,50, 1,28
+International - Esports Battle - Europa League, Bayer 04 Leverkusen (Labotryas), Manchester United (Upcake22), 2,27, 2,80, 3,30, 1,30
+International - Esports Battle - Europa League, Bayer 04 Leverkusen (Labotryas), Ajax Amsterdam (Meltosik), 2,43, 2,90, 2,90, 1,36
+International - Esports Battle - Europa League, Ajax Amsterdam (Meltosik), CF Valencia (Kraftvk), 2,65, 2,70, 2,85, 1,38
+International - Esports Battle - Europa League, Manchester United (Upcake22), CF Valencia (Kraftvk), 2,38, 2,46, 3,65, 1,26
+International - Esports Battle - Europa League, Manchester United (Pablik), FC Porto (Olle), 2,75, 2,90, 2,55, 1,44
+International - Esports Battle - Europa League, Ajax (Inquisitor), CF Valencia (Mooneycb), 3,50, 2,49, 2,41, 1,49
+International - Esports Battle - Europa League, Manchester United (Upcake22), FC Porto (Kray), 2,25, 2,65, 3,65, 1,26
+International - Esports Battle - Europa League, FC Porto (Kray), Bayer 04 Leverkusen (Labotryas), 3,65, 2,85, 2,11, 1,62
+International - Esports Battle - Europa League, FC Porto (Kray), CF Valencia (Kraftvk), 3,50, 2,60, 2,32, 1,52
+International - Esports Battle - Europa League, FC Porto (Kray), Ajax Amsterdam (Meltosik), 3,35, 2,80, 2,26, 1,55
+International - Esports Battle - Europa League, Bayer 04 Leverkusen (Labotryas), FC Porto (Kray), 2,11, 2,85, 3,65, 1,26
+International - Esports Battle - Europa League, Manchester United (Upcake22), Bayer 04 Leverkusen (Labotryas), 3,35, 2,80, 2,26, 1,55
+International - Esports Battle - Europa League, Bayer 04 Leverkusen (Labotryas), CF Valencia (Kraftvk), 2,05, 2,95, 3,65, 1,26
+International - Esports Battle - Europa League, CF Valencia (Kraftvk), Ajax Amsterdam (Meltosik), 2,80, 2,75, 2,60, 1,43
+International - Esports Battle - Europa League, CF Valencia (Kraftvk), Bayer 04 Leverkusen (Labotryas), 3,65, 2,95, 2,05, 1,65
+International - Esports Battle - Europa League, FC Porto (Kray), Manchester United (Upcake22), 3,65, 2,65, 2,25, 1,55
+International - Esports Battle - Europa League, Manchester United (Upcake22), Ajax Amsterdam (Meltosik), 2,80, 2,65, 2,80, 1,39
+International - Esports Battle - Europa League, CF Valencia (Kraftvk), Manchester United (Upcake22), 3,70, 2,47, 2,35, 1,51
+International - Esports Battle - Europa League, Ajax Amsterdam (Meltosik), FC Porto (Kray), 2,26, 2,80, 3,35, 1,29
+International - Esports Battle - Europa League, Ajax Amsterdam (Meltosik), Manchester United (Upcake22), 2,80, 2,60, 2,80, 1,39
+International - Esports-Champions League (2x4min), Liverpool FC (Olle), Real Madrid (Genad), 3,45, 2,75, 2,25, 1,55
+International - Esports-Champions League (2x4min), FC Barcelona (Inquisitor), Real Madrid (Genad), 3,75, 2,47, 2,34, 1,52
+International - Esports-Champions League (2x4min), Manchester City (Mooneycb), Liverpool FC (Olle), 2,60, 2,55, 3,10, 1,33
+International - Esports-Champions League (2x4min), Real Madrid (Genad), Paris Saint Germain (Pablik), 2,65, 2,90, 2,65, 1,42
+International - Esports-Champions League (2x4min), Liverpool FC (Olle), Manchester City (Mooneycb), 3,10, 2,55, 2,60, 1,43
+International - Esports-Champions League (2x4min), FC Barcelona (Inquisitor), Paris Saint Germain (Pablik), 3,75, 2,55, 2,27, 1,54
+International - Esports-Champions League (2x4min), Paris Saint Germain (Pablik), Real Madrid (Genad), 2,65, 2,90, 2,65, 1,42
+International - Esports-Champions League (2x4min), Manchester City (Mooneycb), Paris Saint Germain (Pablik), 2,70, 2,75, 2,70, 1,40
+International - Esports-Champions League (2x4min), Real Madrid (Genad), FC Barcelona (Inquisitor), 2,38, 2,39, 3,85, 1,24
+International - Esports-Champions League (2x4min), Paris Saint Germain (Pablik), Manchester City (Mooneycb), 2,70, 2,80, 2,70, 1,41
+International - Esports-Champions League (2x4min), Real Madrid (Genad), Manchester City (Mooneycb), 2,55, 2,75, 2,90, 1,37
+International - Esports-Champions League (2x4min), Real Madrid (Genad), Liverpool FC (Olle), 2,26, 2,70, 3,45, 1,28
+International - Esports-Champions League (2x4min), Paris Saint Germain (Pablik), FC Barcelona (Inquisitor), 2,25, 2,55, 3,75, 1,25
+International - Esports-Champions League (2x4min), Manchester City (Mooneycb), Real Madrid (Genad), 2,90, 2,75, 2,55, 1,45
+International - Esports-Champions League (2x4min), FC Barcelona (Inquisitor), Liverpool FC (Olle), 3,85, 2,49, 2,27, 1,54
+International - Esports-Champions League (2x4min), Liverpool FC (Olle), FC Barcelona (Inquisitor), 2,28, 2,45, 3,95, 1,23
+International - Esports-Champions League (2x4min), Liverpool FC (Olle), Paris Saint Germain (Pablik), 2,55, 2,90, 2,75, 1,40
+International - Esports-Champions League (2x4min), Manchester City (Mooneycb), FC Barcelona (Inquisitor), 2,37, 2,70, 3,25, 1,31
+International - Esports-Champions League (2x4min), FC Barcelona (Inquisitor), Manchester City (Mooneycb), 3,45, 2,55, 2,41, 1,49
+International - Esports-Champions League (2x4min), Paris Saint Germain (Pablik), Liverpool FC (Olle), 2,75, 2,90, 2,55, 1,44
+International - Esports-English Premier League (2x4min), Tottenham Hotspur (Meltosik), Manchester City (Kraftvk), 2,80, 2,60, 2,80, 1,38
+International - Esports-English Premier League (2x4min), Liverpool FC (Upcake22), Arsenal FC (Labotryas), 3,85, 2,50, 2,25, 1,55
+International - Esports-English Premier League (2x4min), Arsenal FC (Labotryas), Liverpool FC (Upcake22), 2,26, 2,50, 3,85, 1,24
+International - Esports-English Premier League (2x4min), Manchester United (Kray), Tottenham Hotspur (Meltosik), 2,90, 2,80, 2,50, 1,46
+International - Esports-English Premier League (2x4min), Arsenal FC (Labotryas), Manchester City (Kraftvk), 2,13, 3,00, 3,35, 1,29
+International - Esports-English Premier League (2x4min), Tottenham Hotspur (Meltosik), Arsenal FC (Labotryas), 2,70, 2,85, 2,70, 1,41
+International - Esports-English Premier League (2x4min), Manchester United (Kray), Arsenal FC (Labotryas), 2,85, 2,85, 2,50, 1,46
+International - Esports-English Premier League (2x4min), Liverpool FC (Upcake22), Manchester United (Kray), 2,85, 2,50, 2,85, 1,37
+International - Esports-English Premier League (2x4min), Arsenal FC (Labotryas), Tottenham Hotspur (Meltosik), 2,70, 2,85, 2,70, 1,41
+International - Esports-English Premier League (2x4min), Arsenal FC (Labotryas), Manchester United (Kray), 2,50, 2,85, 2,85, 1,38
+International - Esports-English Premier League (2x4min), Manchester United (Kray), Liverpool FC (Upcake22), 2,85, 2,50, 2,85, 1,37
+International - Esports-English Premier League (2x4min), Manchester City (Kraftvk), Arsenal FC (Labotryas), 3,40, 3,00, 2,13, 1,61
+International - Esports-English Premier League (2x4min), Manchester City (Kraftvk), Manchester United (Kray), 2,50, 2,85, 2,85, 1,37
+International - Esports-English Premier League (2x4min), Manchester City (Kraftvk), Liverpool FC (Upcake22), 2,70, 2,46, 3,10, 1,33
+International - Esports-English Premier League (2x4min), Liverpool FC (Upcake22), Manchester City (Kraftvk), 3,10, 2,46, 2,70, 1,40
+International - Esports-English Premier League (2x4min), Tottenham Hotspur (Meltosik), Manchester United (Kray), 2,50, 2,80, 2,90, 1,37
+International - Esports-English Premier League (2x4min), Manchester City (Kraftvk), Tottenham Hotspur (Meltosik), 2,80, 2,60, 2,80, 1,38
+International - Esports-English Premier League (2x4min), Manchester United (Kray), Manchester City (Kraftvk), 2,85, 2,85, 2,50, 1,46
+International - Esports-English Premier League (2x4min), Tottenham Hotspur (Meltosik), Liverpool FC (Upcake22), 2,60, 2,50, 3,15, 1,32
+International - Esports-English Premier League (2x4min), Liverpool FC (Upcake22), Tottenham Hotspur (Meltosik), 3,15, 2,50, 2,60, 1,43
+International - Euro Playoffs Srl, sim/Slovakia, sim/Republic of Ireland, 2,21, 3,10, 3,25, 1,31
+International - Euro Playoffs Srl, sim/Bulgaria, sim/Hungary, 3,25, 3,15, 2,18, 1,65
+International - Euro Playoffs Srl, sim/Bosnia And Herzegowina, sim/Northern Ireland, 1,81, 3,30, 4,40, 1,19
+International - Liga Pro, Ina Inactivetv Fifa, Team Ruspro R11 Fifa, 6,20, 5,20, 1,34, 2,75
+International - Liga Pro, Rlb Royal Bears Fifa, Team Ruspro R11 Fifa, 2,90, 3,55, 2,10, 1,64
+International - Liga Pro, Dnk FC Dimonchello Fifa, PSG Shemyakin Onze Fifa, 3,85, 4,10, 1,68, 2,02
+International - Liga Pro, Ina Inactivetv Fifa, Dnk FC Dimonchello Fifa, 5,40, 5,40, 1,37, 2,65
+International - Liga Pro, PSG Shemyakin Onze Fifa, Rlb Royal Bears Fifa, 2,27, 3,35, 2,75, 1,39
+International - Polish Ekstraklasa SRL, sim/Skra Czestochowa, sim/KS Cracovia, 2,08, 3,30, 3,35, 1,29
+International - Polish Ekstraklasa SRL, sim/KS Lechia Gdansk, sim/Legia Warszawa, 3,75, 3,60, 1,86, 1,88
+International - Polish Ekstraklasa SRL, sim/WKS Slask Wroclaw, sim/KKS Lech Poznan, 2,55, 3,30, 2,55, 1,46
+International - Polish Ekstraklasa SRL, sim/MKS Pogon Szczecin, sim/GKS Piast Gliwice, 2,39, 2,90, 3,10, 1,33
+Israel - Premier League (Ligat ha`Al), Hapoel Haifa, Hapoel Be'er Sheva, 4,00, 3,40, 1,84, 1,90
+Israel - Premier League (Ligat ha`Al), Hapoel Eran Hadera, Sektzia Nes Tziona, 2,17, 3,00, 3,40, 1,28
+Israel - Premier League (Ligat ha`Al), Maccabi Tel Aviv, Maccabi Haifa, 1,87, 3,55, 4,50, 1,20
+Montenegro - First League, OFK Titograd, Buducnost, 6,00, 3,95, 1,50, 2,47
+Montenegro - First League, FK Rudar Pljevlja, FK Podgorica, 1,87, 3,35, 3,95, 1,23
+Montenegro - First League, Iskra, Kom, 1,57, 3,55, 6,00, 1,12
+Poland - 1.division, Olimpia Grudziadz, Podbeskidzie Bielsko, 4,50, 3,80, 1,62, 2,14
+Poland - 2.division, Widzew Lodz, Skra Czestochowa, 1,20, 5,40, 11,00, 1,04
+Poland - 2.division, GKS Gieksa Katowice, Gornik Leczna, 2,50, 3,10, 2,55, 1,45
+Portugal - Primeira Liga, Famalicão, FC Porto, 6,40, 4,50, 1,52, 2,45
+Portugal - Primeira Liga, Portimonense, Gil Vicente, 2,31, 3,05, 3,30, 1,30
+Serbia - Serbian Cup, Vojvodina, Mladost L., 1,54, 3,60, 5,60, 1,13

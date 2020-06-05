@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BettingApplication.Migrations
 {
     [DbContext(typeof(BettingApplicationContext))]
-    [Migration("20200311140426_Initial")]
+    [Migration("20200603160026_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,15 +23,14 @@ namespace BettingApplication.Migrations
 
             modelBuilder.Entity("BettingApplication.Models.AdminTopMatchConfig", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("MinimumNumberOfMatches");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AdminTopMatchConfigs");
+                    b.ToTable("AdminTopMatchConfig");
                 });
 
             modelBuilder.Entity("BettingApplication.Models.AppUser", b =>
@@ -95,9 +94,8 @@ namespace BettingApplication.Migrations
 
             modelBuilder.Entity("BettingApplication.Models.BetSlip", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("MatchId");
 
@@ -120,13 +118,12 @@ namespace BettingApplication.Migrations
 
             modelBuilder.Entity("BettingApplication.Models.Leagues", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("SportId");
+                    b.Property<string>("SportId");
 
                     b.HasKey("Id");
 
@@ -135,28 +132,28 @@ namespace BettingApplication.Migrations
                     b.ToTable("Leagues");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.Matches", b =>
+            modelBuilder.Entity("BettingApplication.Models.Match", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AwayTeamId");
+                    b.Property<string>("AwayTeamId");
 
                     b.Property<string>("Competition");
 
                     b.Property<bool>("Hide");
 
-                    b.Property<int?>("HomeTeamId");
+                    b.Property<string>("HomeTeamId");
 
                     b.Property<string>("Result");
 
-                    b.Property<int?>("SportId");
+                    b.Property<string>("SportId");
 
                     b.Property<DateTime>("Time");
 
                     b.Property<bool>("TopMatch");
 
-                    b.Property<int?>("TypesId");
+                    b.Property<string>("TypeId");
 
                     b.HasKey("Id");
 
@@ -166,9 +163,9 @@ namespace BettingApplication.Migrations
 
                     b.HasIndex("SportId");
 
-                    b.HasIndex("TypesId");
+                    b.HasIndex("TypeId");
 
-                    b.ToTable("Matches");
+                    b.ToTable("Match");
                 });
 
             modelBuilder.Entity("BettingApplication.Models.ResultModel", b =>
@@ -192,29 +189,27 @@ namespace BettingApplication.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Results");
+                    b.ToTable("Result");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.Sports", b =>
+            modelBuilder.Entity("BettingApplication.Models.Sport", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sports");
+                    b.ToTable("Sport");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.Teams", b =>
+            modelBuilder.Entity("BettingApplication.Models.Team", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("LeagueId");
+                    b.Property<string>("LeagueId");
 
                     b.Property<string>("Name");
 
@@ -222,14 +217,13 @@ namespace BettingApplication.Migrations
 
                     b.HasIndex("LeagueId");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Team");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.Types", b =>
+            modelBuilder.Entity("BettingApplication.Models.Type", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<decimal>("_1");
 
@@ -245,40 +239,13 @@ namespace BettingApplication.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Types");
+                    b.ToTable("Type");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.UserBetMatches", b =>
+            modelBuilder.Entity("BettingApplication.Models.UserBet", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("MatchId");
-
-                    b.Property<decimal>("Odd");
-
-                    b.Property<string>("Result");
-
-                    b.Property<string>("Type");
-
-                    b.Property<int?>("UserBetsId");
-
-                    b.Property<string>("Win");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MatchId");
-
-                    b.HasIndex("UserBetsId");
-
-                    b.ToTable("UserBetMatches");
-                });
-
-            modelBuilder.Entity("BettingApplication.Models.UserBets", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("BetAmount");
 
@@ -300,14 +267,39 @@ namespace BettingApplication.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserBets");
+                    b.ToTable("UserBet");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.UserTransactions", b =>
+            modelBuilder.Entity("BettingApplication.Models.UserBetMatch", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("MatchId");
+
+                    b.Property<decimal>("Odd");
+
+                    b.Property<string>("Result");
+
+                    b.Property<string>("Type");
+
+                    b.Property<string>("UserBetId");
+
+                    b.Property<string>("Win");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatchId");
+
+                    b.HasIndex("UserBetId");
+
+                    b.ToTable("UserBetMatch");
+                });
+
+            modelBuilder.Entity("BettingApplication.Models.UserTransaction", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Payment");
 
@@ -315,20 +307,19 @@ namespace BettingApplication.Migrations
 
                     b.Property<string>("UserId");
 
-                    b.Property<int?>("WalletId");
+                    b.Property<string>("WalletId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("WalletId");
 
-                    b.ToTable("UserTransactions");
+                    b.ToTable("UserTransaction");
                 });
 
             modelBuilder.Entity("BettingApplication.Models.Wallet", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<decimal>("Saldo");
 
@@ -453,7 +444,7 @@ namespace BettingApplication.Migrations
 
             modelBuilder.Entity("BettingApplication.Models.BetSlip", b =>
                 {
-                    b.HasOne("BettingApplication.Models.Matches", "Match")
+                    b.HasOne("BettingApplication.Models.Match", "Match")
                         .WithMany()
                         .HasForeignKey("MatchId");
 
@@ -464,51 +455,40 @@ namespace BettingApplication.Migrations
 
             modelBuilder.Entity("BettingApplication.Models.Leagues", b =>
                 {
-                    b.HasOne("BettingApplication.Models.Sports", "Sport")
+                    b.HasOne("BettingApplication.Models.Sport", "Sport")
                         .WithMany("Leagues")
                         .HasForeignKey("SportId");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.Matches", b =>
+            modelBuilder.Entity("BettingApplication.Models.Match", b =>
                 {
-                    b.HasOne("BettingApplication.Models.Teams", "AwayTeam")
+                    b.HasOne("BettingApplication.Models.Team", "AwayTeam")
                         .WithMany()
                         .HasForeignKey("AwayTeamId");
 
-                    b.HasOne("BettingApplication.Models.Teams", "HomeTeam")
+                    b.HasOne("BettingApplication.Models.Team", "HomeTeam")
                         .WithMany()
                         .HasForeignKey("HomeTeamId");
 
-                    b.HasOne("BettingApplication.Models.Sports", "Sport")
+                    b.HasOne("BettingApplication.Models.Sport", "Sport")
                         .WithMany()
                         .HasForeignKey("SportId");
 
-                    b.HasOne("BettingApplication.Models.Types", "Types")
+                    b.HasOne("BettingApplication.Models.Type", "Type")
                         .WithMany()
-                        .HasForeignKey("TypesId");
+                        .HasForeignKey("TypeId");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.Teams", b =>
+            modelBuilder.Entity("BettingApplication.Models.Team", b =>
                 {
-                    b.HasOne("BettingApplication.Models.Leagues", "League")
+                    b.HasOne("BettingApplication.Models.Leagues", "Leagues")
                         .WithMany("Team")
                         .HasForeignKey("LeagueId");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.UserBetMatches", b =>
+            modelBuilder.Entity("BettingApplication.Models.UserBet", b =>
                 {
-                    b.HasOne("BettingApplication.Models.Matches", "Match")
-                        .WithMany()
-                        .HasForeignKey("MatchId");
-
-                    b.HasOne("BettingApplication.Models.UserBets", "UserBets")
-                        .WithMany("BetMatches")
-                        .HasForeignKey("UserBetsId");
-                });
-
-            modelBuilder.Entity("BettingApplication.Models.UserBets", b =>
-                {
-                    b.HasOne("BettingApplication.Models.Matches", "Match")
+                    b.HasOne("BettingApplication.Models.Match", "Match")
                         .WithMany()
                         .HasForeignKey("MatchId");
 
@@ -517,7 +497,18 @@ namespace BettingApplication.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.UserTransactions", b =>
+            modelBuilder.Entity("BettingApplication.Models.UserBetMatch", b =>
+                {
+                    b.HasOne("BettingApplication.Models.Match", "Match")
+                        .WithMany()
+                        .HasForeignKey("MatchId");
+
+                    b.HasOne("BettingApplication.Models.UserBet", "UserBet")
+                        .WithMany("BetMatches")
+                        .HasForeignKey("UserBetId");
+                });
+
+            modelBuilder.Entity("BettingApplication.Models.UserTransaction", b =>
                 {
                     b.HasOne("BettingApplication.Models.Wallet", "Wallet")
                         .WithMany("Transactions")

@@ -4,7 +4,7 @@
 @model BettingApplication.ViewModels.MatchesPartialView
 @{
 
-    ViewData["Title"] = "Matches";
+    ViewData["Title"] = "Match";
 
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -64,13 +64,13 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by sport: <input type="text" name="SearchStringSport" value="@ViewData["currentFilterSport"]" />
+            Find by sport: <input type="text" name="SearchStringResultSportModel" value="@ViewData["currentFilterSport"]" />
             <input type="submit" value="Search" class="btn btn-primary" />
-            League: <input type="text" name="SearchStringLeague" value="@ViewData["currentFilterLeague"]" />
+            ResultLeaguesModel: <input type="text" name="SearchStringResultLeaguesModel" value="@ViewData["currentFilterLeague"]" />
             <input type="submit" value="Search" class="btn btn-primary" />
             Team: <input type="text" name="SearchStringTeam" value="@ViewData["currentFilterTeam"]" />
             <input type="submit" value="Search" class="btn btn-primary" />
-            @*<input type="submit" name="sortMatches" value="Sort by time" class="btn btn-primary" />*@
+            @*<input type="submit" name="sortMatch" value="Sort by time" class="btn btn-primary" />*@
             <a asp-action="Index">Full List</a>
     </div>
 </form>
@@ -137,7 +137,7 @@
             <tr>
                 <td>Saldo: @TempData["Saldo"]</td>
                 <td>Total: @TempData["Odd"]</td>
-                <td>Matches: @TempData["NumberOfMatches"]</td>
+                <td>Match: @TempData["NumberOfMatches"]</td>
                 <td>Cash Out: <span id="cashOut"></span> @TempData["CashOut"]</td>
             </tr>
             <tr>
@@ -162,7 +162,7 @@
         <thead>
             <tr>
                 <th>
-                    <h1>Matches</h1>
+                    <h1>Match</h1>
                 </th>
                 <th></th>
 
@@ -211,7 +211,7 @@
                                 </th>
                             }
                         </tr>
-                        <tr class="matches-match">
+                        <tr class="match-match">
 
                             <td>
                                 @item.HomeTeamName
@@ -222,7 +222,7 @@
                             <td>
                                 @item.Time.ToShortTimeString()
                             </td>
-                            <td>
+                            <td> 
                                 @if (item._1 > 1)
                                 {
                                     <button type="submit" id=@item.Id , name="type" value="1" class="btn btn-secondary">@item._1</button>

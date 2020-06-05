@@ -52,47 +52,47 @@ namespace BettingApplication.Controllers
         public async Task<IActionResult> Bet(string matchId, string type, bool top)
         {
             int topMatchValue = GetTopMatchValue();
-            var match = _context.Matches.Include(h => h.HomeTeam)
+            var match = _context.Match.Include(h => h.HomeTeam)
                 .Include(a => a.AwayTeam).Where(m => m.Id == matchId).FirstOrDefault();
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             decimal betValue = 0;
-            var football = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).SingleOrDefault(q => q.Id == matchId);
+            var football = _context.Match.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Type).SingleOrDefault(q => q.Id == matchId);
              if(football != null)
             {
                 switch (type)
                 {
                     case "1":
-                        betValue = football.Types._1;
+                        betValue = football.Type._1;
                         break;
                     case "X":
-                        betValue = football.Types._X;
+                        betValue = football.Type._X;
                         break;
                     case "2":
-                        betValue = football.Types._2;
+                        betValue = football.Type._2;
                         break;
                     case "1X":
-                        betValue = football.Types._1X;
+                        betValue = football.Type._1X;
                         break;
                     case "X2":
-                        betValue = football.Types._X2;
+                        betValue = football.Type._X2;
                         break;
                     case "12":
-                        betValue = football.Types._12;
+                        betValue = football.Type._12;
                         break;
                 }
                 
             }
             else
             {
-                var other = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).SingleOrDefault(q => q.Id == matchId);
+                var other = _context.Match.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Type).SingleOrDefault(q => q.Id == matchId);
                 switch (type)
                 {
                     case "1":
-                        betValue = other.Types._1;
+                        betValue = other.Type._1;
                         break;
                     case "2":
-                        betValue = other.Types._2;
+                        betValue = other.Type._2;
                         break;
                 }
             }
@@ -159,7 +159,7 @@ namespace BettingApplication.Controllers
                     }
                     else
                     {
-                        var other = _context.Matches.Include(f => f.HomeTeam).Include(s => s.AwayTeam).Include(t => t.Types).SingleOrDefault(q => q.Id == matchId);
+                        var other = _context.Match.Include(f => f.HomeTeam).Include(s => s.AwayTeam).Include(t => t.Type).SingleOrDefault(q => q.Id == matchId);
                         temp.Match = other;
                         temp.TopMatch = top;
                         temp.Odd = betValue+0.10m;
@@ -225,7 +225,7 @@ namespace BettingApplication.Controllers
         }
         
             // GET: BetSlips/Details/5
-            public async Task<IActionResult> Details(int? id)
+            public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -246,20 +246,20 @@ namespace BettingApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> BetTwoPlayer(string matchId, string type, Boolean top)
         {
-            var matchTwo = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Where(m => m.Id == matchId).FirstOrDefault();
+            var matchTwo = _context.Match.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Where(m => m.Id == matchId).FirstOrDefault();
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             decimal betValue = 0;
             BetSlip temp = new BetSlip();
             BetSlip match = null;
-            var other = _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t=>t.Types).SingleOrDefault(q => q.Id == matchId);
+            var other = _context.Match.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t=>t.Type).SingleOrDefault(q => q.Id == matchId);
             switch (type)
             {
                 case "1":
-                    betValue = other.Types._1;
+                    betValue = other.Type._1;
                     break;
                 case "2":
-                    betValue = other.Types._2;
+                    betValue = other.Type._2;
                     break;
             }
             foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
@@ -308,7 +308,7 @@ namespace BettingApplication.Controllers
        
    
         // GET: BetSlips/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -337,13 +337,13 @@ namespace BettingApplication.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private bool BetSlipExists(int id)
+        private bool BetSlipExists(string id)
         {
             return _context.BetSlip.Any(e => e.Id == id);
         }
         public int GetTopMatchValue()
         {
-            var topMatch = _context.AdminTopMatchConfigs.FirstOrDefault();
+            var topMatch = _context.AdminTopMatchConfig.FirstOrDefault();
 
             return topMatch.MinimumNumberOfMatches;
         }

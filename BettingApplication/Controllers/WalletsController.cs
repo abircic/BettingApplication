@@ -57,8 +57,8 @@ namespace BettingApplication.Controllers
                 TempData["msg"] = "Minimum is 10 kn";
                 return RedirectToAction("Index");
             }
-            UserTransactions transaction = new UserTransactions();
-            List<UserTransactions> listTransactions = new List<UserTransactions>();
+            UserTransaction transaction = new UserTransaction();
+            List<UserTransaction> listTransactions = new List<UserTransaction>();
             if(submit=="CashIn")
             {
                 wallet.Saldo += walletStake;
@@ -94,7 +94,7 @@ namespace BettingApplication.Controllers
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            var userTransaction = _context.UserTransactions.Where(x => x.UserId == userId).ToList();
+            var userTransaction = _context.UserTransaction.Where(x => x.UserId == userId).ToList();
             return View(userTransaction);
         }
 

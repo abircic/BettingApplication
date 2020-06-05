@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using BettingApplication.Models;
 using System.IO;
 using BettingApplication.ViewModels;
+using Type = BettingApplication.Models.Type;
 
 namespace BettingApplication.Controllers
 {
@@ -30,7 +31,7 @@ namespace BettingApplication.Controllers
 
         public async Task<IActionResult> TopMatchIndex()
         {
-            return View(await _context.AdminTopMatchConfigs.ToListAsync());
+            return View(await _context.AdminTopMatchConfig.ToListAsync());
         }
         public async Task<IActionResult> Edit(int? id)
         {
@@ -39,7 +40,7 @@ namespace BettingApplication.Controllers
                 return NotFound();
             }
 
-            var adminTopMatchConfig = await _context.AdminTopMatchConfigs.FindAsync(id);
+            var adminTopMatchConfig = await _context.AdminTopMatchConfig.FindAsync(id);
             if (adminTopMatchConfig == null)
             {
                 return NotFound();
@@ -49,7 +50,7 @@ namespace BettingApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MinimumNumberOfMatches")] AdminTopMatchConfig adminTopMatchConfig)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,MinimumNumberOfMatches")] AdminTopMatchConfig adminTopMatchConfig)
         {
             if (id != adminTopMatchConfig.Id)
             {
@@ -78,32 +79,32 @@ namespace BettingApplication.Controllers
             }
             return View(adminTopMatchConfig);
         }
-        private bool AdminTopMatchConfigExists(int id)
+        private bool AdminTopMatchConfigExists(string id)
         {
-            return _context.AdminTopMatchConfigs.Any(e => e.Id == id);
+            return _context.AdminTopMatchConfig.Any(e => e.Id == id);
         }
 
         public async Task<IActionResult> ExportDatabase()
         {
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).ToList();
+            List<Match> matchesList = _context.Match.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Type).Where(s => s.Sport.Name.Contains("Football")).ToList();
             List<MatchViewModel> matchVmList = matchesList.Select(x => new MatchViewModel
             {
                 Id = x.Id,
                 League = x.HomeTeam.League.Name,
                 HomeTeamName = x.HomeTeam.Name,
                 AwayTeamName = x.AwayTeam.Name,
-                _1 = x.Types._1,
-                _X = x.Types._X,
-                _2 = x.Types._2,
-                _1X = x.Types._1X,
-                _X2 = x.Types._X2,
-                _12 = x.Types._12,
+                _1 = x.Type._1,
+                _X = x.Type._X,
+                _2 = x.Type._2,
+                _1X = x.Type._1X,
+                _X2 = x.Type._X2,
+                _12 = x.Type._12,
             }).OrderBy((o => o.League)).ToList();
             string path = @"C:\Users\antee\Documents\Visual Studio 2019\Projects\BettingApplication\MatchesExport.csv";
             using (var stream = new StreamWriter(path))
             {
                 string line;
-                stream.WriteLine("League, Home Team, Away Team, 1, X, 2, 1X, X2");
+                stream.WriteLine("ResultLeagueModel, Home Team, Away Team, 1, X, 2, 1X, X2");
                 stream.Flush();
                 foreach (var match in matchVmList)
                 {
@@ -134,14 +135,14 @@ namespace BettingApplication.Controllers
                         var line = reader.ReadLine();
                         var values = line.Split(';');
                         var match = new MatchViewModel();
-                        var sportFootball = _context.Sports.SingleOrDefault(s => s.Name.Contains("Football"));
+                        var sportFootball = _context.Sport.SingleOrDefault(s => s.Name.Contains("Football"));
                         var hour = values[8].Split(':');
                         var firstTeam = values[0].Split('"');
                         var secondTeam = values[1];
                         var time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day,
                             Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00);
-                        var HomeTeam = _context.Teams.FirstOrDefault(s => s.Name.Contains(firstTeam[1]));
-                        var AwayTeam = _context.Teams.FirstOrDefault(s => s.Name.Contains(values[1]));
+                        var HomeTeam = _context.Team.FirstOrDefault(s => s.Name.Contains(firstTeam[1]));
+                        var AwayTeam = _context.Team.FirstOrDefault(s => s.Name.Contains(values[1]));
                         if (HomeTeam == null || AwayTeam == null)
                         {
                             ModelState.AddModelError("Error", $"Wrong name: {firstTeam[1]} or {values[1]}");
@@ -149,7 +150,7 @@ namespace BettingApplication.Controllers
                         }
                         var Time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day,
                             Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00);
-                        var Types = new Types
+                        var Types = new Type
                         {
                             _1 = Convert.ToDecimal(values[2]),
                             _X = Convert.ToDecimal(values[3]),
@@ -159,15 +160,15 @@ namespace BettingApplication.Controllers
                             _12 = Convert.ToDecimal(values[7])
                         };
                         var Sport = sportFootball;
-                        if ((await _context.Matches.Where(t => t.HomeTeam.Name == firstTeam[1] && t.AwayTeam.Name == secondTeam && t.Time == time).FirstOrDefaultAsync()) == null)
+                        if ((await _context.Match.Where(t => t.HomeTeam.Name == firstTeam[1] && t.AwayTeam.Name == secondTeam && t.Time == time).FirstOrDefaultAsync()) == null)
                         {
-                            _context.Matches.AddRange(
-                                new Matches
+                            _context.Match.AddRange(
+                                new Match
                                 {
-                                    HomeTeam = _context.Teams.First(s => s.Name.Contains(firstTeam[1])),
-                                    AwayTeam = _context.Teams.First(s => s.Name.Contains(values[1])),
+                                    HomeTeam = _context.Team.First(s => s.Name.Contains(firstTeam[1])),
+                                    AwayTeam = _context.Team.First(s => s.Name.Contains(values[1])),
                                     Time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00),
-                                    Types = new Types { _1 = Convert.ToDecimal(values[2]), _X = Convert.ToDecimal(values[3]), _2 = Convert.ToDecimal(values[4]), _1X = Convert.ToDecimal(values[5]), _X2 = Convert.ToDecimal(values[6]), _12 = Convert.ToDecimal(values[7]) },
+                                    Type = new Type { _1 = Convert.ToDecimal(values[2]), _X = Convert.ToDecimal(values[3]), _2 = Convert.ToDecimal(values[4]), _1X = Convert.ToDecimal(values[5]), _X2 = Convert.ToDecimal(values[6]), _12 = Convert.ToDecimal(values[7]) },
                                     Sport = sportFootball
                                 });
                             _context.SaveChanges();
@@ -185,14 +186,14 @@ namespace BettingApplication.Controllers
         }
         public async Task<IActionResult> ExportTwoPlayerDatabase()
         {
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tenis")).ToList();
+            List<Match> matchesList = _context.Match.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Type).Where(s => s.Sport.Name.Contains("Tenis")).ToList();
             List<TwoPlayersViewModel> matchVmList = matchesList.Select(x => new TwoPlayersViewModel
             {
                 Id = x.Id,
                 FirstPlayer = x.HomeTeam.Name,
                 SecondPlayer = x.AwayTeam.Name,
-                _1 = x.Types._1,
-                _2 = x.Types._2
+                _1 = x.Type._1,
+                _2 = x.Type._2
             }).ToList();
             string path = @"C:\Users\antee\Documents\Visual Studio 2019\Projects\BettingApplication\MatchesExportTwoPlayer.csv";
             using (var stream = new StreamWriter(path))
@@ -224,16 +225,16 @@ namespace BettingApplication.Controllers
                     var line = reader.ReadLine();
                     var values = line.Split(';');
                     var match = new MatchViewModel();
-                    var sportTennis = _context.Sports.SingleOrDefault(s => s.Name.Contains("Tenis"));
-                    var leagueATP = _context.Leagues.SingleOrDefault(l => l.Name.Contains("ATP"));
+                    var sportTennis = _context.Sport.SingleOrDefault(s => s.Name.Contains("Tenis"));
+                    var leagueATP = _context.League.SingleOrDefault(l => l.Name.Contains("ATP"));
                     var hour = values[4].Split(':');
                     var firstTeam = values[0].Split('"');
-                    _context.Matches.AddRange(
-                        new Matches
+                    _context.Match.AddRange(
+                        new Match
                         {
-                            HomeTeam = new Teams { Name = firstTeam[1], League = leagueATP },
-                            AwayTeam = new Teams { Name = values[1], League = leagueATP },
-                            Types = new Types { _1 = Convert.ToDecimal(values[2]), _2 = Convert.ToDecimal(values[3])},
+                            HomeTeam = new Team { Name = firstTeam[1], League = leagueATP },
+                            AwayTeam = new Team { Name = values[1], League = leagueATP },
+                            Type = new Type { _1 = Convert.ToDecimal(values[2]), _2 = Convert.ToDecimal(values[3])},
                             Time = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, Int32.Parse(hour[0]), Int32.Parse(hour[1]), 00),
                             Sport = sportTennis,
                         });

@@ -32,10 +32,10 @@ namespace BettingApplication.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             if (!String.IsNullOrEmpty(sortMatches))
             {
-                var sortedMatches = _context.Matches.Include(c => c.Sport)
+                var sortedMatches = _context.Match.Include(c => c.Sport)
                     .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                     .Include(a => a.AwayTeam).ThenInclude(l => l.League)
-                    .Include(t => t.Types).ToList();
+                    .Include(t => t.Type).ToList();
                 if (sortedMatches.Count > 0)
                 {
                     var sortedMatchVmList = sortedMatches.Select(x => new MatchViewModel
@@ -45,12 +45,12 @@ namespace BettingApplication.Controllers
                         HomeTeamName = x.HomeTeam.Name,
                         AwayTeamName = x.AwayTeam.Name,
                         Time = x.Time,
-                        _1 = x.Types._1,
-                        _X = x.Types._X,
-                        _2 = x.Types._2,
-                        _1X = x.Types._1X,
-                        _X2 = x.Types._X2,
-                        _12 = x.Types._12,
+                        _1 = x.Type._1,
+                        _X = x.Type._X,
+                        _2 = x.Type._2,
+                        _1X = x.Type._1X,
+                        _X2 = x.Type._X2,
+                        _12 = x.Type._12,
                     }).OrderBy((o => o.Time)).ToList();
                     MatchesPartialView sortedModel = new MatchesPartialView();
                     List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == userId).ToList();
@@ -62,10 +62,10 @@ namespace BettingApplication.Controllers
             ViewData["CurrentFilterSport"] = searchStringSport;
             if (!String.IsNullOrEmpty(searchStringSport))
             {
-                var filterMatches = _context.Matches.Include(c => c.Sport)
+                var filterMatches = _context.Match.Include(c => c.Sport)
                     .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                     .Include(a => a.AwayTeam).ThenInclude(l => l.League)
-                    .Include(t => t.Types).Where(m => m.Sport.Name.ToUpper().Contains(searchStringSport.ToUpper())).ToList();
+                    .Include(t => t.Type).Where(m => m.Sport.Name.ToUpper().Contains(searchStringSport.ToUpper())).ToList();
                 if (filterMatches.Count > 0)
                 {
                     var filterMatchVmList = filterMatches.Select(x => new MatchViewModel
@@ -75,12 +75,12 @@ namespace BettingApplication.Controllers
                         HomeTeamName = x.HomeTeam.Name,
                         AwayTeamName = x.AwayTeam.Name,
                         Time = x.Time,
-                        _1 = x.Types._1,
-                        _X = x.Types._X,
-                        _2 = x.Types._2,
-                        _1X = x.Types._1X,
-                        _X2 = x.Types._X2,
-                        _12 = x.Types._12,
+                        _1 = x.Type._1,
+                        _X = x.Type._X,
+                        _2 = x.Type._2,
+                        _1X = x.Type._1X,
+                        _X2 = x.Type._X2,
+                        _12 = x.Type._12,
                     }).OrderBy((o => o.League)).ToList();
                     MatchesPartialView filterModel = new MatchesPartialView();
                     List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == userId)
@@ -95,10 +95,10 @@ namespace BettingApplication.Controllers
             ViewData["CurrentFilterLeague"] = searchStringLeague;
             if (!String.IsNullOrEmpty(searchStringLeague))
             {
-                var filterMatches = _context.Matches.Include(c => c.Sport)
+                var filterMatches = _context.Match.Include(c => c.Sport)
                     .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                     .Include(a => a.AwayTeam).ThenInclude(l => l.League)
-                    .Include(t => t.Types).Where(m => m.Competition.ToUpper().Contains(searchStringLeague.ToUpper())).ToList();
+                    .Include(t => t.Type).Where(m => m.Competition.ToUpper().Contains(searchStringLeague.ToUpper())).ToList();
                 if (filterMatches.Count > 0)
                 {
                     var filterMatchVmList = filterMatches.Select(x => new MatchViewModel
@@ -108,12 +108,12 @@ namespace BettingApplication.Controllers
                         HomeTeamName = x.HomeTeam.Name,
                         AwayTeamName = x.AwayTeam.Name,
                         Time = x.Time,
-                        _1 = x.Types._1,
-                        _X = x.Types._X,
-                        _2 = x.Types._2,
-                        _1X = x.Types._1X,
-                        _X2 = x.Types._X2,
-                        _12 = x.Types._12,
+                        _1 = x.Type._1,
+                        _X = x.Type._X,
+                        _2 = x.Type._2,
+                        _1X = x.Type._1X,
+                        _X2 = x.Type._X2,
+                        _12 = x.Type._12,
                     }).OrderBy((o => o.League)).ToList();
                     MatchesPartialView filterModel = new MatchesPartialView();
                     List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == userId)
@@ -129,10 +129,10 @@ namespace BettingApplication.Controllers
             if (!String.IsNullOrEmpty(searchStringTeam))
             {
 
-                var filterMatches = _context.Matches.Include(c => c.Sport).
+                var filterMatches = _context.Match.Include(c => c.Sport).
                     Include(h => h.HomeTeam).ThenInclude(l => l.League).
                     Include(a => a.AwayTeam).ThenInclude(l => l.League).
-                    Include(t => t.Types).
+                    Include(t => t.Type).
                     Where(m => m.HomeTeam.Name.ToUpper().Contains(searchStringTeam.ToUpper()) || m.AwayTeam.Name.ToUpper().Contains(searchStringTeam.ToUpper())).ToList();
                 if (filterMatches.Count > 0)
                 {
@@ -143,12 +143,12 @@ namespace BettingApplication.Controllers
                         HomeTeamName = x.HomeTeam.Name,
                         AwayTeamName = x.AwayTeam.Name,
                         Time = x.Time,
-                        _1 = x.Types._1,
-                        _X = x.Types._X,
-                        _2 = x.Types._2,
-                        _1X = x.Types._1X,
-                        _X2 = x.Types._X2,
-                        _12 = x.Types._12,
+                        _1 = x.Type._1,
+                        _X = x.Type._X,
+                        _2 = x.Type._2,
+                        _1X = x.Type._1X,
+                        _X2 = x.Type._X2,
+                        _12 = x.Type._12,
                     }).OrderBy((o => o.League)).ToList();
                     MatchesPartialView filterModel = new MatchesPartialView();
                     List<BetSlip> filterBetSlipList = _context.BetSlip.Where(b => b.User.Id == userId)
@@ -191,10 +191,10 @@ namespace BettingApplication.Controllers
             }
             int counter = 0;
             decimal totOdd = 1;
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport)
+            List<Match> matchesList = _context.Match.Include(c => c.Sport)
                 .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                 .Include(a => a.AwayTeam).ThenInclude(l => l.League)
-                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football") && s.Hide == false).ToList();
+                .Include(t => t.Type).Where(s => s.Sport.Name.Contains("Football") && s.Hide == false).ToList();
             List<MatchViewModel> matchVmList = matchesList.Select(x => new MatchViewModel
             {
                 Id = x.Id,
@@ -202,12 +202,12 @@ namespace BettingApplication.Controllers
                 HomeTeamName = x.HomeTeam.Name,
                 AwayTeamName = x.AwayTeam.Name,
                 Time = x.Time,
-                _1 = x.Types._1,
-                _X = x.Types._X,
-                _2 = x.Types._2,
-                _1X = x.Types._1X,
-                _X2 = x.Types._X2,
-                _12 = x.Types._12,
+                _1 = x.Type._1,
+                _X = x.Type._X,
+                _2 = x.Type._2,
+                _1X = x.Type._1X,
+                _X2 = x.Type._X2,
+                _12 = x.Type._12,
             }).OrderBy((o=>o.League)).ToList();
             foreach (BetSlip item in _context.BetSlip.Include(m=>m.Match).ThenInclude(h=>h.HomeTeam).Include(m => m.Match).ThenInclude(a=>a.AwayTeam).Where(b => b.User.Id == userId))
             {
@@ -233,17 +233,17 @@ namespace BettingApplication.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             int counter = 0;
             decimal totOdd = 1;
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport)
+            List<Match> matchesList = _context.Match.Include(c => c.Sport)
                 .Include(h => h.HomeTeam).Include(a => a.AwayTeam)
-                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tenis") && s.Hide == false).ToList();
+                .Include(t => t.Type).Where(s => s.Sport.Name.Contains("Tenis") && s.Hide == false).ToList();
             List<TwoPlayersViewModel> matchVmList = matchesList.Select(x => new TwoPlayersViewModel
             {
                 Id = x.Id,
                 FirstPlayer = x.HomeTeam.Name,
                 SecondPlayer = x.AwayTeam.Name,
                 Time = x.Time,
-                _1 = x.Types._1,
-                _2 = x.Types._2
+                _1 = x.Type._1,
+                _2 = x.Type._2
             }).ToList();
 
             foreach (BetSlip item in _context.BetSlip.Include(m=>m.Match).ThenInclude(h=>h.HomeTeam).Include(m=>m.Match).ThenInclude(a=>a.AwayTeam))
@@ -284,11 +284,11 @@ namespace BettingApplication.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             int counter = 0;
             decimal totOdd = 1;
-            List<Matches> topMatches = _context.Matches.Include(c => c.Sport)
+            List<Match> topMatches = _context.Match.Include(c => c.Sport)
                 .Include(h => h.HomeTeam).ThenInclude(l => l.League)
                 .Include(a => a.AwayTeam).ThenInclude(l => l.League)
-                .Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football") && s.Hide == false).Where(t => t.TopMatch == true).ToList();
-            List<Matches> topTwoPlayersMatches = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Tenis")).Where(t => t.TopMatch == true).ToList();
+                .Include(t => t.Type).Where(s => s.Sport.Name.Contains("Football") && s.Hide == false).Where(t => t.TopMatch == true).ToList();
+            List<Match> topTwoPlayersMatches = _context.Match.Include(c => c.Sport).Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Type).Where(s => s.Sport.Name.Contains("Tenis")).Where(t => t.TopMatch == true).ToList();
             List<TopMatchesViewModel> allMatches = new List<TopMatchesViewModel>();
             List<TopMatchesViewModel> matchVmList = topMatches.Select(x => new TopMatchesViewModel
             {
@@ -296,12 +296,12 @@ namespace BettingApplication.Controllers
                 HomeTeamName = x.HomeTeam.Name,
                 AwayTeamName = x.AwayTeam.Name,
                 Time = x.Time,
-                _1 = x.Types._1 + 0.10m,
-                _X = x.Types._X + 0.10m,
-                _2 = x.Types._2 + 0.10m,
-                _1X = x.Types._1X + 0.10m,
-                _X2 = x.Types._X2 + 0.10m,
-                _12 = x.Types._12 + 0.10m
+                _1 = x.Type._1 + 0.10m,
+                _X = x.Type._X + 0.10m,
+                _2 = x.Type._2 + 0.10m,
+                _1X = x.Type._1X + 0.10m,
+                _X2 = x.Type._X2 + 0.10m,
+                _12 = x.Type._12 + 0.10m
             }).ToList();
 
             List<TopMatchesViewModel> twoPlayersMatchVmList = topTwoPlayersMatches.Select(x => new TopMatchesViewModel
@@ -310,8 +310,8 @@ namespace BettingApplication.Controllers
                 HomeTeamName = x.HomeTeam.Name,
                 AwayTeamName = x.AwayTeam.Name,
                 Time = x.Time,
-                _1 = x.Types._1 + 0.10m,
-                _2 = x.Types._2 + 0.10m
+                _1 = x.Type._1 + 0.10m,
+                _2 = x.Type._2 + 0.10m
             }).ToList();
             allMatches.AddRange(matchVmList);
             allMatches.AddRange(twoPlayersMatchVmList);
@@ -355,7 +355,7 @@ namespace BettingApplication.Controllers
                 return NotFound();
             }
 
-            var matches = await _context.Matches
+            var matches = await _context.Match
                 .Include(h=>h.HomeTeam)
                 .Include(a=>a.AwayTeam)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -372,9 +372,9 @@ namespace BettingApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var matches = await _context.Matches.FindAsync(id);
+            var matches = await _context.Match.FindAsync(id);
             matches.Hide = true;
-            _context.Matches.Update(matches);
+            _context.Match.Update(matches);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -386,14 +386,14 @@ namespace BettingApplication.Controllers
                 return NotFound();
             }
 
-            var matches = await _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam)
+            var matches = await _context.Match.Include(h => h.HomeTeam).Include(a => a.AwayTeam)
                 .FirstOrDefaultAsync(m => m.Id == id);
             matches.TopMatch = true;
             if (matches == null)
             {
                 return NotFound();
             }
-            _context.Matches.Update(matches);
+            _context.Match.Update(matches);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
         }
@@ -405,14 +405,14 @@ namespace BettingApplication.Controllers
                 return NotFound();
             }
 
-            var matches = await _context.Matches.Include(h => h.HomeTeam).Include(a => a.AwayTeam)
+            var matches = await _context.Match.Include(h => h.HomeTeam).Include(a => a.AwayTeam)
                 .FirstOrDefaultAsync(m => m.Id == id);
             matches.TopMatch = false;
             if (matches == null)
             {
                 return NotFound();
             }
-            _context.Matches.Update(matches);
+            _context.Match.Update(matches);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
         }
@@ -420,12 +420,12 @@ namespace BettingApplication.Controllers
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            foreach (var item in _context.UserBetMatches.Where(u => u.UserBets.User.Id == userId && u.Win=="Pending")
+            foreach (var item in _context.UserBetMatch.Where(u => u.UserBet.User.Id == userId && u.Win=="Pending")
                 .Include(m=>m.Match.HomeTeam)
                 .Include(a=>a.Match.AwayTeam)
-                .Include(u=>u.UserBets).ToList())
+                .Include(u=>u.UserBet).ToList())
             {
-                var match = _context.Results.Where(m=>m.Id==item.Match.Id).FirstOrDefault();
+                var match = _context.Result.Where(m=>m.Id==item.Match.Id).FirstOrDefault();
                 if (match != null)
                 {
                     var winningTypes = match.WinningTypes.Split(';');
@@ -449,8 +449,8 @@ namespace BettingApplication.Controllers
             
             bool flag = false;
             string pendingFlag = "";
-            var check = _context.UserBets.Where(x => x.User.Id == user.Id).FirstOrDefault();
-            var userBets = _context.UserBets.Where(t => t.Win == "Pending" && t.User==user).Include(x=>x.BetMatches).ToList();
+            var check = _context.UserBet.Where(x => x.User.Id == user.Id).FirstOrDefault();
+            var userBets = _context.UserBet.Where(t => t.Win == "Pending" && t.User==user).Include(x=>x.BetMatches).ToList();
             if (check != null)
             {
                 if (userBets.Count > 0)
@@ -480,7 +480,7 @@ namespace BettingApplication.Controllers
                             _context.Update(item);
                             var wallet = _context.Wallet.Where(u => u.User.Id == user.Id).FirstOrDefault();
                             wallet.Saldo += item.CashOut;
-                            UserTransactions transaction = new UserTransactions();
+                            UserTransaction transaction = new UserTransaction();
                             transaction.UserId = wallet.User.Id;
                             transaction.Payment = item.CashOut.ToString();
                             transaction.Transactions = "Isplata dobitka u iznosu od " + item.CashOut + " kn " + " " + DateTime.Now;

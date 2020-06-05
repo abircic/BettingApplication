@@ -14,26 +14,16 @@ namespace BettingApplication.Data
         }
 
         public DbSet<Wallet> Wallet { get; set; }
-        public DbSet<Teams> Teams { get; set; }
-
-        public DbSet<Leagues> Leagues { get; set; }
-
-        public DbSet<Matches> Matches { get; set; }
-
-        public DbSet<Sports> Sports { get; set; }
-
-        public DbSet<Types> Types { get; set; }
-
+        public DbSet<Team> Team { get; set; }
+        public DbSet<League> League { get; set; }
+        public DbSet<Match> Match { get; set; }
+        public DbSet<Sport> Sport { get; set; }
+        public DbSet<Type> Type { get; set; }
         public DbSet<BetSlip> BetSlip { get; set; }
-
-        public DbSet<UserBets> UserBets { get; set; }
-
-        public DbSet<UserTransactions> UserTransactions { get; set; }
-        public DbSet<UserBetMatches> UserBetMatches { get; set; }
-        public DbSet<AdminTopMatchConfig> AdminTopMatchConfigs { get; set; }
-        public DbSet<ResultModel> Results { get; set; }
-        public DbSet<BettingApplication.ViewModels.MatchViewModel> MatchViewModel { get; set; }
-
-
+        public DbSet<UserBet> UserBet { get; set; }
+        public DbSet<UserTransaction> UserTransaction { get; set; }
+        public DbSet<UserBetMatch> UserBetMatch { get; set; }
+        public DbSet<AdminTopMatchConfig> AdminTopMatchConfig { get; set; }
+        public DbSet<ResultModel> Result { get; set; }
     }
 }

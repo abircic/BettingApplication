@@ -12,62 +12,62 @@ using Microsoft.AspNetCore.Authorization;
 namespace BettingApplication.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class SportsController : Controller
+    public class SportController : Controller
     {
         private readonly BettingApplicationContext _context;
 
-        public SportsController(BettingApplicationContext context)
+        public SportController(BettingApplicationContext context)
         {
             _context = context;
         }
 
-        // GET: Sports
+        // GET: ResultSportModel
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Sports.ToListAsync());
+            return View(await _context.Sport.ToListAsync());
         }
 
-        // GET: Sports/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: ResultSportModel/Details/5
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var sports = await _context.Sports
+            var Sport = await _context.Sport
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (sports == null)
+            if (Sport == null)
             {
                 return NotFound();
             }
 
-            return View(sports);
+            return View(Sport);
         }
 
-        // GET: Sports/Create
+        // GET: ResultSportModel/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Sports/Create
+        // POST: ResultSportModel/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Sports sports)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Sport sport)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(sports);
+                _context.Add(sport);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Add", "Matches");
             }
-            return View(sports);
+            return View(sport);
         }
 
-        // GET: Sports/Edit/5
+        // GET: ResultSportModel/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +75,22 @@ namespace BettingApplication.Controllers
                 return NotFound();
             }
 
-            var sports = await _context.Sports.FindAsync(id);
-            if (sports == null)
+            var Sport = await _context.Sport.FindAsync(id);
+            if (Sport == null)
             {
                 return NotFound();
             }
-            return View(sports);
+            return View(Sport);
         }
 
-        // POST: Sports/Edit/5
+        // POST: ResultSportModel/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Sports sports)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name")] Sport sport)
         {
-            if (id != sports.Id)
+            if (id != sport.Id)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace BettingApplication.Controllers
             {
                 try
                 {
-                    _context.Update(sports);
+                    _context.Update(sport);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SportsExists(sports.Id))
+                    if (!SportExists(sport.Id))
                     {
                         return NotFound();
                     }
@@ -115,41 +115,41 @@ namespace BettingApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(sports);
+            return View(sport);
         }
 
-        // GET: Sports/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: ResultSportModel/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var sports = await _context.Sports
+            var Sport = await _context.Sport
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (sports == null)
+            if (Sport == null)
             {
                 return NotFound();
             }
 
-            return View(sports);
+            return View(Sport);
         }
 
-        // POST: Sports/Delete/5
+        // POST: ResultSportModel/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var sports = await _context.Sports.FindAsync(id);
-            _context.Sports.Remove(sports);
+            var Sport = await _context.Sport.FindAsync(id);
+            _context.Sport.Remove(Sport);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SportsExists(int id)
+        private bool SportExists(string id)
         {
-            return _context.Sports.Any(e => e.Id == id);
+            return _context.Sport.Any(e => e.Id == id);
         }
     }
 }

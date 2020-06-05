@@ -166,15 +166,15 @@ namespace BettingApplication.Controllers
                 {
                     _context.Remove(item);
                 }
-                foreach (UserTransactions item in _context.UserTransactions.Where(b => b.UserId == id))
+                foreach (UserTransaction item in _context.UserTransaction.Where(b => b.UserId == id))
                 {
                     _context.Remove(item);
                 }
-                foreach (UserBetMatches item in _context.UserBetMatches.Where(b => b.UserBets.User.Id == id))
+                foreach (UserBetMatch item in _context.UserBetMatch.Where(b => b.UserBet.User.Id == id))
                 {
                     _context.Remove(item);
                 }
-                foreach (UserBets item in _context.UserBets.Where(b => b.User.Id == id))
+                foreach (UserBet item in _context.UserBet.Where(b => b.User.Id == id))
                 {
                     _context.Remove(item);
                 }

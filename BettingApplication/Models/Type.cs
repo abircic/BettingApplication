@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BettingApplication.Models
 {
-    public class Types
+    public class Type
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         [Display(Name = "1")]
         public decimal _1 {get; set;}
         [Display(Name = "X")]

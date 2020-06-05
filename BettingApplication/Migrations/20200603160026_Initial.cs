@@ -9,16 +9,15 @@ namespace BettingApplication.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AdminTopMatchConfigs",
+                name: "AdminTopMatchConfig",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     MinimumNumberOfMatches = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AdminTopMatchConfigs", x => x.Id);
+                    table.PrimaryKey("PK_AdminTopMatchConfig", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,7 +63,7 @@ namespace BettingApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Results",
+                name: "Result",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -78,28 +77,26 @@ namespace BettingApplication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Results", x => x.Id);
+                    table.PrimaryKey("PK_Result", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sports",
+                name: "Sport",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sports", x => x.Id);
+                    table.PrimaryKey("PK_Sport", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Types",
+                name: "Type",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     _1 = table.Column<decimal>(nullable: false),
                     _X = table.Column<decimal>(nullable: false),
                     _2 = table.Column<decimal>(nullable: false),
@@ -109,7 +106,7 @@ namespace BettingApplication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Types", x => x.Id);
+                    table.PrimaryKey("PK_Type", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -222,8 +219,7 @@ namespace BettingApplication.Migrations
                 name: "Wallet",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     Saldo = table.Column<decimal>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
@@ -242,38 +238,36 @@ namespace BettingApplication.Migrations
                 name: "Leagues",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    SportId = table.Column<int>(nullable: true)
+                    SportId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Leagues", x => x.Id);
+                    table.PrimaryKey("PK_League", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Leagues_Sports_SportId",
+                        name: "FK_League_Sport_SportId",
                         column: x => x.SportId,
-                        principalTable: "Sports",
+                        principalTable: "Sport",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserTransactions",
+                name: "UserTransaction",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     Payment = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     Transactions = table.Column<string>(nullable: true),
-                    WalletId = table.Column<int>(nullable: true)
+                    WalletId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTransactions", x => x.Id);
+                    table.PrimaryKey("PK_UserTransaction", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserTransactions_Wallet_WalletId",
+                        name: "FK_UserTransaction_Wallet_WalletId",
                         column: x => x.WalletId,
                         principalTable: "Wallet",
                         principalColumn: "Id",
@@ -281,19 +275,18 @@ namespace BettingApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Teams",
+                name: "Team",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    LeagueId = table.Column<int>(nullable: true)
+                    LeagueId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Teams", x => x.Id);
+                    table.PrimaryKey("PK_Team", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Teams_Leagues_LeagueId",
+                        name: "FK_Team_League_LeagueId",
                         column: x => x.LeagueId,
                         principalTable: "Leagues",
                         principalColumn: "Id",
@@ -301,45 +294,45 @@ namespace BettingApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Matches",
+                name: "Match",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    HomeTeamId = table.Column<int>(nullable: true),
-                    AwayTeamId = table.Column<int>(nullable: true),
+                    HomeTeamId = table.Column<string>(nullable: true),
+                    AwayTeamId = table.Column<string>(nullable: true),
                     Time = table.Column<DateTime>(nullable: false),
-                    TypesId = table.Column<int>(nullable: true),
+                    TypeId = table.Column<string>(nullable: true),
                     Result = table.Column<string>(nullable: true),
-                    SportId = table.Column<int>(nullable: true),
+                    SportId = table.Column<string>(nullable: true),
                     TopMatch = table.Column<bool>(nullable: false),
                     Hide = table.Column<bool>(nullable: false),
                     Competition = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Matches", x => x.Id);
+                    table.PrimaryKey("PK_Match", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Matches_Teams_AwayTeamId",
+                        name: "FK_Match_Team_AwayTeamId",
                         column: x => x.AwayTeamId,
-                        principalTable: "Teams",
+                        principalTable: "Team",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Matches_Teams_HomeTeamId",
+                        name: "FK_Match_Team_HomeTeamId",
                         column: x => x.HomeTeamId,
-                        principalTable: "Teams",
+                        principalTable: "Team",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Matches_Sports_SportId",
+                        name: "FK_Match_Sport_SportId",
                         column: x => x.SportId,
-                        principalTable: "Sports",
+                        principalTable: "Sport",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Matches_Types_TypesId",
-                        column: x => x.TypesId,
-                        principalTable: "Types",
+                        name: "FK_Match_Type_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "Type",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -348,8 +341,7 @@ namespace BettingApplication.Migrations
                 name: "BetSlip",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     MatchId = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: true),
                     Odd = table.Column<decimal>(nullable: false),
@@ -360,9 +352,9 @@ namespace BettingApplication.Migrations
                 {
                     table.PrimaryKey("PK_BetSlip", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BetSlip_Matches_MatchId",
+                        name: "FK_BetSlip_Match_MatchId",
                         column: x => x.MatchId,
-                        principalTable: "Matches",
+                        principalTable: "Match",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -374,11 +366,10 @@ namespace BettingApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserBets",
+                name: "UserBet",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     TimeStamp = table.Column<DateTime>(nullable: false),
                     BetAmount = table.Column<decimal>(nullable: false),
                     TotalOdd = table.Column<decimal>(nullable: false),
@@ -389,15 +380,15 @@ namespace BettingApplication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserBets", x => x.Id);
+                    table.PrimaryKey("PK_UserBet", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserBets_Matches_MatchId",
+                        name: "FK_UserBet_Match_MatchId",
                         column: x => x.MatchId,
-                        principalTable: "Matches",
+                        principalTable: "Match",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserBets_AspNetUsers_UserId",
+                        name: "FK_UserBet_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -405,7 +396,7 @@ namespace BettingApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserBetMatches",
+                name: "UserBetMatch",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -414,21 +405,21 @@ namespace BettingApplication.Migrations
                     Odd = table.Column<decimal>(nullable: false),
                     Win = table.Column<string>(nullable: true),
                     Result = table.Column<string>(nullable: true),
-                    UserBetsId = table.Column<int>(nullable: true)
+                    UserBetId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserBetMatches", x => x.Id);
+                    table.PrimaryKey("PK_UserBetMatch", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserBetMatches_Matches_MatchId",
+                        name: "FK_UserBetMatch_Match_MatchId",
                         column: x => x.MatchId,
-                        principalTable: "Matches",
+                        principalTable: "Match",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserBetMatches_UserBets_UserBetsId",
-                        column: x => x.UserBetsId,
-                        principalTable: "UserBets",
+                        name: "FK_UserBetMatch_UserBet_UserBetId",
+                        column: x => x.UserBetId,
+                        principalTable: "UserBet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -483,58 +474,58 @@ namespace BettingApplication.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Leagues_SportId",
+                name: "IX_League_SportId",
                 table: "Leagues",
                 column: "SportId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Matches_AwayTeamId",
-                table: "Matches",
+                name: "IX_Match_AwayTeamId",
+                table: "Match",
                 column: "AwayTeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Matches_HomeTeamId",
-                table: "Matches",
+                name: "IX_Match_HomeTeamId",
+                table: "Match",
                 column: "HomeTeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Matches_SportId",
-                table: "Matches",
+                name: "IX_Match_SportId",
+                table: "Match",
                 column: "SportId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Matches_TypesId",
-                table: "Matches",
-                column: "TypesId");
+                name: "IX_Match_TypeId",
+                table: "Match",
+                column: "TypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teams_LeagueId",
-                table: "Teams",
+                name: "IX_Team_LeagueId",
+                table: "Team",
                 column: "LeagueId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserBetMatches_MatchId",
-                table: "UserBetMatches",
+                name: "IX_UserBet_MatchId",
+                table: "UserBet",
                 column: "MatchId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserBetMatches_UserBetsId",
-                table: "UserBetMatches",
-                column: "UserBetsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserBets_MatchId",
-                table: "UserBets",
-                column: "MatchId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserBets_UserId",
-                table: "UserBets",
+                name: "IX_UserBet_UserId",
+                table: "UserBet",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserTransactions_WalletId",
-                table: "UserTransactions",
+                name: "IX_UserBetMatch_MatchId",
+                table: "UserBetMatch",
+                column: "MatchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserBetMatch_UserBetId",
+                table: "UserBetMatch",
+                column: "UserBetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTransaction_WalletId",
+                table: "UserTransaction",
                 column: "WalletId");
 
             migrationBuilder.CreateIndex(
@@ -546,7 +537,7 @@ namespace BettingApplication.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AdminTopMatchConfigs");
+                name: "AdminTopMatchConfig");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -567,40 +558,40 @@ namespace BettingApplication.Migrations
                 name: "BetSlip");
 
             migrationBuilder.DropTable(
-                name: "Results");
+                name: "Result");
 
             migrationBuilder.DropTable(
-                name: "UserBetMatches");
+                name: "UserBetMatch");
 
             migrationBuilder.DropTable(
-                name: "UserTransactions");
+                name: "UserTransaction");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "UserBets");
+                name: "UserBet");
 
             migrationBuilder.DropTable(
                 name: "Wallet");
 
             migrationBuilder.DropTable(
-                name: "Matches");
+                name: "Match");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Teams");
+                name: "Team");
 
             migrationBuilder.DropTable(
-                name: "Types");
+                name: "Type");
 
             migrationBuilder.DropTable(
                 name: "Leagues");
 
             migrationBuilder.DropTable(
-                name: "Sports");
+                name: "Sport");
         }
     }
 }

@@ -63,55 +63,55 @@ namespace BettingApplication.Models
                     DbContextOptions<BettingApplicationContext>>()))
             {
                
-                if (context.AdminTopMatchConfigs.Any())
+                if (context.AdminTopMatchConfig.Any())
                 {
                     return;   // DB has been seeded
                 }
-                context.AdminTopMatchConfigs.AddRange(
+                context.AdminTopMatchConfig.AddRange(
                    new AdminTopMatchConfig
                    {
                        MinimumNumberOfMatches = 5
                    });
-                //context.Sports.AddRange(
-                //    new Sports
+                //context.ResultSportModel.AddRange(
+                //    new ResultSportModel
                 //    {
                 //        Name = "Football"
                 //    }
                 //    ,
-                //    new Sports
+                //    new ResultSportModel
                 //    {
                 //        Name = "Tennis"
                 //    }
                 //);
                 //context.SaveChanges();
-                //var sportFootball = context.Sports.SingleOrDefault(s => s.Name.Contains("Football"));
-                //var sportTennis = context.Sports.SingleOrDefault(s => s.Name.Contains("Tennis"));
-                //context.Leagues.AddRange(
-                //    new Leagues
+                //var sportFootball = context.ResultSportModel.SingleOrDefault(s => s.Name.Contains("Football"));
+                //var sportTennis = context.ResultSportModel.SingleOrDefault(s => s.Name.Contains("Tennis"));
+                //context.ResultLeagueModel.AddRange(
+                //    new ResultLeagueModel
                 //    {
                 //        Name = "Spain La Liga",
-                //        Sport = sportFootball
+                //        ResultSportModel = sportFootball
                 //    },
-                //     new Leagues
+                //     new ResultLeagueModel
                 //     {
                 //         Name = "Italy Serie A",
-                //         Sport = sportFootball
+                //         ResultSportModel = sportFootball
                 //     },
-                //     new Leagues
+                //     new ResultLeagueModel
                 //     {
                 //         Name = "France Ligue 1",
-                //         Sport = sportFootball
+                //         ResultSportModel = sportFootball
                 //     },
-                //      new Leagues
+                //      new ResultLeagueModel
                 //      {
-                //          Name = "England Premier League",
-                //          Sport = sportFootball
+                //          Name = "England Premier ResultLeagueModel",
+                //          ResultSportModel = sportFootball
                 //      }
                 //      ,
-                //      new Leagues
+                //      new ResultLeagueModel
                 //      {
                 //          Name = "ATP",
-                //          Sport = sportTennis
+                //          ResultSportModel = sportTennis
                 //      }
                 //);
                 //context.SaveChanges();
@@ -122,290 +122,290 @@ namespace BettingApplication.Models
                 //int minute = 00;
                 //int second = 00;
                 //DateTime dateTime = new DateTime(year, month, day, hour, minute, second);
-                //var leagueSpain = context.Leagues.SingleOrDefault(l => l.Name.Contains("Spain"));
-                //var leagueItaly = context.Leagues.SingleOrDefault(l => l.Name.Contains("Italy"));
-                //var leagueFrance = context.Leagues.SingleOrDefault(l => l.Name.Contains("France"));
-                //var leagueEngland = context.Leagues.SingleOrDefault(l => l.Name.Contains("England"));
-                //var leagueATP = context.Leagues.SingleOrDefault(l => l.Name.Contains("ATP"));
-                //context.Matches.AddRange(
-                //    new Matches
+                //var Leaguepain = context.ResultLeagueModel.SingleOrDefault(l => l.Name.Contains("Spain"));
+                //var leagueItaly = context.ResultLeagueModel.SingleOrDefault(l => l.Name.Contains("Italy"));
+                //var leagueFrance = context.ResultLeagueModel.SingleOrDefault(l => l.Name.Contains("France"));
+                //var leagueEngland = context.ResultLeagueModel.SingleOrDefault(l => l.Name.Contains("England"));
+                //var leagueATP = context.ResultLeagueModel.SingleOrDefault(l => l.Name.Contains("ATP"));
+                //context.Match.AddRange(
+                //    new Match
                 //    {
-                //        HomeTeam = new Teams { Name = "Liverpool", League = leagueEngland },
-                //        AwayTeam = new Teams { Name = "Norwich", League = leagueEngland },
+                //        HomeTeam = new Team { Name = "Liverpool", ResultLeagueModel = leagueEngland },
+                //        AwayTeam = new Team { Name = "Norwich", ResultLeagueModel = leagueEngland },
                 //        Time = dateTime,
-                //Types = new Types { _1 = 1.14m,_X = 6.00m, _2 = 17.00m, _X2 = 11.00m, _12 = 1.30m },
+                //Type = new Type { _1 = 1.14m,_X = 6.00m, _2 = 17.00m, _X2 = 11.00m, _12 = 1.30m },
                 //        TopMatch = true,
-                //        Sport=sportFootball
+                //        ResultSportModel=sportFootball
                 //    },
-                //    new Matches
+                //    new Match
                 //    {
-                //        HomeTeam = new Teams { Name = "West Ham", League = leagueEngland },
-                //        AwayTeam = new Teams { Name = "Man City", League = leagueEngland },
+                //        HomeTeam = new Team { Name = "West Ham", ResultLeagueModel = leagueEngland },
+                //        AwayTeam = new Team { Name = "Man City", ResultLeagueModel = leagueEngland },
                 //        Time = dateTime,
-                //        Types = new Types { _1 =11.00m, _X = 6.00m, _2 = 1.30m, _1X = 5.00m, _12 = 1.30m },
+                //        Type = new Type { _1 =11.00m, _X = 6.00m, _2 = 1.30m, _1X = 5.00m, _12 = 1.30m },
                 //        TopMatch = true,
-                //        Sport = sportFootball
+                //        ResultSportModel = sportFootball
                 //    },
-                //    new Matches
+                //    new Match
                 //    {
-                //        HomeTeam = new Teams { Name = "Bournemouth", League = leagueEngland },
-                //        AwayTeam = new Teams { Name = "Sheffield Utd", League = leagueEngland },
+                //        HomeTeam = new Team { Name = "Bournemouth", ResultLeagueModel = leagueEngland },
+                //        AwayTeam = new Team { Name = "Sheffield Utd", ResultLeagueModel = leagueEngland },
                 //        Time = dateTime,
-                //        Types = new Types { _1 = 1.85m, _X = 3.80m, _2 = 3.80m, _1X = 1.25m, _X2=1.80M,_12 = 1.30m },
+                //        Type = new Type { _1 = 1.85m, _X = 3.80m, _2 = 3.80m, _1X = 1.25m, _X2=1.80M,_12 = 1.30m },
                 //        TopMatch = false,
-                //        Sport = sportFootball
+                //        ResultSportModel = sportFootball
                 //    },
-                //    new Matches
+                //    new Match
                 //    {
-                //        HomeTeam = new Teams { Name = "Burnley", League = leagueEngland },
-                //        AwayTeam = new Teams { Name = "Southampton", League = leagueEngland },
+                //        HomeTeam = new Team { Name = "Burnley", ResultLeagueModel = leagueEngland },
+                //        AwayTeam = new Team { Name = "Southampton", ResultLeagueModel = leagueEngland },
                 //        Time = dateTime,
-                //        Types = new Types { _1 = 2.55m, _X = 3.20m, _2 = 2.80m, _1X = 1.80m, _X2 = 1.90M, _12 = 1.50m },
+                //        Type = new Type { _1 = 2.55m, _X = 3.20m, _2 = 2.80m, _1X = 1.80m, _X2 = 1.90M, _12 = 1.50m },
                 //        TopMatch = false,
-                //        Sport = sportFootball
+                //        ResultSportModel = sportFootball
                 //    },
-                //     new Matches
+                //     new Match
                 //     {
-                //         HomeTeam = new Teams { Name = "Crystal Palace", League = leagueEngland },
-                //         AwayTeam = new Teams { Name = "Everton", League = leagueEngland },
+                //         HomeTeam = new Team { Name = "Crystal Palace", ResultLeagueModel = leagueEngland },
+                //         AwayTeam = new Team { Name = "Everton", ResultLeagueModel = leagueEngland },
                 //         Time = dateTime,
-                //         Types = new Types { _1 = 2.50m, _X = 3.30m, _2 = 2.75m, _1X = 1.80m, _X2 = 1.90M, _12 = 1.50m },
+                //         Type = new Type { _1 = 2.50m, _X = 3.30m, _2 = 2.75m, _1X = 1.80m, _X2 = 1.90M, _12 = 1.50m },
                 //         TopMatch = false,
-                //         Sport = sportFootball
+                //         ResultSportModel = sportFootball
                 //     },
-                //      new Matches
+                //      new Match
                 //      {
-                //          HomeTeam = new Teams { Name = "Watford", League = leagueEngland },
-                //          AwayTeam = new Teams { Name = "Brighton", League = leagueEngland },
+                //          HomeTeam = new Team { Name = "Watford", ResultLeagueModel = leagueEngland },
+                //          AwayTeam = new Team { Name = "Brighton", ResultLeagueModel = leagueEngland },
                 //          Time = dateTime,
-                //          Types = new Types { _1 = 1.90m, _X = 3.40m, _2 = 4.00m, _1X = 1.35m, _X2 = 1.90M, _12 = 1.50m },
+                //          Type = new Type { _1 = 1.90m, _X = 3.40m, _2 = 4.00m, _1X = 1.35m, _X2 = 1.90M, _12 = 1.50m },
                 //          TopMatch = false,
-                //          Sport = sportFootball
+                //          ResultSportModel = sportFootball
                 //      },
-                //      new Matches
+                //      new Match
                 //      {
-                //          HomeTeam = new Teams { Name = "Tottenham", League = leagueEngland },
-                //          AwayTeam = new Teams { Name = "Aston Villa", League = leagueEngland },
+                //          HomeTeam = new Team { Name = "Tottenham", ResultLeagueModel = leagueEngland },
+                //          AwayTeam = new Team { Name = "Aston Villa", ResultLeagueModel = leagueEngland },
                 //          Time = dateTime,
-                //          Types = new Types { _1 = 1.25m, _X = 5.75m, _2 = 13.00m, _X2 = 4.00m, _12 = 1.50m },
+                //          Type = new Type { _1 = 1.25m, _X = 5.75m, _2 = 13.00m, _X2 = 4.00m, _12 = 1.50m },
                 //          TopMatch = false,
-                //          Sport = sportFootball
+                //          ResultSportModel = sportFootball
                 //      },
-                //    new Matches
+                //    new Match
                 //    {
-                //        HomeTeam = new Teams { Name = "Eibar", League = leagueSpain },
-                //        AwayTeam = new Teams { Name = "Barcelona", League = leagueSpain },
+                //        HomeTeam = new Team { Name = "Eibar", ResultLeagueModel = Leaguepain },
+                //        AwayTeam = new Team { Name = "Barcelona", ResultLeagueModel = Leaguepain },
                 //        Time = dateTime,
-                //        Types = new Types { _1 = 4.75m, _X = 4.10m, _2 = 1.70m, _1X = 2.50m, _X2 = 1.20m, _12 = 1.50m },
+                //        Type = new Type { _1 = 4.75m, _X = 4.10m, _2 = 1.70m, _1X = 2.50m, _X2 = 1.20m, _12 = 1.50m },
                 //        TopMatch= false,
-                //        Sport = sportFootball
+                //        ResultSportModel = sportFootball
                 //    },
-                //     new Matches
+                //     new Match
                 //     {
-                //         HomeTeam = new Teams { Name = "Real Madrid", League = leagueSpain },
-                //         AwayTeam = new Teams { Name = "Betis", League = leagueSpain },
+                //         HomeTeam = new Team { Name = "Real Madrid", ResultLeagueModel = Leaguepain },
+                //         AwayTeam = new Team { Name = "Betis", ResultLeagueModel = Leaguepain },
                 //         Time = dateTime,
-                //         Types = new Types { _1 = 1.30m, _X = 6.00m, _2 = 8.00m,_X2 = 4.50m, _12 = 1.50m },
+                //         Type = new Type { _1 = 1.30m, _X = 6.00m, _2 = 8.00m,_X2 = 4.50m, _12 = 1.50m },
                 //         TopMatch = true,
-                //         Sport = sportFootball
+                //         ResultSportModel = sportFootball
                 //     },
-                //     new Matches
+                //     new Match
                 //     {
-                //         HomeTeam = new Teams { Name = "Alaves", League = leagueSpain },
-                //         AwayTeam = new Teams { Name = "Girona", League = leagueSpain },
+                //         HomeTeam = new Team { Name = "Alaves", ResultLeagueModel = Leaguepain },
+                //         AwayTeam = new Team { Name = "Girona", ResultLeagueModel = Leaguepain },
                 //         Time = dateTime,
-                //         Types = new Types { _1 = 2.10m, _X = 3.50m, _2 = 3.40m, _1X = 1.50m, _X2 = 1.90m, _12 = 1.50m },
+                //         Type = new Type { _1 = 2.10m, _X = 3.50m, _2 = 3.40m, _1X = 1.50m, _X2 = 1.90m, _12 = 1.50m },
                 //         TopMatch = false,
-                //         Sport = sportFootball
+                //         ResultSportModel = sportFootball
                 //     },
-                //      new Matches
+                //      new Match
                 //      {
-                //          HomeTeam = new Teams { Name = "Celta Vigo", League = leagueSpain },
-                //          AwayTeam = new Teams { Name = "Rayo Vallecano", League = leagueSpain },
+                //          HomeTeam = new Team { Name = "Celta Vigo", ResultLeagueModel = Leaguepain },
+                //          AwayTeam = new Team { Name = "Rayo Vallecano", ResultLeagueModel = Leaguepain },
                 //          Time = dateTime,
-                //          Types = new Types { _1 = 1.30m, _X = 5.75m, _2 = 9.00m,_X2 = 6.00m, _12 = 1.40m },
+                //          Type = new Type { _1 = 1.30m, _X = 5.75m, _2 = 9.00m,_X2 = 6.00m, _12 = 1.40m },
                 //          TopMatch = false,
-                //          Sport = sportFootball
+                //          ResultSportModel = sportFootball
                 //      },
-                //      new Matches
+                //      new Match
                 //      {
-                //          HomeTeam = new Teams { Name = "Huesca", League = leagueSpain },
-                //          AwayTeam = new Teams { Name = "Leganes", League = leagueSpain },
+                //          HomeTeam = new Team { Name = "Huesca", ResultLeagueModel = Leaguepain },
+                //          AwayTeam = new Team { Name = "Leganes", ResultLeagueModel = Leaguepain },
                 //          Time = dateTime,
-                //          Types = new Types { _1 = 2.50m, _X = 3.50m, _2 = 2.60m, _1X = 1.60m, _X2 = 1.70m, _12 = 1.50m },
+                //          Type = new Type { _1 = 2.50m, _X = 3.50m, _2 = 2.60m, _1X = 1.60m, _X2 = 1.70m, _12 = 1.50m },
                 //          TopMatch = false,
-                //          Sport = sportFootball
+                //          ResultSportModel = sportFootball
                 //      },
-                //       new Matches
+                //       new Match
                 //       {
-                //           HomeTeam = new Teams { Name = "Espanyol", League = leagueSpain },
-                //           AwayTeam = new Teams { Name = "Real Sociedad", League = leagueSpain },
+                //           HomeTeam = new Team { Name = "Espanyol", ResultLeagueModel = Leaguepain },
+                //           AwayTeam = new Team { Name = "Real Sociedad", ResultLeagueModel = Leaguepain },
                 //           Time = dateTime,
-                //           Types = new Types { _1 = 1.95m, _X = 3.75m, _2 = 3.60m, _1X = 1.50M, _X2 = 2.70m, _12 = 1.50m },
+                //           Type = new Type { _1 = 1.95m, _X = 3.75m, _2 = 3.60m, _1X = 1.50M, _X2 = 2.70m, _12 = 1.50m },
                 //           TopMatch = false,
-                //           Sport = sportFootball
+                //           ResultSportModel = sportFootball
                 //       },
-                //        new Matches
+                //        new Match
                 //        {
-                //            HomeTeam = new Teams { Name = "Roma", League = leagueItaly },
-                //            AwayTeam = new Teams { Name = "Parma", League = leagueItaly },
+                //            HomeTeam = new Team { Name = "Roma", ResultLeagueModel = leagueItaly },
+                //            AwayTeam = new Team { Name = "Parma", ResultLeagueModel = leagueItaly },
                 //            Time = dateTime,
-                //            Types = new Types { _1 = 1.14m, _X = 9.00m, _2 = 15.00m,_X2 = 6.00m, _12 = 1.30m },
+                //            Type = new Type { _1 = 1.14m, _X = 9.00m, _2 = 15.00m,_X2 = 6.00m, _12 = 1.30m },
                 //            TopMatch = false,
-                //            Sport = sportFootball
+                //            ResultSportModel = sportFootball
                 //        },
-                //         new Matches
+                //         new Match
                 //         {
-                //             HomeTeam = new Teams { Name = "Atalanta", League = leagueItaly },
-                //             AwayTeam = new Teams { Name = "Sassuolo", League = leagueItaly },
+                //             HomeTeam = new Team { Name = "Atalanta", ResultLeagueModel = leagueItaly },
+                //             AwayTeam = new Team { Name = "Sassuolo", ResultLeagueModel = leagueItaly },
                 //             Time = dateTime,
-                //             Types = new Types { _1 = 1.25m, _X = 6.00m, _2 = 10.00m, _X2 = 6.00m, _12 = 1.30m },
+                //             Type = new Type { _1 = 1.25m, _X = 6.00m, _2 = 10.00m, _X2 = 6.00m, _12 = 1.30m },
                 //             TopMatch = true,
-                //             Sport = sportFootball
+                //             ResultSportModel = sportFootball
                 //         },
-                //         new Matches
+                //         new Match
                 //         {
-                //             HomeTeam = new Teams { Name = "Juventus", League = leagueItaly },
-                //             AwayTeam = new Teams { Name = "Frosinone", League = leagueItaly },
+                //             HomeTeam = new Team { Name = "Juventus", ResultLeagueModel = leagueItaly },
+                //             AwayTeam = new Team { Name = "Frosinone", ResultLeagueModel = leagueItaly },
                 //             Time = dateTime,
-                //             Types = new Types { _1 = 1.20m, _X = 3.75m, _2 = 7.50m, _X2 = 3.50m, _12 = 1.50m },
+                //             Type = new Type { _1 = 1.20m, _X = 3.75m, _2 = 7.50m, _X2 = 3.50m, _12 = 1.50m },
                 //             TopMatch = true,
-                //             Sport = sportFootball
+                //             ResultSportModel = sportFootball
                 //         },
-                //         new Matches
+                //         new Match
                 //         {
-                //             HomeTeam = new Teams { Name = "Cagliari", League = leagueItaly },
-                //             AwayTeam = new Teams { Name = "Udinese", League = leagueItaly },
+                //             HomeTeam = new Team { Name = "Cagliari", ResultLeagueModel = leagueItaly },
+                //             AwayTeam = new Team { Name = "Udinese", ResultLeagueModel = leagueItaly },
                 //             Time = dateTime,
-                //             Types = new Types { _1 = 1.85m, _X = 3.75m, _2 = 4.00m, _1X = 1.30m, _X2 = 2.10m, _12 = 1.50m },
+                //             Type = new Type { _1 = 1.85m, _X = 3.75m, _2 = 4.00m, _1X = 1.30m, _X2 = 2.10m, _12 = 1.50m },
                 //             TopMatch = false,
-                //             Sport = sportFootball
+                //             ResultSportModel = sportFootball
                 //         },
-                //         new Matches
+                //         new Match
                 //         {
-                //             HomeTeam = new Teams { Name = "Fiorentina", League = leagueItaly },
-                //             AwayTeam = new Teams { Name = "Genoa", League = leagueItaly },
+                //             HomeTeam = new Team { Name = "Fiorentina", ResultLeagueModel = leagueItaly },
+                //             AwayTeam = new Team { Name = "Genoa", ResultLeagueModel = leagueItaly },
                 //             Time = dateTime,
-                //             Types = new Types { _1 = 2.25m, _X = 2.75m, _2 = 4.00m, _1X=1.50m, _X2 = 2.00m, _12 = 1.30m },
+                //             Type = new Type { _1 = 2.25m, _X = 2.75m, _2 = 4.00m, _1X=1.50m, _X2 = 2.00m, _12 = 1.30m },
                 //             TopMatch = false,
-                //             Sport = sportFootball
+                //             ResultSportModel = sportFootball
                 //         },
 
-                //        new Matches
+                //        new Match
                 //        {
-                //            HomeTeam = new Teams { Name = "Roma", League = leagueItaly },
-                //            AwayTeam = new Teams { Name = "Milan", League = leagueItaly },
+                //            HomeTeam = new Team { Name = "Roma", ResultLeagueModel = leagueItaly },
+                //            AwayTeam = new Team { Name = "Milan", ResultLeagueModel = leagueItaly },
                 //            Time = dateTime,
-                //            Types = new Types { _1 = 3.00m, _X = 3.00m, _2 = 3.00m, _1X=1.40m, _X2 = 1.50m, _12 = 1.50m },
+                //            Type = new Type { _1 = 3.00m, _X = 3.00m, _2 = 3.00m, _1X=1.40m, _X2 = 1.50m, _12 = 1.50m },
                 //            TopMatch = false,
-                //            Sport = sportFootball
+                //            ResultSportModel = sportFootball
                 //        },
-                //         new Matches
+                //         new Match
                 //         {
-                //             HomeTeam = new Teams { Name = "Angers", League = leagueFrance },
-                //             AwayTeam = new Teams { Name = "Bordeaux", League = leagueFrance },
+                //             HomeTeam = new Team { Name = "Angers", ResultLeagueModel = leagueFrance },
+                //             AwayTeam = new Team { Name = "Bordeaux", ResultLeagueModel = leagueFrance },
                 //             Time = dateTime,
-                //             Types = new Types { _1 = 2.40m, _X = 3.00m, _2 = 3.00m, _1X = 1.50m, _X2 = 1.70m, _12 = 1.50m },
+                //             Type = new Type { _1 = 2.40m, _X = 3.00m, _2 = 3.00m, _1X = 1.50m, _X2 = 1.70m, _12 = 1.50m },
                 //             TopMatch = false,
-                //             Sport = sportFootball
+                //             ResultSportModel = sportFootball
                 //         },
-                //          new Matches
+                //          new Match
                 //          {
-                //              HomeTeam = new Teams { Name = "Brest", League = leagueFrance },
-                //              AwayTeam = new Teams { Name = "Toulouse", League = leagueFrance },
+                //              HomeTeam = new Team { Name = "Brest", ResultLeagueModel = leagueFrance },
+                //              AwayTeam = new Team { Name = "Toulouse", ResultLeagueModel = leagueFrance },
                 //              Time = dateTime,
-                //              Types = new Types { _1 = 2.30m, _X = 3.00m, _2 = 3.10m, _1X = 1.50m, _X2 = 1.70m, _12 = 1.50m },
+                //              Type = new Type { _1 = 2.30m, _X = 3.00m, _2 = 3.10m, _1X = 1.50m, _X2 = 1.70m, _12 = 1.50m },
                 //              TopMatch = false,
-                //              Sport = sportFootball
+                //              ResultSportModel = sportFootball
                 //          },
-                //           new Matches
+                //           new Match
                 //           {
-                //               HomeTeam = new Teams { Name = "Dijon", League = leagueFrance },
-                //               AwayTeam = new Teams { Name = "St. Etienne", League = leagueFrance },
+                //               HomeTeam = new Team { Name = "Dijon", ResultLeagueModel = leagueFrance },
+                //               AwayTeam = new Team { Name = "St. Etienne", ResultLeagueModel = leagueFrance },
                 //               Time = dateTime,
-                //               Types = new Types { _1 = 3.10m, _X = 3.10m, _2 = 2.20m, _1X = 1.70m, _X2 = 1.40m, _12 = 1.50m },
+                //               Type = new Type { _1 = 3.10m, _X = 3.10m, _2 = 2.20m, _1X = 1.70m, _X2 = 1.40m, _12 = 1.50m },
                 //               TopMatch = false,
-                //               Sport = sportFootball
+                //               ResultSportModel = sportFootball
                 //           },
-                //           new Matches
+                //           new Match
                 //           {
-                //               HomeTeam = new Teams { Name = "Querrey S.", League = leagueATP },
-                //               AwayTeam = new Teams { Name = "Lajovic D.", League = leagueATP },
+                //               HomeTeam = new Team { Name = "Querrey S.", ResultLeagueModel = leagueATP },
+                //               AwayTeam = new Team { Name = "Lajovic D.", ResultLeagueModel = leagueATP },
                 //               Time = dateTime,
-                //               Types = new Types { _1 = 1.25m, _2 = 3.75m},
-                //               Sport = sportTennis,
+                //               Type = new Type { _1 = 1.25m, _2 = 3.75m},
+                //               ResultSportModel = sportTennis,
                 //               TopMatch = true
                 //           },
-                //           new Matches
+                //           new Match
                 //           {
-                //               HomeTeam = new Teams { Name = "Verdasco F.", League = leagueATP },
-                //               AwayTeam = new Teams { Name = "Londero J. I.", League = leagueATP },
+                //               HomeTeam = new Team { Name = "Verdasco F.", ResultLeagueModel = leagueATP },
+                //               AwayTeam = new Team { Name = "Londero J. I.", ResultLeagueModel = leagueATP },
                 //               Time = dateTime,
-                //               Types = new Types { _1 = 1.25m, _2 = 3.75m },
-                //               Sport = sportTennis,
+                //               Type = new Type { _1 = 1.25m, _2 = 3.75m },
+                //               ResultSportModel = sportTennis,
                 //               TopMatch = true
                 //           },
-                //           new Matches
+                //           new Match
                 //           {
-                //               HomeTeam = new Teams { Name = "Fabbiano T.", League = leagueATP },
-                //               AwayTeam = new Teams {  Name = "Djere L.", League = leagueATP },
+                //               HomeTeam = new Team { Name = "Fabbiano T.", ResultLeagueModel = leagueATP },
+                //               AwayTeam = new Team {  Name = "Djere L.", ResultLeagueModel = leagueATP },
                 //               Time = dateTime,
-                //               Types = new Types { _1 = 1.50m, _2 = 2.40m },
-                //               Sport = sportTennis,
+                //               Type = new Type { _1 = 1.50m, _2 = 2.40m },
+                //               ResultSportModel = sportTennis,
                 //               TopMatch = false
                 //           },
-                //           new Matches
+                //           new Match
                 //           {
-                //               HomeTeam = new Teams { Name = "Herbert P.H.", League = leagueATP },
-                //               AwayTeam = new Teams { Name = "Evans D.", League = leagueATP },
+                //               HomeTeam = new Team { Name = "Herbert P.H.", ResultLeagueModel = leagueATP },
+                //               AwayTeam = new Team { Name = "Evans D.", ResultLeagueModel = leagueATP },
                 //               Time = dateTime,
-                //               Types = new Types { _1 = 2.25m, _2 = 1.60m },
-                //               Sport = sportTennis,
+                //               Type = new Type { _1 = 2.25m, _2 = 1.60m },
+                //               ResultSportModel = sportTennis,
                 //               TopMatch = false
                 //           },
-                //           new Matches
+                //           new Match
                 //           {
-                //               HomeTeam = new Teams { Name = "Simon G.", League = leagueATP },
-                //               AwayTeam = new Teams { Name = "Jarry N.", League = leagueATP },
+                //               HomeTeam = new Team { Name = "Simon G.", ResultLeagueModel = leagueATP },
+                //               AwayTeam = new Team { Name = "Jarry N.", ResultLeagueModel = leagueATP },
                 //               Time = dateTime,
-                //               Types = new Types { _1 = 1.50m, _2 = 2.40m, },
-                //               Sport = sportTennis,
+                //               Type = new Type { _1 = 1.50m, _2 = 2.40m, },
+                //               ResultSportModel = sportTennis,
                 //               TopMatch = false
                 //           },
-                //            new Matches
+                //            new Match
                 //            {
-                //                HomeTeam = new Teams { Name = "Edmund K.", League = leagueATP },
-                //                AwayTeam = new Teams { Name = "Norrie C.", League = leagueATP },
+                //                HomeTeam = new Team { Name = "Edmund K.", ResultLeagueModel = leagueATP },
+                //                AwayTeam = new Team { Name = "Norrie C.", ResultLeagueModel = leagueATP },
                 //                Time = dateTime,
-                //                Types = new Types { _1 = 1.50m, _2 = 2.40m, },
-                //                Sport = sportTennis,
+                //                Type = new Type { _1 = 1.50m, _2 = 2.40m, },
+                //                ResultSportModel = sportTennis,
                 //                TopMatch = false
                 //            },
-                //            new Matches
+                //            new Match
                 //            {
-                //                HomeTeam = new Teams { Name = "Johnson S.", League = leagueATP },
-                //                AwayTeam = new Teams { Name = "Hurkacz H.", League = leagueATP },
+                //                HomeTeam = new Team { Name = "Johnson S.", ResultLeagueModel = leagueATP },
+                //                AwayTeam = new Team { Name = "Hurkacz H.", ResultLeagueModel = leagueATP },
                 //                Time = dateTime,
-                //                Types = new Types { _1 = 1.50m, _2 = 2.40m, },
-                //                Sport = sportTennis,
+                //                Type = new Type { _1 = 1.50m, _2 = 2.40m, },
+                //                ResultSportModel = sportTennis,
                 //                TopMatch = false
                 //            },
-                //             new Matches
+                //             new Match
                 //             {
-                //                 HomeTeam = new Teams { Name = "Pella G.", League = leagueATP },
-                //                 AwayTeam = new Teams { Name = "Fritz T.", League = leagueATP },
+                //                 HomeTeam = new Team { Name = "Pella G.", ResultLeagueModel = leagueATP },
+                //                 AwayTeam = new Team { Name = "Fritz T.", ResultLeagueModel = leagueATP },
                 //                 Time = dateTime,
-                //                 Types = new Types { _1 = 1.50m, _2 = 2.40m, },
-                //                 Sport = sportTennis,
+                //                 Type = new Type { _1 = 1.50m, _2 = 2.40m, },
+                //                 ResultSportModel = sportTennis,
                 //                 TopMatch = false
                 //             },
-                //             new Matches
+                //             new Match
                 //             {
-                //                 HomeTeam = new Teams { Name = "Tomic B.", League = leagueATP },
-                //                 AwayTeam = new Teams { Name = "Gojowczyk P.", League = leagueATP },
+                //                 HomeTeam = new Team { Name = "Tomic B.", ResultLeagueModel = leagueATP },
+                //                 AwayTeam = new Team { Name = "Gojowczyk P.", ResultLeagueModel = leagueATP },
                 //                 Time = dateTime,
-                //                 Types = new Types { _1 = 1.65m, _2 = 2.10m, },
-                //                 Sport = sportTennis,
+                //                 Type = new Type { _1 = 1.65m, _2 = 2.10m, },
+                //                 ResultSportModel = sportTennis,
                 //                 TopMatch = false
                 //             }
                 //    );

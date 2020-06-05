@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BettingApplication.Data;
 using BettingApplication.Models;
 using Microsoft.AspNetCore.Authorization;
+using Type = BettingApplication.Models.Type;
 
 namespace BettingApplication.Controllers
 {
@@ -21,21 +22,21 @@ namespace BettingApplication.Controllers
             _context = context;
         }
 
-        // GET: Types
+        // GET: Type
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Types.ToListAsync());
+            return View(await _context.Type.ToListAsync());
         }
 
-        // GET: Types/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Type/Details/5
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var types = await _context.Types
+            var types = await _context.Type
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (types == null)
             {
@@ -45,29 +46,29 @@ namespace BettingApplication.Controllers
             return View(types);
         }
 
-        // GET: Types/Create
+        // GET: Type/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Types/Create
+        // POST: Type/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,_1,_X,_2,_1X,_X2,_12")] Types types)
+        public async Task<IActionResult> Create([Bind("Id,_1,_X,_2,_1X,_X2,_12")] Type type)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(types);
+                _context.Add(type);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(types);
+            return View(type);
         }
 
-        // GET: Types/Edit/5
+        // GET: Type/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,7 +76,7 @@ namespace BettingApplication.Controllers
                 return NotFound();
             }
 
-            var types = await _context.Types.FindAsync(id);
+            var types = await _context.Type.FindAsync(id);
             if (types == null)
             {
                 return NotFound();
@@ -83,14 +84,14 @@ namespace BettingApplication.Controllers
             return View(types);
         }
 
-        // POST: Types/Edit/5
+        // POST: Type/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,_1,_X,_2,_1X,_X2,_12")] Types types)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,_1,_X,_2,_1X,_X2,_12")] Type type)
         {
-            if (id != types.Id)
+            if (id != type.Id)
             {
                 return NotFound();
             }
@@ -99,12 +100,12 @@ namespace BettingApplication.Controllers
             {
                 try
                 {
-                    _context.Update(types);
+                    _context.Update(type);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TypesExists(types.Id))
+                    if (!TypesExists(type.Id))
                     {
                         return NotFound();
                     }
@@ -115,18 +116,18 @@ namespace BettingApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(types);
+            return View(type);
         }
 
-        // GET: Types/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Type/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var types = await _context.Types
+            var types = await _context.Type
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (types == null)
             {
@@ -136,20 +137,20 @@ namespace BettingApplication.Controllers
             return View(types);
         }
 
-        // POST: Types/Delete/5
+        // POST: Type/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var types = await _context.Types.FindAsync(id);
-            _context.Types.Remove(types);
+            var types = await _context.Type.FindAsync(id);
+            _context.Type.Remove(types);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TypesExists(int id)
+        private bool TypesExists(string id)
         {
-            return _context.Types.Any(e => e.Id == id);
+            return _context.Type.Any(e => e.Id == id);
         }
     }
 }

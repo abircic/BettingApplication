@@ -15,8 +15,8 @@ namespace BettingApplication.Models
     {
         public string EventId { get; set; }
         public List<ParticipantsModel> Participants { get; set; }
-        public SportModel Sport { get; set; }
-        public LeagueModel League { get; set; }
+        public ResultSportModel Sport { get; set; }
+        public ResultLeagueModel League { get; set; }
         public DateTime StartDate { get; set; }
         public string Status { get; set; }
     }
@@ -42,13 +42,13 @@ namespace BettingApplication.Models
         public string Position { get; set; }
     }
 
-    public class SportModel
+    public class ResultSportModel
     {
         public string Id { get; set; }
         public int Order { get; set; }
         public string Name { get; set; }
     }
-    public class LeagueModel
+    public class ResultLeagueModel
     {
         public string Id { get; set; }
         public string Name { get; set; }

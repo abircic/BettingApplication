@@ -61,64 +61,64 @@ namespace BettingApplication.Models
             using (var context = new BettingApplicationContext(serviceProvider.GetRequiredService<DbContextOptions<BettingApplicationContext>>()))
             {
 
-                if (context.Sports.Any())
+                if (context.Sport.Any())
                 {
                     return; // DB has been seeded
                 }
 
-                context.AdminTopMatchConfigs.AddRange(
+                context.AdminTopMatchConfig.AddRange(
                     new AdminTopMatchConfig
                     {
                         MinimumNumberOfMatches = 5
                     });
-                context.Sports.AddRange(
-                    new Sports
+                context.Sport.AddRange(
+                    new Sport
                     {
                         Name = "Football"
                     }
                     ,
-                    new Sports
+                    new Sport
                     {
                         Name = "Tenis"
                     }
                     ,
-                    new Sports
+                    new Sport
                     {
                         Name = "Košarka"
                     }
                 );
                 context.SaveChanges();
-                var sportFootball = context.Sports.SingleOrDefault(s => s.Name.Contains("Football"));
-                var sportTennis = context.Sports.SingleOrDefault(s => s.Name.Contains("Tenis"));
-                var sportBasketball = context.Sports.SingleOrDefault(s => s.Name.Contains("Košarka"));
-                context.Leagues.AddRange(
-                    new Leagues
+                var sportFootball = context.Sport.SingleOrDefault(s => s.Name.Contains("Football"));
+                var sportTennis = context.Sport.SingleOrDefault(s => s.Name.Contains("Tenis"));
+                var sportBasketball = context.Sport.SingleOrDefault(s => s.Name.Contains("Košarka"));
+                context.League.AddRange(
+                    new League
                     {
                         Name = "Španjolska 1.",
                         Sport = sportFootball
                     },
-                    new Leagues
+                    new League
                     {
                         Name = "Italija 1.",
                         Sport = sportFootball
                     },
-                    new Leagues
+                    new League
                     {
                         Name = "Francuska 1.",
                         Sport = sportFootball
                     },
-                    new Leagues
+                    new League
                     {
                         Name = "Engleska 1.",
                         Sport = sportFootball
                     }
                     ,
-                    new Leagues
+                    new League
                     {
                         Name = "Njemačka 1.",
                         Sport = sportFootball
                     },
-                    new Leagues
+                    new League
                     {
                         Name = "ATP",
                         Sport = sportTennis
@@ -132,70 +132,70 @@ namespace BettingApplication.Models
                 int minute = 00;
                 int second = 00;
                 DateTime dateTime = new DateTime(year, month, day, hour, minute, second);
-                var leagueSpainOne = context.Leagues.SingleOrDefault(l => l.Name.Contains("Španjolska 1."));
-                var leagueItalyOne = context.Leagues.SingleOrDefault(l => l.Name.Contains("Italija 1."));
-                var leagueFranceOne = context.Leagues.SingleOrDefault(l => l.Name.Contains("Francuska 1."));
-                var leagueEnglandOne = context.Leagues.SingleOrDefault(l => l.Name.Contains("Engleska 1."));
-                var leagueGermanyOne = context.Leagues.SingleOrDefault(l => l.Name.Contains("Njemačka 1."));
-                var leagueATP = context.Leagues.SingleOrDefault(l => l.Name.Contains("ATP"));
-                context.Teams.AddRange(
-                    new Teams { Name = "Brighton", League = leagueEnglandOne}, new Teams { Name = "Bournemouth", League = leagueEnglandOne},
-                    new Teams { Name = "Newcastle Utd" , League = leagueEnglandOne}, new Teams { Name = "Everton", League = leagueEnglandOne},
-                    new Teams { Name = "Southampton" , League = leagueEnglandOne}, new Teams { Name = "Crystal Palace", League = leagueEnglandOne},
-                    new Teams { Name = "Watford", League = leagueEnglandOne}, new Teams { Name = "Aston Villa", League = leagueEnglandOne},
-                    new Teams { Name = "Norwich", League = leagueEnglandOne}, new Teams { Name = "Tottenham", League = leagueEnglandOne},
-                    new Teams { Name = "West Ham", League = leagueEnglandOne}, new Teams { Name = "Leicester", League = leagueEnglandOne},
-                    new Teams { Name = "Burnley", League = leagueEnglandOne}, new Teams { Name = "Man Utd", League = leagueEnglandOne},
-                    new Teams { Name = "Wolves", League = leagueEnglandOne}, new Teams { Name = "Man City", League = leagueEnglandOne},
-                    new Teams { Name = "Arsenal", League = leagueEnglandOne}, new Teams { Name = "Chelsea", League = leagueEnglandOne},
-                    new Teams { Name = " Liverpool", League = leagueEnglandOne}, new Teams { Name = "Sheffield Utd", League = leagueEnglandOne}
+                var LeaguepainOne = context.League.SingleOrDefault(l => l.Name.Contains("Španjolska 1."));
+                var leagueItalyOne = context.League.SingleOrDefault(l => l.Name.Contains("Italija 1."));
+                var leagueFranceOne = context.League.SingleOrDefault(l => l.Name.Contains("Francuska 1."));
+                var leagueEnglandOne = context.League.SingleOrDefault(l => l.Name.Contains("Engleska 1."));
+                var leagueGermanyOne = context.League.SingleOrDefault(l => l.Name.Contains("Njemačka 1."));
+                var leagueATP = context.League.SingleOrDefault(l => l.Name.Contains("ATP"));
+                context.Team.AddRange(
+                    new Team { Name = "Brighton", League = leagueEnglandOne}, new Team { Name = "Bournemouth", League = leagueEnglandOne},
+                    new Team { Name = "Newcastle Utd" , League = leagueEnglandOne}, new Team { Name = "Everton", League = leagueEnglandOne},
+                    new Team { Name = "Southampton" , League = leagueEnglandOne}, new Team { Name = "Crystal Palace", League = leagueEnglandOne},
+                    new Team { Name = "Watford", League = leagueEnglandOne}, new Team { Name = "Aston Villa", League = leagueEnglandOne},
+                    new Team { Name = "Norwich", League = leagueEnglandOne}, new Team { Name = "Tottenham", League = leagueEnglandOne},
+                    new Team { Name = "West Ham", League = leagueEnglandOne}, new Team { Name = "Leicester", League = leagueEnglandOne},
+                    new Team { Name = "Burnley", League = leagueEnglandOne}, new Team { Name = "Man Utd", League = leagueEnglandOne},
+                    new Team { Name = "Wolves", League = leagueEnglandOne}, new Team { Name = "Man City", League = leagueEnglandOne},
+                    new Team { Name = "Arsenal", League = leagueEnglandOne}, new Team { Name = "Chelsea", League = leagueEnglandOne},
+                    new Team { Name = " Liverpool", League = leagueEnglandOne}, new Team { Name = "Sheffield Utd", League = leagueEnglandOne}
                     );
-                context.Teams.AddRange(
-                    new Teams { Name = "Brescia", League = leagueItalyOne}, new Teams { Name = "Lazio", League = leagueItalyOne},
-                    new Teams { Name = "Spal", League = leagueItalyOne}, new Teams { Name = "Verona", League = leagueItalyOne},
-                    new Teams { Name = "Genoa", League = leagueItalyOne}, new Teams { Name = "Sassuolo", League = leagueItalyOne},
-                    new Teams { Name = "Roma", League = leagueItalyOne}, new Teams { Name = "Torino", League = leagueItalyOne},
-                    new Teams { Name = "Bologna", League = leagueItalyOne}, new Teams { Name = "Fiorentina", League = leagueItalyOne},
-                    new Teams { Name = "Atalanta", League = leagueItalyOne}, new Teams() { Name = "Parma", League = leagueItalyOne},
-                    new Teams { Name = "Juventus", League =leagueItalyOne}, new Teams { Name = "Cagliari", League = leagueItalyOne},
-                    new Teams { Name = "Milan", League = leagueItalyOne}, new Teams { Name = "Sampdoria", League = leagueItalyOne},
-                    new Teams { Name = "Lecce", League = leagueItalyOne}, new Teams { Name = "Udinese", League = leagueItalyOne},
-                    new Teams { Name = "Napoli", League = leagueItalyOne}, new Teams { Name = "Inter", League = leagueItalyOne}
+                context.Team.AddRange(
+                    new Team { Name = "Brescia", League = leagueItalyOne}, new Team { Name = "Lazio", League = leagueItalyOne},
+                    new Team { Name = "Spal", League = leagueItalyOne}, new Team { Name = "Verona", League = leagueItalyOne},
+                    new Team { Name = "Genoa", League = leagueItalyOne}, new Team { Name = "Sassuolo", League = leagueItalyOne},
+                    new Team { Name = "Roma", League = leagueItalyOne}, new Team { Name = "Torino", League = leagueItalyOne},
+                    new Team { Name = "Bologna", League = leagueItalyOne}, new Team { Name = "Fiorentina", League = leagueItalyOne},
+                    new Team { Name = "Atalanta", League = leagueItalyOne}, new Team() { Name = "Parma", League = leagueItalyOne},
+                    new Team { Name = "Juventus", League =leagueItalyOne}, new Team { Name = "Cagliari", League = leagueItalyOne},
+                    new Team { Name = "Milan", League = leagueItalyOne}, new Team { Name = "Sampdoria", League = leagueItalyOne},
+                    new Team { Name = "Lecce", League = leagueItalyOne}, new Team { Name = "Udinese", League = leagueItalyOne},
+                    new Team { Name = "Napoli", League = leagueItalyOne}, new Team { Name = "Inter", League = leagueItalyOne}
                     );
-                context.Teams.AddRange(
-                    new Teams{ Name = "St.Rennes", League = leagueFranceOne}, new Teams { Name = "Marseille", League = leagueFranceOne},
-                    new Teams { Name = "Bordeaux", League = leagueFranceOne}, new Teams { Name = "Lyon", League = leagueFranceOne },
-                    new Teams { Name = "Toulouse", League = leagueFranceOne}, new Teams { Name = "Brest", League = leagueFranceOne},
-                    new Teams { Name = "Amiens", League = leagueFranceOne}, new Teams { Name = "Montpellier", League = leagueFranceOne},
-                    new Teams { Name = "Angers", League = leagueFranceOne}, new Teams { Name = "Nice", League = leagueFranceOne},
-                    new Teams { Name = "Nimes", League = leagueFranceOne}, new Teams { Name = "Reims", League = leagueFranceOne},
-                    new Teams { Name = "Metz", League = leagueFranceOne}, new Teams { Name = "Strasbourg", League = leagueFranceOne},
-                    new Teams { Name = "Saint Etienne", League = leagueFranceOne}, new Teams { Name = "Nantes", League = leagueFranceOne},
-                    new Teams { Name = "Dijon", League = leagueFranceOne}, new Teams { Name = "Lille", League = leagueFranceOne},
-                    new Teams { Name = "Paris SG", League = leagueFranceOne}, new Teams { Name = "Monaco", League = leagueFranceOne}
+                context.Team.AddRange(
+                    new Team{ Name = "St.Rennes", League = leagueFranceOne}, new Team { Name = "Marseille", League = leagueFranceOne},
+                    new Team { Name = "Bordeaux", League = leagueFranceOne}, new Team { Name = "Lyon", League = leagueFranceOne },
+                    new Team { Name = "Toulouse", League = leagueFranceOne}, new Team { Name = "Brest", League = leagueFranceOne},
+                    new Team { Name = "Amiens", League = leagueFranceOne}, new Team { Name = "Montpellier", League = leagueFranceOne},
+                    new Team { Name = "Angers", League = leagueFranceOne}, new Team { Name = "Nice", League = leagueFranceOne},
+                    new Team { Name = "Nimes", League = leagueFranceOne}, new Team { Name = "Reims", League = leagueFranceOne},
+                    new Team { Name = "Metz", League = leagueFranceOne}, new Team { Name = "Strasbourg", League = leagueFranceOne},
+                    new Team { Name = "Saint Etienne", League = leagueFranceOne}, new Team { Name = "Nantes", League = leagueFranceOne},
+                    new Team { Name = "Dijon", League = leagueFranceOne}, new Team { Name = "Lille", League = leagueFranceOne},
+                    new Team { Name = "Paris SG", League = leagueFranceOne}, new Team { Name = "Monaco", League = leagueFranceOne}
                     );
-                context.Teams.AddRange(
-                    new Teams { Name = "Valladolid", League = leagueSpainOne}, new Teams { Name = "Leganés", League = leagueSpainOne },
-                    new Teams { Name = "Sevilla", League = leagueSpainOne }, new Teams { Name = "Ath.Bilbao", League = leagueSpainOne },
-                    new Teams { Name = "Valencia", League = leagueSpainOne }, new Teams { Name = "Eibar", League = leagueSpainOne },
-                    new Teams { Name = "Getafe", League = leagueSpainOne }, new Teams { Name = "Real Madrid", League = leagueSpainOne },
-                    new Teams { Name = "Atl.Madrid", League = leagueSpainOne }, new Teams { Name = "Levante", League = leagueSpainOne },
-                    new Teams { Name = "Espanyol", League = leagueSpainOne }, new Teams { Name = "Barcelona", League = leagueSpainOne },
-                    new Teams { Name = "Granada", League = leagueSpainOne }, new Teams { Name = "Mallorca", League = leagueSpainOne },
-                    new Teams { Name = "Celta Vigo", League = leagueSpainOne }, new Teams { Name = "Osasuna", League = leagueSpainOne },
-                    new Teams { Name = "Real Sociedad", League = leagueSpainOne }, new Teams { Name = "Villareal", League = leagueSpainOne },
-                    new Teams { Name = "Alaves", League = leagueSpainOne }, new Teams { Name = "Betis", League = leagueSpainOne }
+                context.Team.AddRange(
+                    new Team { Name = "Valladolid", League = LeaguepainOne}, new Team { Name = "Leganés", League = LeaguepainOne },
+                    new Team { Name = "Sevilla", League = LeaguepainOne }, new Team { Name = "Ath.Bilbao", League = LeaguepainOne },
+                    new Team { Name = "Valencia", League = LeaguepainOne }, new Team { Name = "Eibar", League = LeaguepainOne },
+                    new Team { Name = "Getafe", League = LeaguepainOne }, new Team { Name = "Real Madrid", League = LeaguepainOne },
+                    new Team { Name = "Atl.Madrid", League = LeaguepainOne }, new Team { Name = "Levante", League = LeaguepainOne },
+                    new Team { Name = "Espanyol", League = LeaguepainOne }, new Team { Name = "Barcelona", League = LeaguepainOne },
+                    new Team { Name = "Granada", League = LeaguepainOne }, new Team { Name = "Mallorca", League = LeaguepainOne },
+                    new Team { Name = "Celta Vigo", League = LeaguepainOne }, new Team { Name = "Osasuna", League = LeaguepainOne },
+                    new Team { Name = "Real Sociedad", League = LeaguepainOne }, new Team { Name = "Villareal", League = LeaguepainOne },
+                    new Team { Name = "Alaves", League = LeaguepainOne }, new Team { Name = "Betis", League = LeaguepainOne }
                     );
-                context.Teams.AddRange(
-                    new Teams { Name = "FC Augsburg", League = leagueGermanyOne }, new Teams { Name = "B.Dortmund", League = leagueGermanyOne },
-                    new Teams { Name = "F.Düsseldorf", League = leagueGermanyOne }, new Teams { Name = "Werder Bremen", League = leagueGermanyOne },
-                    new Teams { Name = "Köln", League = leagueGermanyOne }, new Teams { Name = "Wolfsburg", League = leagueGermanyOne },
-                    new Teams { Name = "Hoffenheim", League = leagueGermanyOne }, new Teams { Name = "Frankfurt", League = leagueGermanyOne },
-                    new Teams { Name = "Mainz", League = leagueGermanyOne }, new Teams { Name = "Freiburg", League = leagueGermanyOne },
-                    new Teams { Name = "Leipzig", League = leagueGermanyOne }, new Teams { Name = "Union Berlin", League = leagueGermanyOne },
-                    new Teams { Name = "Schalke", League = leagueGermanyOne }, new Teams { Name = "B.M'gladbach", League = leagueGermanyOne },
-                    new Teams { Name = "Hertha", League = leagueGermanyOne }, new Teams { Name = "Bayern München", League = leagueGermanyOne },
-                    new Teams { Name = "Paderborn", League = leagueGermanyOne }, new Teams { Name = "B.Leverkusen", League = leagueGermanyOne }
+                context.Team.AddRange(
+                    new Team { Name = "FC Augsburg", League = leagueGermanyOne }, new Team { Name = "B.Dortmund", League = leagueGermanyOne },
+                    new Team { Name = "F.Düsseldorf", League = leagueGermanyOne }, new Team { Name = "Werder Bremen", League = leagueGermanyOne },
+                    new Team { Name = "Köln", League = leagueGermanyOne }, new Team { Name = "Wolfsburg", League = leagueGermanyOne },
+                    new Team { Name = "Hoffenheim", League = leagueGermanyOne }, new Team { Name = "Frankfurt", League = leagueGermanyOne },
+                    new Team { Name = "Mainz", League = leagueGermanyOne }, new Team { Name = "Freiburg", League = leagueGermanyOne },
+                    new Team { Name = "Leipzig", League = leagueGermanyOne }, new Team { Name = "Union Berlin", League = leagueGermanyOne },
+                    new Team { Name = "Schalke", League = leagueGermanyOne }, new Team { Name = "B.M'gladbach", League = leagueGermanyOne },
+                    new Team { Name = "Hertha", League = leagueGermanyOne }, new Team { Name = "Bayern München", League = leagueGermanyOne },
+                    new Team { Name = "Paderborn", League = leagueGermanyOne }, new Team { Name = "B.Leverkusen", League = leagueGermanyOne }
                     );
                 context.SaveChanges();
             }

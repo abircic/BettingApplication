@@ -47,12 +47,12 @@ namespace BettingApplication.Services
             using (var scope = _scopeFactory.CreateScope())
             {
                 var _context = scope.ServiceProvider.GetRequiredService<BettingApplicationContext>();
-                //string[] allowedSports = new string[] { "Football", "TENIS", "Hokej", "Košarka", "Rukomet" };
-                //string[] allowedFootballLeagues = new string[]
+                //string[] allowedSport = new string[] { "Football", "TENIS", "Hokej", "Košarka", "Rukomet" };
+                //string[] allowedFootballLeague = new string[]
                 //    {"ŠPANJOLSKA", "ITALIJA", "FRANCUSKA", "ENGLESKA", "NJEMAČKA"};
                 var date = DateTime.Now;
-                //string url = $"https://sportdataprovider.volcanobet.me/api/public/Results/getResultOverviews?date={date.Year}-{date.Month.ToString("00")}-{date.Day}T00:00:00.000Z&sportId=1&clientType=WebConsumer&v=1.1.435&lang=sr-Latn-EN";
-                string url = "https://sportdataprovider.volcanobet.me/api/public/Results/getDailyResultOverviews?sportId=1&clientType=WebConsumer&v=1.1.496-rc6&lang=sr-Latn-ME";
+                //string url = $"https://sportdataprovider.volcanobet.me/api/public/Result/getResultOverviews?date={date.Year}-{date.Month.ToString("00")}-{date.Day}T00:00:00.000Z&sportId=1&clientType=WebConsumer&v=1.1.435&lang=sr-Latn-EN";
+                string url = "https://sportdataprovider.volcanobet.me/api/public/Result/getDailyResultOverviews?sportId=1&clientType=WebConsumer&v=1.1.496-rc6&lang=sr-Latn-ME";
                 string html;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.AutomaticDecompression = DecompressionMethods.GZip;
@@ -66,7 +66,7 @@ namespace BettingApplication.Services
                 var convertedResult = new List<ResultModel>();
                 foreach (var result in results.Where(t => t.Scores.Count > 0))
                 {
-                    if (_context.Results.Where(t => t.Id == result.Fixture.EventId).FirstOrDefault() == null)
+                    if (_context.Result.Where(t => t.Id == result.Fixture.EventId).FirstOrDefault() == null)
                     {
                         var r = new ResultModel();
                         r.Id = result.Fixture.EventId;

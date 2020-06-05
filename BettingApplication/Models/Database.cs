@@ -20,25 +20,25 @@ namespace BettingApplication.Models
         }
         public void ExportDatabase()
         {
-            List<Matches> matchesList = _context.Matches.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Types).Where(s => s.Sport.Name.Contains("Football")).ToList();
+            List<Match> matchesList = _context.Match.Include(c => c.Sport).Include(h => h.HomeTeam).ThenInclude(l => l.League).Include(a => a.AwayTeam).ThenInclude(l => l.League).Include(t => t.Type).Where(s => s.Sport.Name.Contains("Football")).ToList();
             List<MatchViewModel> matchVmList = matchesList.Select(x => new MatchViewModel
             {
                 Id = x.Id,
                 League = x.HomeTeam.League.Name,
                 HomeTeamName = x.HomeTeam.Name,
                 AwayTeamName = x.AwayTeam.Name,
-                _1 = x.Types._1,
-                _X = x.Types._X,
-                _2 = x.Types._2,
-                _1X = x.Types._1X,
-                _X2 = x.Types._X2,
-                _12 = x.Types._12,
+                _1 = x.Type._1,
+                _X = x.Type._X,
+                _2 = x.Type._2,
+                _1X = x.Type._1X,
+                _X2 = x.Type._X2,
+                _12 = x.Type._12,
             }).OrderBy((o => o.League)).ToList();
             string path = @"C:\Users\antee\Documents\Visual Studio 2019\Projects\BettingApplication\MatchesExport.csv";
             using (var stream = new StreamWriter(path))
             {
                 string line;
-                stream.WriteLine("League, Home Team, Away Team, 1, X, 2, 1X, X2");
+                stream.WriteLine("ResultLeagueModel, Home Team, Away Team, 1, X, 2, 1X, X2");
                 stream.Flush();
                 foreach (var match in matchVmList)
                 {
@@ -66,13 +66,13 @@ namespace BettingApplication.Models
                     var line = reader.ReadLine();
                     var values = line.Split(';');
                     var match = new MatchViewModel();
-                    var sportFootball = _context.Sports.SingleOrDefault(s => s.Name.Contains("Football"));
-                    _context.Matches.AddRange(
-                        new Matches
+                    var sportFootball = _context.Sport.SingleOrDefault(s => s.Name.Contains("Football"));
+                    _context.Match.AddRange(
+                        new Match
                         {
-                            HomeTeam = _context.Teams.SingleOrDefault(s => s.Name.Contains(values[0])),
-                            AwayTeam = _context.Teams.SingleOrDefault(s => s.Name.Contains(values[1])),
-                            Types = new Types { _1 = Convert.ToDecimal(values[2]), _X = Convert.ToDecimal(values[3]), _2 = Convert.ToDecimal(values[4]), _1X = Convert.ToDecimal(values[5]), _X2 = Convert.ToDecimal(values[6]), _12 = Convert.ToDecimal(values[7]) },
+                            HomeTeam = _context.Team.SingleOrDefault(s => s.Name.Contains(values[0])),
+                            AwayTeam = _context.Team.SingleOrDefault(s => s.Name.Contains(values[1])),
+                            Type = new Type { _1 = Convert.ToDecimal(values[2]), _X = Convert.ToDecimal(values[3]), _2 = Convert.ToDecimal(values[4]), _1X = Convert.ToDecimal(values[5]), _X2 = Convert.ToDecimal(values[6]), _12 = Convert.ToDecimal(values[7]) },
                             Sport = sportFootball
                         });
                     _context.SaveChanges();
@@ -89,14 +89,14 @@ namespace BettingApplication.Models
                     var line = reader.ReadLine();
                     var values = line.Split(';');
                     var match = new MatchViewModel();
-                    var sportTennis = _context.Sports.SingleOrDefault(s => s.Name.Contains("Tenis"));
-                    var leagueATP = _context.Leagues.SingleOrDefault(l => l.Name.Contains("ATP"));
-                    _context.Matches.AddRange(
-                        new Matches
+                    var sportTennis = _context.Sport.SingleOrDefault(s => s.Name.Contains("Tenis"));
+                    var leagueATP = _context.League.SingleOrDefault(l => l.Name.Contains("ATP"));
+                    _context.Match.AddRange(
+                        new Match
                         {
-                            HomeTeam = new Teams { Name =values[0], League = leagueATP },
-                            AwayTeam = new Teams { Name = values[1], League = leagueATP },
-                            Types = new Types { _1 = 1.65m, _2 = 2.10m, },
+                            HomeTeam = new Team { Name =values[0], League = leagueATP },
+                            AwayTeam = new Team { Name = values[1], League = leagueATP },
+                            Type = new Type { _1 = 1.65m, _2 = 2.10m, },
                             Sport = sportTennis,
                         });
                     _context.SaveChanges();

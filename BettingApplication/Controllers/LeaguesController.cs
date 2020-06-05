@@ -12,41 +12,41 @@ using Microsoft.AspNetCore.Authorization;
 namespace BettingApplication.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class LeaguesController : Controller
+    public class LeagueController : Controller
     {
         private readonly BettingApplicationContext _context;
 
-        public LeaguesController(BettingApplicationContext context)
+        public LeagueController(BettingApplicationContext context)
         {
             _context = context;
         }
 
-        // GET: Leagues
+        // GET: ResultLeagueModel
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Leagues.ToListAsync());
+            return View(await _context.League.ToListAsync());
         }
 
-        // GET: Leagues/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: ResultLeagueModel/Details/5
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var leagues = await _context.Leagues
+            var League = await _context.League
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (leagues == null)
+            if (League == null)
             {
                 return NotFound();
             }
 
-            return View(leagues);
+            return View(League);
         }
 
 
-        // GET: Leagues/Edit/5
+        // GET: ResultLeagueModel/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -54,22 +54,22 @@ namespace BettingApplication.Controllers
                 return NotFound();
             }
 
-            var leagues = await _context.Leagues.FindAsync(id);
-            if (leagues == null)
+            var League = await _context.League.FindAsync(id);
+            if (League == null)
             {
                 return NotFound();
             }
-            return View(leagues);
+            return View(League);
         }
 
-        // POST: Leagues/Edit/5
+        // POST: ResultLeagueModel/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Leagues leagues)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name")] League league)
         {
-            if (id != leagues.Id)
+            if (id != league.Id)
             {
                 return NotFound();
             }
@@ -78,12 +78,12 @@ namespace BettingApplication.Controllers
             {
                 try
                 {
-                    _context.Update(leagues);
+                    _context.Update(league);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LeaguesExists(leagues.Id))
+                    if (!LeagueExists(league.Id))
                     {
                         return NotFound();
                     }
@@ -94,62 +94,62 @@ namespace BettingApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(leagues);
+            return View(league);
         }
 
-        // GET: Leagues/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: ResultLeagueModel/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var leagues = await _context.Leagues
+            var League = await _context.League
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (leagues == null)
+            if (League == null)
             {
                 return NotFound();
             }
 
-            return View(leagues);
+            return View(League);
         }
 
-        // POST: Leagues/Delete/5
+        // POST: ResultLeagueModel/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var leagues = await _context.Leagues.FindAsync(id);
-            _context.Leagues.Remove(leagues);
+            var League = await _context.League.FindAsync(id);
+            _context.League.Remove(League);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool LeaguesExists(int id)
+        private bool LeagueExists(string id)
         {
-            return _context.Leagues.Any(e => e.Id == id);
+            return _context.League.Any(e => e.Id == id);
         }
         public IActionResult Add()
         {
-            List<Sports> sportList = _context.Sports.Include(l => l.Leagues).ToList();
+            List<Sport> sportList = _context.Sport.Include(l => l.League).ToList();
 
 
             return View(sportList);
         }
 
-        // POST: Matches/Create
+        // POST: Match/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Add(string name, string sport)
         {
-            var sportName = _context.Sports.Where(s=>s.Name == sport).FirstOrDefault();
-            var league = new Leagues();
+            var sportName = _context.Sport.Where(s=>s.Name == sport).FirstOrDefault();
+            var league = new League();
             league.Name = name;
             league.Sport = sportName;
-            _context.Leagues.Add(league);
+            _context.League.Add(league);
             _context.SaveChanges();
             return RedirectToAction("Add", "Matches");
         }

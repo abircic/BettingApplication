@@ -8,7 +8,7 @@ namespace BettingApplication.Models
 {
     public class AdminTopMatchConfig
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int MinimumNumberOfMatches { get; set; }
     }
 }

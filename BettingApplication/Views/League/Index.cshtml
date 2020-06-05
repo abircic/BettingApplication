@@ -1,14 +1,27 @@
-﻿@model IEnumerable<BettingApplication.Models.Sports>
+﻿@model IEnumerable<BettingApplication.Models.League>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    body {
+        background-color: #121212;
+        color: white;
+    }
 
+    th {
+        color: white;
+    }
+
+    td {
+        color: white;
+    }
+</style>
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Add">Create New ResultLeaguesModel</a>
 </p>
 <table class="table">
     <thead>

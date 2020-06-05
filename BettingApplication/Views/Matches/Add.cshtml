@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BettingApplication.Models.Teams>
+﻿@model IEnumerable<BettingApplication.Models.Team>
 
 @{
     ViewData["Title"] = "Add";
@@ -27,7 +27,7 @@
     <thead>
         <tr>
             <th>
-                League
+                ResultLeaguesModel
             </th>
             <th>
                 First Team
@@ -45,8 +45,8 @@
                 @{
                     string temp = null;
                 }
-                <select name="League" id="1">
-                    <option value="0">Select League</option>
+                <select name="ResultLeaguesModel" id="1">
+                    <option value="0">Select ResultLeaguesModel</option>
 
                     @{
                         foreach (var item in Model)
@@ -159,10 +159,10 @@
                 <input type="button" class="btn btn-outline-primary btnSize" value="Add Team" onclick="location.href='@Url.Action("Add", "Teams")'" />
             </td>
             <td>
-                <input type="button" class="btn btn-outline-warning btnSize" value="Add League" onclick="location.href='@Url.Action("Add", "Leagues")'" />
+                <input type="button" class="btn btn-outline-warning btnSize" value="Add League" onclick="location.href='@Url.Action("Add", "League")'" />
             </td>
             <td>
-                <input type="button" class="btn btn-outline-secondary btnSize" value="Add Sport" onclick="location.href='@Url.Action("Create", "Sports")'" />
+                <input type="button" class="btn btn-outline-secondary btnSize" value="Add Sport" onclick="location.href='@Url.Action("Create", "Sport")'" />
             </td>
             
         </tr>
