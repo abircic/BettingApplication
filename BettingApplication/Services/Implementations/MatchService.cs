@@ -184,5 +184,20 @@ namespace BettingApplication.Services.Implementations
             await _context.Match.AddAsync(match);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<int> GetTopMatchValue()
+        {
+            var topMatch = await _context.AdminTopMatchConfig.FirstOrDefaultAsync();
+
+            return topMatch.MinimumNumberOfMatches;
+        }
+
+        public async Task<Match> GetMatch(string matchId)
+        {
+            var match = await _context.Match.Include(h => h.HomeTeam)
+                .Include(a => a.AwayTeam)
+                .Include(t=>t.Type).Where(m => m.Id == matchId).FirstOrDefaultAsync();
+            return match;
+        }
     }
 }

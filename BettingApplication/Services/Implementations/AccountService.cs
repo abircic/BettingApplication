@@ -44,11 +44,15 @@ namespace BettingApplication.Services.Implementations
             return true;
         }
 
-        public async Task<AppUser> GetUser(string username)
+        public async Task<AppUser> GetUserByUsername(string username)
         {
             return await _context.Users.Where(x => x.UserName == username).SingleOrDefaultAsync();
         }
 
+        public async Task<AppUser> GetUserById(string id)
+        {
+            return await _context.Users.Where(x => x.Id == id).SingleOrDefaultAsync();
+        }
         public async Task<List<UsersViewModel>> GetUsersList()
         {
             var usersList = (from user in _context.Users.Where(u => u.UserName != "Admin")

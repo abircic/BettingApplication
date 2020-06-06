@@ -92,7 +92,7 @@ namespace BettingApplication.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                var user = await _accountService.GetUser(model.UserName);
+                var user = await _accountService.GetUserByUsername(model.UserName);
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Wrong username");

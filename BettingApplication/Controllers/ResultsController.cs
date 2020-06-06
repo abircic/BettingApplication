@@ -36,8 +36,8 @@ namespace BettingApplication.Controllers
             //string[] allowedFootballLeague = new string[]
             //    {"ŠPANJOLSKA", "ITALIJA", "FRANCUSKA", "ENGLESKA", "NJEMAČKA"};
             var date = DateTime.Now;
-            //string url = $"https://sportdataprovider.volcanobet.me/api/public/Result/getResultOverviews?date={date.Year}-{date.Month.ToString("00")}-{date.Day}T00:00:00.000Z&sportId=1&clientType=WebConsumer&v=1.1.435&lang=sr-Latn-EN";
-            string url = "https://sportdataprovider.volcanobet.me/api/public/Results/getDailyResultOverviews?sportId=1&clientType=WebConsumer&v=1.1.496-rc6&lang=sr-Latn-ME";
+            string url = $"https://sportdataprovider.volcanobet.me/api/public/Results/getResultOverviews?date={date.Year}-{date.Month.ToString("00")}-{date.Day}T00:00:00.000Z&sportId=1&clientType=WebConsumer&v=1.1.435&lang=sr-Latn-EN";
+            //string url = "https://sportdataprovider.volcanobet.me/api/public/Results/getDailyResultOverviews?sportId=1&clientType=WebConsumer&v=1.1.496-rc6&lang=sr-Latn-ME";
             string html;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AutomaticDecompression = DecompressionMethods.GZip;
@@ -76,7 +76,7 @@ namespace BettingApplication.Controllers
             //string[] allowedFootballLeague = new string[]
             //    {"ŠPANJOLSKA", "ITALIJA", "FRANCUSKA", "ENGLESKA", "NJEMAČKA"};
             var date = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
-            string url = $"https://sportdataprovider.volcanobet.me/api/public/Result/getResultOverviews?date={date}T00:00:00.000Z&sportId=1&clientType=WebConsumer&v=1.1.507&lang=sr-Latn-EN";
+            string url = $"https://sportdataprovider.volcanobet.me/api/public/Results/getResultOverviews?date={date}T00:00:00.000Z&sportId=1&clientType=WebConsumer&v=1.1.507&lang=sr-Latn-EN";
             string html;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AutomaticDecompression = DecompressionMethods.GZip;

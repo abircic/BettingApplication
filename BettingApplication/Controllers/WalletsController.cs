@@ -10,6 +10,7 @@ using BettingApplication.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using BettingApplication.Services.Interfaces;
 using BettingApplicationContext = BettingApplication.Data.BettingApplicationContext;
 
 namespace BettingApplication.Controllers
@@ -18,10 +19,14 @@ namespace BettingApplication.Controllers
     public class WalletsController : Controller
     {
         private readonly BettingApplicationContext _context;
+        private readonly IAccountService _accountService;
+        private readonly IWalletService _walletService;
 
-        public WalletsController(BettingApplicationContext context)
+        public WalletsController(BettingApplicationContext context, IAccountService accountService, IWalletService walletService)
         {
             _context = context;
+            _accountService = accountService;
+            _walletService = walletService;
         }
 
         // GET: Wallets
@@ -29,55 +34,44 @@ namespace BettingApplication.Controllers
         {
             //ViewBag.UserId = HttpContext.Session.GetString("UserId");
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            var wallet = _context.Wallet.Where(x => x.User == user).Include(t => t.Transactions).ToListAsync();
+            var user = await _accountService.GetUserById(userId);
+            var wallet = await _walletService.GetWallet(userId);
             TempData["Username"] = user.UserName;
-            TempData["Saldo"] = wallet.Result[0].Saldo + " kn";
-            return View(await wallet);
+            TempData["Saldo"] = wallet.Saldo + " kn";
+            return View(wallet);
         }
 
         [HttpGet]
         public async Task<IActionResult> Payment()
         {
-            return View(await _context.BetSlip.ToListAsync());
+            return View(await _context.BetSlip.ToListAsync());//TODO
         }
         [HttpPost]
         public async Task<IActionResult> Payment(string submit, string stake)
         {
-            //ViewBag.UserId = HttpContext.Session.GetString("UserId");
-            //string userId = ViewBag.UserId;
-            //var wallet = _context.Wallet.Where(x => x.Userid.ToString() == userId).FirstOrDefault();
-            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            var wallet = _context.Wallet.Where(x => x.User == user).FirstOrDefault();
             TempData["msg"] = null;
             var walletStake = decimal.Parse(stake, new NumberFormatInfo() { NumberDecimalSeparator = "." });
-            if(walletStake < 10)
+            if (walletStake < 10)
             {
                 TempData["msg"] = "Minimum is 10 kn";
                 return RedirectToAction("Index");
             }
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _accountService.GetUserById(userId);
+            var wallet = await _walletService.GetWallet(userId);
+
             UserTransaction transaction = new UserTransaction();
             List<UserTransaction> listTransactions = new List<UserTransaction>();
             if(submit=="CashIn")
             {
-                wallet.Saldo += walletStake;
-                transaction.UserId = wallet.User.Id;
-                transaction.Payment = stake;
-                transaction.Transactions = "Uplata u iznosu od " + stake + " kn " + " " + DateTime.Now.ToString();
-                listTransactions.Add(transaction);
-                wallet.Transactions = listTransactions;
+                await _walletService.CashIn(walletStake, stake, userId);
                 TempData["msg"] = "The transaction is successful";
             }
             else
             {
                 if ((wallet.Saldo -= walletStake) >= 0)
                 {
-                    transaction.UserId = wallet.User.Id;
-                    transaction.Payment = stake;
-                    transaction.Transactions = "Isplata u iznosu od " + stake + " kn " + " " + DateTime.Now.ToString();
-                    listTransactions.Add(transaction);
-                    wallet.Transactions = listTransactions;
+                    await _walletService.CashOut(userId, stake);
                     TempData["msg"] = "The transaction is successful";
                 }
                 else
@@ -86,21 +80,14 @@ namespace BettingApplication.Controllers
                     return RedirectToAction("Index");
                 }
             } 
-            await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
         [HttpGet]
         public IActionResult Transactions()
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            var userTransaction = _context.UserTransaction.Where(x => x.UserId == userId).ToList();
-            return View(userTransaction);
-        }
-
-        private bool WalletExists(string id)
-        {
-            return _context.Wallet.Any(e => e.User.Id == id);
+            var response = _walletService.GetUserTransactions(userId);
+            return View(response);
         }
     }
 }

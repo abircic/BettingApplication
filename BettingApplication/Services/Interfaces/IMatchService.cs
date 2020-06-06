@@ -22,5 +22,8 @@ namespace BettingApplication.Services.Interfaces
 
         Task PostAdd(string First, string Second, decimal _1, decimal _X, decimal _2, decimal _1X,
             decimal _X2, decimal _12, string league, bool topMatch, string time);
+
+        Task<int> GetTopMatchValue();
+        Task<Match> GetMatch(string matchId);
     }
 }

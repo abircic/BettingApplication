@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BettingApplication.Models.Wallet>
+﻿@model BettingApplication.Models.Wallet
 <style>
     body {
         background-color: #121212;
@@ -25,12 +25,9 @@
     <tbody>
         @using (Html.BeginForm("Payment", "Wallets", FormMethod.Post))
         {
-            @foreach (var item in Model)
-            {
-
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Saldo) kn
+                        @Html.DisplayFor(modelItem => Model.Saldo) kn
                     </td>
                     <td></td>
                 </tr>
@@ -49,7 +46,6 @@
                 <tr>
                     <td></td>
                 </tr>
-            }
         }
     </tbody>
 </table>

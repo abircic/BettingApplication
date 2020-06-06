@@ -75,6 +75,8 @@ namespace BettingApplication
             services.AddScoped<IMatchService, MatchService>();
             services.AddScoped<IOfferService, OfferService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IWalletService, WalletService>();
+            services.AddScoped<IBetSlipService, BetSlipService>();
 
             #endregion
 

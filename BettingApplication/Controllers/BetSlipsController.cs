@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using BettingApplication.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using BettingApplication.Services.Interfaces;
 
 namespace BettingApplication.Controllers
 {
@@ -14,21 +15,29 @@ namespace BettingApplication.Controllers
     public class BetSlipsController : Controller
     {
         private readonly BettingApplicationContext _context;
-
+        private readonly IAccountService _accountService;
+        private readonly IWalletService _walletService;
+        private readonly IBetSlipService _betSlipService;
+        private readonly IMatchService _matchService;
         
-        public BetSlipsController(BettingApplicationContext context)
+        public BetSlipsController(BettingApplicationContext context, IAccountService accountService,
+            IWalletService walletService, IBetSlipService betSlipService, IMatchService matchService)
         {
             _context = context;
+            _walletService = walletService;
+            _accountService = accountService;
+            _betSlipService = betSlipService;
+            _matchService = matchService;
         }
         // GET: BetSlips
         public async Task<IActionResult> Index()
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            var wallet = _context.Wallet.Where(x => x.User == user).FirstOrDefault();
+            var wallet = await _walletService.GetWallet(userId);
             int counter = 0;
             decimal totOdd = 1;
-            foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id==userId))
+            var response = await _betSlipService.GetUserBetSlip(userId);
+            foreach (var item in response)
             {
                 totOdd = totOdd * item.Odd;
                 counter++;
@@ -39,53 +48,52 @@ namespace BettingApplication.Controllers
             TempData["CashOut"] = "kn";
             TempData["Tax"] = "kn";
             TempData["Saldo"] = wallet.Saldo+" kn";
-            return View(await _context.BetSlip.Where(x => x.User.Id == userId).ToListAsync());
+            return View(response);
         }
 
 
         [HttpGet]
         public async Task<IActionResult> Bet()
         {
-            return View(await _context.BetSlip.ToListAsync());
+            return View(await _context.BetSlip.ToListAsync());//TODO
         }
         [HttpPost]
         public async Task<IActionResult> Bet(string matchId, string type, bool top)
         {
-            int topMatchValue = GetTopMatchValue();
-            var match = _context.Match.Include(h => h.HomeTeam)
-                .Include(a => a.AwayTeam).Where(m => m.Id == matchId).FirstOrDefault();
+            int topMatchValue = await _matchService.GetTopMatchValue();
+            var match = await _matchService.GetMatch(matchId);
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var user = await _accountService.GetUserById(userId);
             decimal betValue = 0;
-            var football = _context.Match.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Type).SingleOrDefault(q => q.Id == matchId);
-             if(football != null)
+            //var football = _context.Match.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Type).SingleOrDefault(q => q.Id == matchId);
+             if(match != null)
             {
                 switch (type)
                 {
                     case "1":
-                        betValue = football.Type._1;
+                        betValue = match.Type._1;
                         break;
                     case "X":
-                        betValue = football.Type._X;
+                        betValue = match.Type._X;
                         break;
                     case "2":
-                        betValue = football.Type._2;
+                        betValue = match.Type._2;
                         break;
                     case "1X":
-                        betValue = football.Type._1X;
+                        betValue = match.Type._1X;
                         break;
                     case "X2":
-                        betValue = football.Type._X2;
+                        betValue = match.Type._X2;
                         break;
                     case "12":
-                        betValue = football.Type._12;
+                        betValue = match.Type._12;
                         break;
                 }
                 
             }
-            else
+            else 
             {
-                var other = _context.Match.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t => t.Type).SingleOrDefault(q => q.Id == matchId);
+                var other = await _matchService.GetMatch(matchId);
                 switch (type)
                 {
                     case "1":
@@ -102,7 +110,7 @@ namespace BettingApplication.Controllers
             BetSlip temp = new BetSlip();
             BetSlip matches = null;
             bool tempTopStatus = false;
-            foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
+            foreach (var item in await _betSlipService.GetUserBetSlip(userId))
             {
                if(item.Match == match)
                {
@@ -125,28 +133,24 @@ namespace BettingApplication.Controllers
                 TempData["betmsg"] = "You already have that match on ticket";
                 return RedirectToAction("TopMatchesIndex", "Home");
             }
-            else if(counterOdd < topMatchValue && counter < topMatchValue && top)
+            if(counterOdd < topMatchValue && counter < topMatchValue && top)
             {
                 TempData["betmsg"] = $"You need to have at least {topMatchValue} pairs on ticket";
                 return RedirectToAction("Index", "Home");
             }
-            else if(counterOdd >= topMatchValue && counter >= topMatchValue && top == true)
+            if(counterOdd >= topMatchValue && counter >= topMatchValue && top == true)
             {
                 tempTopStatus = true;
             }
-            else
-            {
-                tempTopStatus = false;
-            }
             if (matches == null)
             {
-                if(((top) && (tempTopStatus)) || (!top))
+                if(top && (tempTopStatus) || !top)
                 {
                     temp.Match = match;
                     
-                    if (football != null)
+                    if (match != null)
                     {
-                        temp.Match = football;
+                        temp.Match = match;
                         temp.TopMatch = top;
                         if (top)
                         {
@@ -159,7 +163,7 @@ namespace BettingApplication.Controllers
                     }
                     else
                     {
-                        var other = _context.Match.Include(f => f.HomeTeam).Include(s => s.AwayTeam).Include(t => t.Type).SingleOrDefault(q => q.Id == matchId);
+                        var other = await _matchService.GetMatch(matchId);
                         temp.Match = other;
                         temp.TopMatch = top;
                         temp.Odd = betValue+0.10m;
@@ -169,7 +173,7 @@ namespace BettingApplication.Controllers
                     temp.User = user;
                     _context.BetSlip.Add(temp);
                     await _context.SaveChangesAsync();
-                    foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
+                    foreach (var item in await _betSlipService.GetUserBetSlip(userId))
                     {
                         totOdd = totOdd * item.Odd;
                     }
@@ -189,7 +193,7 @@ namespace BettingApplication.Controllers
                 _context.BetSlip.Update(matches);
                 await _context.SaveChangesAsync();
                 decimal totOdd = 1;
-                foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
+                foreach (var item in await _betSlipService.GetUserBetSlip(userId))
                 {
                     totOdd = totOdd * item.Odd;
                 }
@@ -207,7 +211,7 @@ namespace BettingApplication.Controllers
                 _context.BetSlip.Update(matches);
                 await _context.SaveChangesAsync();
                 decimal totOdd = 1;
-                foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
+                foreach (var item in await _betSlipService.GetUserBetSlip(userId))
                 {
                     totOdd = totOdd * item.Odd;
                 }
@@ -232,8 +236,8 @@ namespace BettingApplication.Controllers
                 return NotFound();
             }
 
-            var betSlip = await _context.BetSlip
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var betSlip = await _betSlipService.Details(id);
+
             if (betSlip == null)
             {
                 return NotFound();
@@ -246,32 +250,32 @@ namespace BettingApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> BetTwoPlayer(string matchId, string type, Boolean top)
         {
-            var matchTwo = _context.Match.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Where(m => m.Id == matchId).FirstOrDefault();
+            var match = await _matchService.GetMatch(matchId);
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var user = await _accountService.GetUserById(userId);
             decimal betValue = 0;
             BetSlip temp = new BetSlip();
-            BetSlip match = null;
-            var other = _context.Match.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t=>t.Type).SingleOrDefault(q => q.Id == matchId);
+            BetSlip betSlipMatch = null;
+            //var other = _context.Match.Include(h => h.HomeTeam).Include(a => a.AwayTeam).Include(t=>t.Type).SingleOrDefault(q => q.Id == matchId);
             switch (type)
             {
                 case "1":
-                    betValue = other.Type._1;
+                    betValue = match.Type._1;
                     break;
                 case "2":
-                    betValue = other.Type._2;
+                    betValue = match.Type._2;
                     break;
             }
-            foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
+            foreach (var item in await _betSlipService.GetUserBetSlip(userId))
             {
-                if (item.Match == matchTwo)
+                if (item.Match == match)
                 {
-                    match= item;
+                    betSlipMatch = item;
                 }
             }
-            if(match == null)
+            if(betSlipMatch == null)
             {
-                temp.Match = matchTwo;
+                temp.Match = match;
                 temp.TopMatch = top;
                 temp.Odd = betValue;
                 temp.Type = type;
@@ -279,7 +283,7 @@ namespace BettingApplication.Controllers
                 _context.BetSlip.Add(temp);
                 decimal totOdd = 1;
                 await _context.SaveChangesAsync();
-                foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
+                foreach (var item in await _betSlipService.GetUserBetSlip(userId))
                 {
                     totOdd = totOdd * item.Odd;
                 }
@@ -288,19 +292,19 @@ namespace BettingApplication.Controllers
             }
             else
             {
-                match.Match = matchTwo;
-                match.Type = type;
-                match.Odd = betValue;
-                match.TopMatch = top;
-                _context.BetSlip.Update(match);
+                betSlipMatch.Match = match;
+                betSlipMatch.Type = type;
+                betSlipMatch.Odd = betValue;
+                betSlipMatch.TopMatch = top;
+                _context.BetSlip.Update(betSlipMatch);
                 await _context.SaveChangesAsync();
                 decimal totOdd = 1;
-                foreach (BetSlip item in _context.BetSlip.Where(b => b.User.Id == userId))
+                foreach (var item in await _betSlipService.GetUserBetSlip(userId))
                 {
                     totOdd = totOdd * item.Odd;
                 }
                 TempData["Odd"] = totOdd;
-                _context.BetSlip.Update(match);
+                _context.BetSlip.Update(betSlipMatch);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("TwoPlayerIndex", "Home");
@@ -315,37 +319,21 @@ namespace BettingApplication.Controllers
                 return NotFound();
             }
 
-            var betSlip = await _context.BetSlip.Include(m=>m.Match).ThenInclude(h=>h.HomeTeam).Include(m => m.Match).ThenInclude(a=>a.AwayTeam)
-                  .FirstOrDefaultAsync(m => m.Id == id);
+            var betSlip = await _betSlipService.GetMatchFromBetSlip(id);
             if (betSlip == null)
             {
                 return NotFound();
             }
-            _context.BetSlip.Remove(betSlip);
-            await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
         }
 
         // POST: BetSlips/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var betSlip = await _context.BetSlip.FindAsync(id);
-            _context.BetSlip.Remove(betSlip);
-            await _context.SaveChangesAsync();
+            await _betSlipService.DeleteMatchFromBetSlip(id);
             return RedirectToAction("Index", "Home");
-        }
-
-        private bool BetSlipExists(string id)
-        {
-            return _context.BetSlip.Any(e => e.Id == id);
-        }
-        public int GetTopMatchValue()
-        {
-            var topMatch = _context.AdminTopMatchConfig.FirstOrDefault();
-
-            return topMatch.MinimumNumberOfMatches;
         }
     }
 }

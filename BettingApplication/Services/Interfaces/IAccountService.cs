@@ -11,7 +11,8 @@ namespace BettingApplication.Services.Interfaces
     {
         Task Register(AppUser user);
         Task<bool> IsUsernameExist(string username);
-        Task<AppUser> GetUser(string username);
+        Task<AppUser> GetUserByUsername(string username);
+        Task<AppUser> GetUserById(string id);
         Task<List<UsersViewModel>> GetUsersForActivate();
         Task<List<UsersViewModel>> GetUsersList();
         Task DeleteUser(string id);
