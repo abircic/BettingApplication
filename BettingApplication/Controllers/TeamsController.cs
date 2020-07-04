@@ -144,14 +144,16 @@ namespace BettingApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Add(string name, string league)
+        public async Task<IActionResult> Add(string name, string league)
         {
-            var teamLeague = _context.League.Where(l => l.Name == league).FirstOrDefault();
-            var team = new Team();
-            team.Name = name;
-            team.League = teamLeague;
-            _context.Team.Add(team);
-            _context.SaveChanges();
+            var teamLeague = await _context.League.Where(l => l.Name == league).FirstOrDefaultAsync();
+            var team = new Team
+            {
+                Name = name,
+                League = teamLeague
+            };
+            await _context.Team.AddAsync(team);
+            await _context.SaveChangesAsync();
             return RedirectToAction("Add", "Matches");
         }
     }

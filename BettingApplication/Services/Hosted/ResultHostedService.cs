@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using BettingApplication.Data;
 using BettingApplication.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -27,7 +28,7 @@ namespace BettingApplication.Services.Hosted
         {
             try
             {
-                _timer = new Timer(async (e) => { GetResult(); }, null, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(30));
+                _timer = new Timer(async (e) => { await GetResult(); }, null, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(30));
             }
             catch (Exception e)
             {
@@ -50,7 +51,7 @@ namespace BettingApplication.Services.Hosted
                 //    {"ŠPANJOLSKA", "ITALIJA", "FRANCUSKA", "ENGLESKA", "NJEMAČKA"};
                 var date = DateTime.Now;
                 //string url = $"https://sportdataprovider.volcanobet.me/api/public/Result/getResultOverviews?date={date.Year}-{date.Month.ToString("00")}-{date.Day}T00:00:00.000Z&sportId=1&clientType=WebConsumer&v=1.1.435&lang=sr-Latn-EN";
-                string url = "https://sportdataprovider.volcanobet.me/api/public/Result/getDailyResultOverviews?sportId=1&clientType=WebConsumer&v=1.1.496-rc6&lang=sr-Latn-ME";
+                string url = "https://sportdataprovider.volcanobet.me/api/public/Results/getDailyResultOverviews?sportId=1&clientType=WebConsumer&v=1.1.496-rc6&lang=sr-Latn-ME";
                 string html;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.AutomaticDecompression = DecompressionMethods.GZip;
@@ -64,7 +65,7 @@ namespace BettingApplication.Services.Hosted
                 var convertedResult = new List<ResultModel>();
                 foreach (var result in results.Where(t => t.Scores.Count > 0))
                 {
-                    if (_context.Result.Where(t => t.Id == result.Fixture.EventId).FirstOrDefault() == null)
+                    if (await _context.Result.Where(t => t.Id == result.Fixture.EventId).FirstOrDefaultAsync() == null)
                     {
                         var r = new ResultModel();
                         r.Id = result.Fixture.EventId;
@@ -76,8 +77,8 @@ namespace BettingApplication.Services.Hosted
                         r.WinningTypes = CalculateWinningTypes(Int32.Parse(result.Scores[0].Value),
                             Int32.Parse(result.Scores[1].Value));
                         r.Result = $"{result.Scores[0].Value}:{result.Scores[1].Value}";
-                        _context.AddRange(r);
-                        _context.SaveChanges();
+                        await _context.AddRangeAsync(r);
+                        await _context.SaveChangesAsync();
                         convertedResult.Add(r);
                     }
                 }

@@ -170,7 +170,7 @@ namespace BettingApplication.Controllers
                 AppUser applicationUser = await _userManager.FindByIdAsync(id);
                 if (applicationUser != null)
                 {
-                    _accountService.ActivateUser(applicationUser);
+                    await _accountService.ActivateUser(applicationUser);
                 }
             }
             return RedirectToAction("UsersForActivate", "Account");

@@ -17,6 +17,5 @@ namespace BettingApplication.Models
         public bool TopMatch { get; set; }
         public bool Hide { get; set; }
         public string Competition { get; set; }
-
     }
 }

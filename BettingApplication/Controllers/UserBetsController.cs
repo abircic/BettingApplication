@@ -24,17 +24,15 @@ namespace BettingApplication.Controllers
         // GET: UserBet
         public async Task<IActionResult> Index()
         {
-            UserBetWin();
+            await UserBetWin();
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            var userBet = _context.UserBet.Where(x => x.User.Id == userId).Include(t => t.BetMatches).ToList();
-            var wallet = new Wallet();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var userBet = _context.UserBet.Where(x => x.User.Id == userId)
+                .Include(t => t.BetMatches).ToList();
+
             if (User.Identity.IsAuthenticated)
             {
-                lock (wallet)
-                {
-                    wallet = _context.Wallet.Where(x => x.User == user).FirstOrDefault();
-                }
+                var wallet = await _context.Wallet.Where(x => x.User == user).FirstOrDefaultAsync();
                 
                 if (wallet == null)
                 {
@@ -54,16 +52,15 @@ namespace BettingApplication.Controllers
         [HttpGet]
         public async Task<IActionResult> UserBet()
         {
-            
             return View(await _context.BetSlip.ToListAsync());
         }
         [HttpPost]
         public async Task<IActionResult> UserBet(string stake, string TotalOdd, string submit)
         {
-            var topMatchValue = GetTopMatchValue();
+            var topMatchValue = await GetTopMatchValue();
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            var wallet = _context.Wallet.Where(x => x.User == user).FirstOrDefault();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var wallet = await _context.Wallet.Where(x => x.User == user).FirstOrDefaultAsync();
             TempData["betmsg"] = null;
             if (stake == null && submit!="Remove")
             {
@@ -146,9 +143,9 @@ namespace BettingApplication.Controllers
                     listBetMatches.Add(temp);
                 }
                 userBet.BetMatches = listBetMatches;
-                _context.UserBet.Add(userBet);
                 await _context.UserBet.AddAsync(userBet);
-                _context.SaveChanges();
+                await _context.UserBet.AddAsync(userBet);
+                await _context.SaveChangesAsync();
             }
             else
             {
@@ -187,8 +184,7 @@ namespace BettingApplication.Controllers
                 return NotFound();
             }
 
-            var userBets = await _context.UserBet
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var userBets = await _context.UserBet.FirstOrDefaultAsync(m => m.Id == id);
             if (userBets == null)
             {
                 return NotFound();
@@ -207,24 +203,19 @@ namespace BettingApplication.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        private bool UserBetsExists(string id)
+        public async Task<int> GetTopMatchValue()
         {
-            return _context.UserBet.Any(e => e.Id == id);
-        }
-        public int GetTopMatchValue()
-        {
-            var topMatch = _context.AdminTopMatchConfig.FirstOrDefault();
+            var topMatch = await _context.AdminTopMatchConfig.FirstOrDefaultAsync();
 
             return topMatch.MinimumNumberOfMatches;
         }
-        public void UserBetWin()
+        public async Task UserBetWin()
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             foreach (var item in _context.UserBetMatch.Where(u => u.UserBet.User.Id == userId).Include(m => m.Match.HomeTeam).Include(a=>a.Match.AwayTeam).Include(u => u.UserBet).ToList())
             {
-                var match = _context.Result.Where(m=>m.Id==item.Match.Id).FirstOrDefault();
+                var match = await _context.Result.Where(m=>m.Id==item.Match.Id).FirstOrDefaultAsync();
                 if (match != null)
                 {
                     var winningTypes = match.WinningTypes.Split(';');
@@ -236,18 +227,17 @@ namespace BettingApplication.Controllers
                     if (item.Win == "Pending")
                         item.Win = "Lose";
                     _context.Update(item);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                 }
             }
-            CheckTicket(user);
+            await CheckTicket(user);
         }
 
-        public void CheckTicket(AppUser user)
+        public async Task CheckTicket(AppUser user)
         {
-
             bool flag = false;
             string pendingFlag = "";
-            var check = _context.UserBet.Where(x => x.User.Id == user.Id).FirstOrDefault();
+            var check = await _context.UserBet.Where(x => x.User.Id == user.Id).FirstOrDefaultAsync();
             var userBets = _context.UserBet.Where(t => t.Win == "Pending" && t.User == user).Include(x => x.BetMatches).ToList();
             if (check != null)
                 if (userBets.Count > 0)
@@ -275,7 +265,7 @@ namespace BettingApplication.Controllers
                             {
                                 item.Win = "Win";
                                 _context.Update(item);
-                                var wallet = _context.Wallet.Where(u => u.User.Id == user.Id).FirstOrDefault();
+                                var wallet = await _context.Wallet.Where(u => u.User.Id == user.Id).FirstOrDefaultAsync();
                                 wallet.Saldo += item.CashOut;
                                 UserTransaction transaction = new UserTransaction();
                                 transaction.UserId = wallet.User.Id;
@@ -283,7 +273,7 @@ namespace BettingApplication.Controllers
                                 transaction.Transactions = "Isplata dobitka u iznosu od " + item.CashOut + " kn " + " " + DateTime.Now.ToString();
                                 _context.Update(wallet);
                                 _context.Update(transaction);
-                                _context.SaveChanges();
+                                await _context.SaveChangesAsync();
 
                             }
                         }

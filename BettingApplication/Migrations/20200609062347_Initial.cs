@@ -235,7 +235,7 @@ namespace BettingApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Leagues",
+                name: "League",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -288,7 +288,7 @@ namespace BettingApplication.Migrations
                     table.ForeignKey(
                         name: "FK_Team_League_LeagueId",
                         column: x => x.LeagueId,
-                        principalTable: "Leagues",
+                        principalTable: "League",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -475,7 +475,7 @@ namespace BettingApplication.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_League_SportId",
-                table: "Leagues",
+                table: "League",
                 column: "SportId");
 
             migrationBuilder.CreateIndex(
@@ -588,7 +588,7 @@ namespace BettingApplication.Migrations
                 name: "Type");
 
             migrationBuilder.DropTable(
-                name: "Leagues");
+                name: "League");
 
             migrationBuilder.DropTable(
                 name: "Sport");

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BettingApplication.Services.Interfaces;
 using BettingApplication.ViewModels;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -21,15 +22,16 @@ namespace BettingApplication.Controllers
     public class HomeController : Controller
     {
         private readonly BettingApplicationContext _context;
-        public string CurrentFilter { get; set; }
-        public HomeController(BettingApplicationContext context)
+        private readonly IAccountService _accountService;
+        public HomeController(BettingApplicationContext context, IAccountService accountService)
         {
             _context = context;
+            _accountService = accountService;
         }
         public async Task<IActionResult> Index(string searchStringLeague, string searchStringSport, string searchStringTeam, string sortMatches)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var user = await _accountService.GetUserById(userId);
             if (!String.IsNullOrEmpty(sortMatches))
             {
                 var sortedMatches = _context.Match.Include(c => c.Sport)

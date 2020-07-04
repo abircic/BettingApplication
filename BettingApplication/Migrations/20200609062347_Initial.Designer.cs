@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BettingApplication.Migrations
 {
     [DbContext(typeof(BettingApplicationContext))]
-    [Migration("20200603160026_Initial")]
+    [Migration("20200609062347_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -116,7 +116,7 @@ namespace BettingApplication.Migrations
                     b.ToTable("BetSlip");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.Leagues", b =>
+            modelBuilder.Entity("BettingApplication.Models.League", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -129,7 +129,7 @@ namespace BettingApplication.Migrations
 
                     b.HasIndex("SportId");
 
-                    b.ToTable("Leagues");
+                    b.ToTable("League");
                 });
 
             modelBuilder.Entity("BettingApplication.Models.Match", b =>
@@ -453,10 +453,10 @@ namespace BettingApplication.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("BettingApplication.Models.Leagues", b =>
+            modelBuilder.Entity("BettingApplication.Models.League", b =>
                 {
                     b.HasOne("BettingApplication.Models.Sport", "Sport")
-                        .WithMany("Leagues")
+                        .WithMany("League")
                         .HasForeignKey("SportId");
                 });
 
@@ -481,7 +481,7 @@ namespace BettingApplication.Migrations
 
             modelBuilder.Entity("BettingApplication.Models.Team", b =>
                 {
-                    b.HasOne("BettingApplication.Models.Leagues", "Leagues")
+                    b.HasOne("BettingApplication.Models.League", "League")
                         .WithMany("Team")
                         .HasForeignKey("LeagueId");
                 });

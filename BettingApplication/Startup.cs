@@ -15,6 +15,7 @@ using BettingApplication.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
 using BettingApplication.Services;
+using BettingApplication.Services.Hosted;
 using BettingApplication.Services.Implementations;
 using BettingApplication.Services.Interfaces;
 //using BettingApplication.Services;
@@ -67,7 +68,7 @@ namespace BettingApplication
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<BettingApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("BettingApplicationContext")));
-            //services.AddHostedService<ResultHostedService>();
+            services.AddHostedService<ResultHostedService>();
             //services.AddHostedService<OfferHostedService>();
 
             #region Services
@@ -77,7 +78,10 @@ namespace BettingApplication
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IWalletService, WalletService>();
             services.AddScoped<IBetSlipService, BetSlipService>();
-
+            services.AddScoped<IAdminService, AdminService>();
+            //services.AddScoped<IHomeService, HomeService>();
+            services.AddScoped<IBetSlipService, BetSlipService>();
+            services.AddScoped<IResultService, ResultService>();
             #endregion
 
         }

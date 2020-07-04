@@ -40,7 +40,7 @@ namespace BettingApplication.Controllers
             return View(response);
         }
 
-        [HttpGet]
+        [HttpGet]   
         public async Task<IActionResult> TopMatches()
         {
             var response = await _matchService.TopMatches();

@@ -248,7 +248,7 @@ namespace BettingApplication.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> BetTwoPlayer(string matchId, string type, Boolean top)
+        public async Task<IActionResult> BetTwoPlayer(string matchId, string type, bool top)
         {
             var match = await _matchService.GetMatch(matchId);
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
