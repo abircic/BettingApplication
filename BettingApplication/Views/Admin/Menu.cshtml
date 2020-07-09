@@ -32,10 +32,10 @@
             <input type="button" class="btn btn-outline-success btn-lg btnSize" value="Add Match" onclick="location.href='@Url.Action("Add", "Matches")'" />
         </td>
         <td>
-            <input type="button" class="btn btn-outline-dark btn-lg btnSize" value="Teams" onclick="location.href='@Url.Action("Index", "Teams")'" />
+            <input type="button" class="btn btn-outline-dark btn-lg btnSize" value="Teams" onclick="location.href = '@Url.Action("Index", "Team")'" />
         </td>
         <td>
-            <input type="button" class="btn btn-outline-dark btn-lg btnSize" value="Add Team" onclick="location.href='@Url.Action("Add", "Teams")'" />
+            <input type="button" class="btn btn-outline-dark btn-lg btnSize" value="Add Team" onclick="location.href = '@Url.Action("Add", "Team")'" />
         </td>
     </tr>
     <tr>
@@ -75,7 +75,7 @@
             <input type="button" class="btn btn-outline-danger btn-lg btnSize" value="Tennis Import" onclick="location.href='@Url.Action("ImportTwoPlayerDatabase", "Admin")'" />
         </td>
         <td>
-            <input type="button" class="btn btn-outline-danger btn-lg btnSize" value="Result" onclick="location.href='@Url.Action("Index", "Results")'" />
+            <input type="button" class="btn btn-outline-danger btn-lg btnSize" value="Result" onclick="location.href = '@Url.Action("Index", "Result")'" />
         </td>
         <td>
             <input type="button" class="btn btn-outline-danger btn-lg btnSize" value="Offer" onclick="location.href='@Url.Action("Index", "Offer")'" />
@@ -83,13 +83,13 @@
     </tr>
     <tr>
         <td>
-            <input type="button" class="btn btn-outline-danger btn-lg btnSize" value="Yesterday Result" onclick="location.href='@Url.Action("YesterdayResult", "Results")'" />
+            <input type="button" class="btn btn-outline-danger btn-lg btnSize" value="Yesterday Result" onclick="location.href = '@Url.Action("YesterdayResult", "Result")'" />
         </td>
         <td>
-            <input type="button" class="btn btn-outline-danger btn-lg btnSize" value="Add Result" onclick="location.href='@Url.Action("AddResult", "Results")'" />
+            <input type="button" class="btn btn-outline-danger btn-lg btnSize" value="Add Result" onclick="location.href = '@Url.Action("AddResult", "Result")'" />
         </td>
         <td>
-            <input type="button" class="btn btn-outline-danger btn-lg btnSize" value="Add Yesterday Result" onclick="location.href='@Url.Action("AddYesterdayResult", "Results")'" />
+            <input type="button" class="btn btn-outline-danger btn-lg btnSize" value="Add Yesterday Result" onclick="location.href = '@Url.Action("AddYesterdayResult", "Result")'" />
         </td>
         <td>
     </tr>

@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace BettingApplication.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class TeamsController : Controller
+    public class TeamController : Controller
     {
         private readonly BettingApplicationContext _context;
 
-        public TeamsController(BettingApplicationContext context)
+        public TeamController(BettingApplicationContext context)
         {
             _context = context;
         }

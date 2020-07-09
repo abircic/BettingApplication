@@ -69,7 +69,7 @@ namespace BettingApplication
             services.AddDbContext<BettingApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("BettingApplicationContext")));
             services.AddHostedService<ResultHostedService>();
-            //services.AddHostedService<OfferHostedService>();
+            services.AddHostedService<OfferHostedService>();
 
             #region Services
 

@@ -20,6 +20,7 @@ namespace BettingApplication.Services.Hosted
 
         private readonly IServiceScopeFactory _scopeFactory;
 
+
         public OfferHostedService(IServiceScopeFactory scopeFactory)
         {
             _scopeFactory = scopeFactory;
@@ -27,7 +28,7 @@ namespace BettingApplication.Services.Hosted
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            _timer = new Timer(async (e) => { await GetOffer(); }, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30));
+            _timer = new Timer(async (e) => { await GetOffer(); }, null, TimeSpan.FromSeconds(5), TimeSpan.FromMinutes(5));
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
@@ -41,7 +42,9 @@ namespace BettingApplication.Services.Hosted
             {
                 var _context = scope.ServiceProvider.GetRequiredService<BettingApplicationContext>();
                 var date = DateTime.Now;
-                string url = $"https://sportdataprovider.volcanobet.me/api/public/prematch/SportEvents?SportId=1&from=2020-02-{date.AddDays(-1).Day}T23:00:00.000Z&to=2020-02-{date.AddDays(1).Day}T06:00:00.000Z&timezone=-60&clientType=WebConsumer&v=1.1.435&lang=sr-Latn-EN";
+                var yesterday = date.AddDays(-1).ToString("yyyy-MM-dd");
+                var tommorow = date.AddDays(1).ToString("yyyy-MM-dd");
+                string url = $"https://sportdataprovider.volcanobet.me/api/public/prematch/SportEvents?SportId=1&from={yesterday}T23:00:00.000Z&to={tommorow}T06:00:00.000Z&timezone=-60&clientType=WebConsumer&v=1.1.496-rc6&lang=sr-Latn-EN";
                 string html;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.AutomaticDecompression = DecompressionMethods.GZip;
@@ -60,12 +63,14 @@ namespace BettingApplication.Services.Hosted
                     _context.AddRange(sport);
                     _context.SaveChanges();
                 }
+
                 foreach (var location in offer.Locations)
                 {
 
                     foreach (var league in location.Leagues)
                     {
-                        var leagueDatabase = await _context.League.Where(l => l.Name == $"{location.Name} - {league.Name}").SingleOrDefaultAsync();
+                        var leagueDatabase = await _context.League.Where(l => l.Name == $"{location.Name} - {league.Name}")
+                            .SingleOrDefaultAsync();
                         if (leagueDatabase == null)
                         {
                             leagueDatabase = new League();
@@ -80,12 +85,17 @@ namespace BettingApplication.Services.Hosted
                             foreach (var eventDateEvent in eventDate.Events)
                             {
                                 var matchModel = new Match();
-                                matchModel.Id = Guid.NewGuid().ToString();
+                                matchModel.Competition = league.Name;
+                                matchModel.Id = eventDateEvent.Id;
                                 var types = new Type();
                                 matchModel.Sport = sport;
                                 matchModel.Time = eventDateEvent.Fixture.StartDate.AddHours(1);
-                                var firstTeam = await _context.Team.Where(t => t.Name == eventDateEvent.Fixture.Participants[0].Name).FirstOrDefaultAsync();
-                                var secondTeam = await _context.Team.Where(t => t.Name == eventDateEvent.Fixture.Participants[1].Name).FirstOrDefaultAsync();
+                                var firstTeam = await _context.Team
+                                    .Where(t => t.Name == eventDateEvent.Fixture.Participants[0].Name)
+                                    .FirstOrDefaultAsync();
+                                var secondTeam = await _context.Team
+                                    .Where(t => t.Name == eventDateEvent.Fixture.Participants[1].Name)
+                                    .FirstOrDefaultAsync();
                                 if (firstTeam == null)
                                 {
                                     firstTeam = new Team();
@@ -94,6 +104,7 @@ namespace BettingApplication.Services.Hosted
                                     _context.Team.AddRange(firstTeam);
                                     matchModel.HomeTeam = firstTeam;
                                 }
+
                                 if (firstTeam != null)
                                     matchModel.HomeTeam = firstTeam;
                                 if (secondTeam == null)
@@ -104,6 +115,7 @@ namespace BettingApplication.Services.Hosted
                                     _context.Team.AddRange(secondTeam);
                                     matchModel.AwayTeam = secondTeam;
                                 }
+
                                 if (secondTeam != null)
                                     matchModel.AwayTeam = secondTeam;
                                 foreach (var market in eventDateEvent.Markets)
@@ -120,6 +132,7 @@ namespace BettingApplication.Services.Hosted
                                                 types._2 = pick.Odds;
                                         }
                                     }
+
                                     if (market.Name == "Double chance")
                                     {
                                         foreach (var pick in market.Picks)
@@ -133,6 +146,7 @@ namespace BettingApplication.Services.Hosted
                                         }
                                     }
                                 }
+
                                 var matchExist = await _context.Match
                                     .Include(h => h.HomeTeam)
                                     .Include(a => a.AwayTeam)
@@ -142,15 +156,15 @@ namespace BettingApplication.Services.Hosted
                                 {
                                     matchModel.Type = types;
                                     matchModel.TopMatch = false;
+                                    matchModel.Hide = false;
                                     _context.Match.Add(matchModel);
                                     _context.SaveChanges();
                                 }
                             }
                         }
                     }
-
-
                 }
+
             }
 
 

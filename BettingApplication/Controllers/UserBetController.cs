@@ -13,11 +13,11 @@ using System.Security.Claims;
 namespace BettingApplication.Controllers
 {
     [Authorize]
-    public class UserBetsController : Controller
+    public class UserBetController : Controller
     {
         private readonly BettingApplicationContext _context;
 
-        public UserBetsController(BettingApplicationContext context)
+        public UserBetController(BettingApplicationContext context)
         {
             _context = context;
         }

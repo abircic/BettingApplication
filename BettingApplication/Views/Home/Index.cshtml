@@ -101,7 +101,7 @@
         </tr>
     </thead>
     <tbody class="bet-slip-body">
-        @using (Html.BeginForm("UserBet", "UserBets", new { CashOut = TempData["CashOut"], TotalOdd = TempData["Odd"] }, FormMethod.Post))
+        @using (Html.BeginForm("UserBet", "UserBet", new { CashOut = TempData["CashOut"], TotalOdd = TempData["Odd"] }, FormMethod.Post))
         {
             @foreach (var item in Model.BetSlip)
             {
@@ -129,7 +129,7 @@
                             @Html.DisplayFor(modelItem => item.TopMatch)
                         </td>
                         <td>
-                            <a asp-controller="BetSlips" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">x</a>
+                            <a asp-controller="BetSlip" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">x</a>
                         </td>
                     </tr>
                 }
@@ -177,7 +177,7 @@
             {
                 @if (item.Time > DateTime.Now)
                 {
-                    @using (Html.BeginForm("Bet", "BetSlips", new { MatchId = item.Id, top = false }, FormMethod.Post))
+                    @using (Html.BeginForm("Bet", "BetSlip", new { MatchId = item.Id, top = false }, FormMethod.Post))
                     {
                         <tr>
                             @if (@temp != item.League)

@@ -41,7 +41,7 @@
     </tr>
     </thead>
     <tbody>
-    @using (Html.BeginForm("UserBet", "UserBets", new { CashOut = TempData["CashOut"], TotalOdd = TempData["Odd"] }, FormMethod.Post))
+    @using (Html.BeginForm("UserBet", "UserBet", new { CashOut = TempData["CashOut"], TotalOdd = TempData["Odd"] }, FormMethod.Post))
     {
         @foreach (var item in Model)
         {

@@ -22,12 +22,12 @@ using OpenQA.Selenium.Support.UI;
 namespace BettingApplication.Controllers
 {
     [AllowAnonymous]
-    public class ResultsController : Controller
+    public class ResultController : Controller
     {
         private readonly BettingApplicationContext _context;
         private readonly IResultService _resultService;
 
-        public ResultsController(BettingApplicationContext context, IResultService resultService)
+        public ResultController(BettingApplicationContext context, IResultService resultService)
         {
             _context = context;
             _resultService = resultService;

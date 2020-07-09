@@ -12,7 +12,7 @@ using BettingApplication.Services.Interfaces;
 namespace BettingApplication.Controllers
 {
     [Authorize]
-    public class BetSlipsController : Controller
+    public class BetSlipController : Controller
     {
         private readonly BettingApplicationContext _context;
         private readonly IAccountService _accountService;
@@ -20,7 +20,7 @@ namespace BettingApplication.Controllers
         private readonly IBetSlipService _betSlipService;
         private readonly IMatchService _matchService;
         
-        public BetSlipsController(BettingApplicationContext context, IAccountService accountService,
+        public BetSlipController(BettingApplicationContext context, IAccountService accountService,
             IWalletService walletService, IBetSlipService betSlipService, IMatchService matchService)
         {
             _context = context;

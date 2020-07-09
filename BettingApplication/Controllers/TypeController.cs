@@ -13,11 +13,11 @@ using Type = BettingApplication.Models.Type;
 namespace BettingApplication.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class TypesController : Controller
+    public class TypeController : Controller
     {
         private readonly BettingApplicationContext _context;
 
-        public TypesController(BettingApplicationContext context)
+        public TypeController(BettingApplicationContext context)
         {
             _context = context;
         }

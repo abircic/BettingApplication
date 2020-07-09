@@ -16,13 +16,13 @@ using BettingApplicationContext = BettingApplication.Data.BettingApplicationCont
 namespace BettingApplication.Controllers
 {   
     [Authorize]
-    public class WalletsController : Controller
+    public class WalletController : Controller
     {
         private readonly BettingApplicationContext _context;
         private readonly IAccountService _accountService;
         private readonly IWalletService _walletService;
 
-        public WalletsController(BettingApplicationContext context, IAccountService accountService, IWalletService walletService)
+        public WalletController(BettingApplicationContext context, IAccountService accountService, IWalletService walletService)
         {
             _context = context;
             _accountService = accountService;

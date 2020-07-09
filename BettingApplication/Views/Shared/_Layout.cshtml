@@ -108,12 +108,12 @@
                                 <a class="btnSize" asp-area="" asp-controller="Home" asp-action="TopMatchesIndex">Top Match</a>
                             </li>
                             <li class="nav-item">
-                                <a class="btnSize" asp-area="" asp-controller="UserBets" asp-action="Index">My Bets</a>
+                                <a class="btnSize" asp-area="" asp-controller="UserBet" asp-action="Index">My Bets</a>
                             </li>
                             @if (!User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="btnSize" asp-area="" asp-controller="Wallets" asp-action="Index">Wallet</a>
+                                    <a class="btnSize" asp-area="" asp-controller="Wallet" asp-action="Index">Wallet</a>
                                 </li>
                             }
                             @if (User.IsInRole("Admin"))
