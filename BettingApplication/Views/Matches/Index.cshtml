@@ -1,0 +1,116 @@
+﻿
+@model IEnumerable<BettingApplication.ViewModels.MatchViewModel>
+@using BettingApplication.Controllers
+@{ ViewData["Title"] = "Index";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+<style>
+    body {
+        background-color: #121212;
+        color: white;
+    }
+
+    th {
+        color: white;
+    }
+
+    td {
+        color: white;
+    }
+</style>
+<h1>Match</h1>
+
+@if (Model != null)
+{
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ResultLeaguesModel
+            </th>
+            <th>
+                Home Team
+            </th>
+            <th>
+                Away Team
+            </th>
+            <th>
+                Time
+            </th>
+            <th>
+                1
+            </th>
+            <th>
+                X
+            </th>
+            <th>
+                2
+            </th>
+            <th>
+                1X
+            </th>
+            <th>
+                X2
+            </th>
+            <th>
+                12
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+@using (Html.BeginForm("Bet", "BetSlips", new { matchId = item.Id, top = false }, FormMethod.Post))
+{
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.League)
+    </td>
+    <td>
+        @item.HomeTeamName
+    </td>
+    <td>
+        @item.AwayTeamName
+    </td>
+    <td>
+        @item.Time
+    </td>
+    <td>
+        @if (item._1 > 1)
+        {
+<button type="submit" id=@item.Id , name="type" value="1" class="btn btn-primary">@item._1</button>}
+    </td>
+    <td>
+        @if (item._X > 1)
+        {
+<button type="submit" id=@item.Id , name="type" value="X" class="btn btn-primary">@item._X</button>}
+    </td>
+    <td>
+        @if (item._2 > 1)
+        {
+<button type="submit" id=@item.Id , name="type" value="2" class="btn btn-primary">@item._2</button>}
+    </td>
+    <td>
+        @if (item._1X > 1)
+        {
+<button type="submit" id=@item.Id , name="type" value="1X" class="btn btn-primary">@item._1X</button>}
+    </td>
+    <td>
+        @if (item._X2 > 1)
+        {
+<button type="submit" id=@item.Id , name="type" value="X2" class="btn btn-primary">@item._X2</button>}
+    </td>
+    <td>
+        @if (item._12 > 1)
+        {
+<button type="submit" id=@item.Id , name="type" value="12" class="btn btn-primary">@item._12</button>}
+    </td>
+    <td>
+        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+    </td>
+</tr>}}
+    </tbody>
+</table>}
